@@ -18,5 +18,8 @@ public record TaskCreateRequest(
     @NotNull(message = "Priority is required")
     Priority priority,
 
-    LocalDate dueDate
+    LocalDate dueDate,
+    Long goalId,
+    String tags,
+    Double progress
 ) {}

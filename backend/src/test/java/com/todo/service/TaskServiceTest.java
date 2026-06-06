@@ -36,10 +36,8 @@ public class TaskServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private TaskMapper taskMapper;
+    private TaskMapper taskMapper = new TaskMapper();
 
-    @InjectMocks
     private TaskServiceImpl taskService;
 
     private User user;
@@ -50,13 +48,13 @@ public class TaskServiceTest {
     public void setUp() {
         user = new User(1L, "username", "user@example.com", "password", Role.USER, true);
         task = new Task(1L, "Test Title", "Test Desc", TaskStatus.PENDING, Priority.MEDIUM, LocalDate.now(), user);
-        taskDto = new TaskDto(1L, "Test Title", "Test Desc", TaskStatus.PENDING, Priority.MEDIUM, LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
+        taskDto = new TaskDto(1L, "Test Title", "Test Desc", TaskStatus.PENDING, Priority.MEDIUM, LocalDate.now(), LocalDateTime.now(), LocalDateTime.now(), null, null, 0.0);
+        taskService = new TaskServiceImpl(taskRepository, userRepository, null, taskMapper);
     }
 
     @Test
     public void testGetTaskById_Success() {
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
-        when(taskMapper.toDto(task)).thenReturn(taskDto);
 
         TaskDto result = taskService.getTaskById(1L, 1L);
 
@@ -84,10 +82,9 @@ public class TaskServiceTest {
 
     @Test
     public void testCreateTask() {
-        TaskCreateRequest request = new TaskCreateRequest("New Task", "New Desc", TaskStatus.PENDING, Priority.MEDIUM, LocalDate.now());
+        TaskCreateRequest request = new TaskCreateRequest("New Task", "New Desc", TaskStatus.PENDING, Priority.MEDIUM, LocalDate.now(), null, null, 0.0);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(taskRepository.save(any(Task.class))).thenReturn(task);
-        when(taskMapper.toDto(task)).thenReturn(taskDto);
 
         TaskDto result = taskService.createTask(1L, request);
 

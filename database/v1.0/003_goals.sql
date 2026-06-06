@@ -1,0 +1,14 @@
+-- Goals table
+CREATE TABLE goals (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    vision_id BIGINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(1000),
+    goal_type VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL DEFAULT 'PENDING',
+    progress DOUBLE NOT NULL DEFAULT 0.0,
+    target_date DATE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_goal_vision FOREIGN KEY (vision_id) REFERENCES visions(id) ON DELETE CASCADE
+);

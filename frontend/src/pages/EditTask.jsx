@@ -57,7 +57,7 @@ const EditTask = () => {
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, fontFamily: 'Outfit', mb: 0.5 }}>
+        <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>
           Edit Task
         </Typography>
         <Typography variant="body2" color="text.secondary">

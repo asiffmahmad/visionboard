@@ -1,0 +1,10 @@
+
+> todo-frontend@1.0.0 dev
+> vite
+
+Re-optimizing dependencies because lockfile has changed
+
+  VITE v5.4.21  ready in 565 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.1.6:5173/

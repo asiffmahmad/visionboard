@@ -80,7 +80,6 @@ const Navbar = ({ onDrawerToggle, drawerWidth }) => {
             component="div"
             sx={{
               fontWeight: 700,
-              fontFamily: 'Outfit',
               letterSpacing: '-0.5px',
               display: { xs: 'none', sm: 'block' },
             }}

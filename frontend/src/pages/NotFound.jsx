@@ -12,10 +12,7 @@ const NotFound = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: (theme) =>
-          theme.palette.mode === 'dark'
-            ? 'radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, rgba(0, 0, 0, 0.95) 90.2%)'
-            : 'radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, rgba(243, 244, 246, 1) 90.2%)',
+        backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
       <Container maxWidth="sm" sx={{ textAlign: 'center' }}>
@@ -25,14 +22,11 @@ const NotFound = () => {
             variant="h4"
             sx={{
               fontWeight: 800,
-              fontFamily: 'Outfit',
-              letterSpacing: '-1.5px',
-              background: 'linear-gradient(45deg, #6366f1 30%, #ec4899 90%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              letterSpacing: '-1px',
+              color: 'primary.main',
             }}
           >
-            TaskMaster
+            VisionBoard
           </Typography>
         </Box>
 
@@ -43,7 +37,6 @@ const NotFound = () => {
             fontSize: { xs: '6rem', sm: '8rem' },
             lineHeight: 1,
             mb: 2,
-            fontFamily: 'Outfit',
             color: 'primary.main',
           }}
         >

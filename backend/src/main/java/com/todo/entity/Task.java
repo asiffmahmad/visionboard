@@ -41,6 +41,16 @@ public class Task {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "goal_id")
+    private Goal goal;
+
+    @Column(name = "tags", length = 1000)
+    private String tags;
+
+    @Column(name = "progress")
+    private double progress = 0.0;
+
     public Task() {
     }
 
@@ -136,5 +146,29 @@ public class Task {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
     }
 }

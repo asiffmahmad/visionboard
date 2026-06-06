@@ -1,0 +1,14 @@
+-- Visions table
+CREATE TABLE visions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(1000),
+    vision_type VARCHAR(255) NOT NULL,
+    target_date DATE,
+    status VARCHAR(255) NOT NULL DEFAULT 'PENDING',
+    progress DOUBLE NOT NULL DEFAULT 0.0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_vision_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

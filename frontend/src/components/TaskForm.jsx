@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Cancel'
+import { getAllGoals } from '../services/goalService'
 
 const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
   const [title, setTitle] = useState('')
@@ -18,8 +19,23 @@ const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
   const [status, setStatus] = useState('PENDING')
   const [priority, setPriority] = useState('MEDIUM')
   const [dueDate, setDueDate] = useState('')
+  const [goalId, setGoalId] = useState('')
+  const [goals, setGoals] = useState([])
 
   const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    // Fetch available goals to populate associated goal selection
+    const fetchGoalsList = async () => {
+      try {
+        const goalsData = await getAllGoals()
+        setGoals(goalsData)
+      } catch (err) {
+        console.error('Failed to load goals for task selection:', err)
+      }
+    }
+    fetchGoalsList()
+  }, [])
 
   useEffect(() => {
     if (initialData) {
@@ -28,6 +44,7 @@ const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
       setStatus(initialData.status || 'PENDING')
       setPriority(initialData.priority || 'MEDIUM')
       setDueDate(initialData.dueDate || '')
+      setGoalId(initialData.goalId || '')
     }
   }, [initialData])
 
@@ -50,13 +67,14 @@ const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
       status,
       priority,
       dueDate: dueDate || null,
+      goalId: goalId ? Number(goalId) : null,
     })
   }
 
   return (
     <Card sx={{ maxWidth: 600, mx: 'auto', mt: 2 }}>
       <CardContent sx={{ p: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, fontFamily: 'Outfit' }}>
+        <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>
           {titleText}
         </Typography>
 
@@ -113,10 +131,26 @@ const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
                 <MenuItem value="LOW">Low</MenuItem>
                 <MenuItem value="MEDIUM">Medium</MenuItem>
                 <MenuItem value="HIGH">High</MenuItem>
+                <MenuItem value="CRITICAL">Critical</MenuItem>
               </TextField>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                label="Associated Goal (Optional)"
+                fullWidth
+                value={goalId}
+                onChange={(e) => setGoalId(e.target.value)}
+              >
+                <MenuItem value="">None</MenuItem>
+                {goals.map((g) => (
+                  <MenuItem key={g.id} value={g.id}>{g.title}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Due Date"
                 type="date"

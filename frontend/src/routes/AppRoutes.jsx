@@ -7,12 +7,20 @@ import AuthLayout from '../layouts/AuthLayout'
 // Pages
 import Login from '../pages/Login'
 import Register from '../pages/Register'
+import Focus from '../pages/Focus'
 import Dashboard from '../pages/Dashboard'
 import Tasks from '../pages/Tasks'
 import CreateTask from '../pages/CreateTask'
 import EditTask from '../pages/EditTask'
 import Profile from '../pages/Profile'
+import Visions from '../pages/Visions'
+import Goals from '../pages/Goals'
+import Habits from '../pages/Habits'
+import Notes from '../pages/Notes'
+import Journal from '../pages/Journal'
+import Admin from '../pages/Admin'
 import NotFound from '../pages/NotFound'
+import HabitDetailPage from '../pages/HabitDetailPage'
 
 const AppRoutes = () => {
   return (
@@ -26,12 +34,20 @@ const AppRoutes = () => {
       {/* Protected App Routes */}
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<Navigate to="/focus" replace />} />
+          <Route path="/focus" element={<Focus />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/tasks/create" element={<CreateTask />} />
           <Route path="/tasks/:id/edit" element={<EditTask />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/visions" element={<Visions />} />
+          <Route path="/goals" element={<Goals />} />
+          <Route path="/habits" element={<Habits />} />
+          <Route path="/habits/:id" element={<HabitDetailPage />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/journal" element={<Journal />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Route>
 

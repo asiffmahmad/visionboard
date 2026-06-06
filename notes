@@ -1,0 +1,8 @@
+chmod +x run_all.sh 
+./run_all.sh
+
+ro run the app
+
+log need to print for both backend and frontend in folder
+
+user journey is not working properly 

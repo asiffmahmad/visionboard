@@ -69,20 +69,22 @@ const Login = () => {
   }
 
   return (
-    <Card sx={{ borderRadius: 4, boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
-      <Box sx={{ bgcolor: 'primary.main', py: 3, textAlign: 'center', color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-        <DoneAllIcon sx={{ fontSize: 40 }} />
-        <Typography variant="h5" sx={{ fontWeight: 800, fontFamily: 'Outfit' }}>
-          Sign In to TaskMaster
+    <Card sx={{ maxWidth: 450, mx: 'auto' }}>
+      <Box sx={{ pt: 4, pb: 2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ bgcolor: 'rgba(37, 99, 235, 0.08)', p: 1.5, borderRadius: 2.5, display: 'inline-flex' }}>
+          <DoneAllIcon sx={{ fontSize: 32, color: 'primary.main' }} />
+        </Box>
+        <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: '-0.025em' }}>
+          Sign In to VisionBoard
         </Typography>
-        <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          Manage your tasks efficiently
+        <Typography variant="body2" color="text.secondary">
+          Manage your personal operating system
         </Typography>
       </Box>
 
-      <CardContent sx={{ p: 4 }}>
+      <CardContent sx={{ p: 4, pt: 1 }}>
         {error && (
-          <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
+          <Alert severity="error" sx={{ mb: 3, borderRadius: 1.5 }}>
             {error}
           </Alert>
         )}
@@ -98,6 +100,7 @@ const Login = () => {
               error={!!formErrors.email}
               helperText={formErrors.email}
               placeholder="name@example.com"
+              variant="outlined"
             />
 
             <TextField
@@ -109,6 +112,7 @@ const Login = () => {
               error={!!formErrors.password}
               helperText={formErrors.password}
               placeholder="••••••••"
+              variant="outlined"
             />
 
             <Button
@@ -118,7 +122,7 @@ const Login = () => {
               size="large"
               disabled={loading}
               startIcon={loading ? <CircularProgress size={20} /> : <LoginIcon />}
-              sx={{ py: 1.5, mt: 1 }}
+              sx={{ py: 1.2, mt: 1 }}
             >
               {loading ? 'Signing In...' : 'Sign In'}
             </Button>
@@ -128,7 +132,7 @@ const Login = () => {
         <Box sx={{ mt: 3, textAlign: 'center' }}>
           <Typography variant="body2" color="text.secondary">
             Don't have an account?{' '}
-            <Link to="/register" style={{ color: '#6366f1', textDecoration: 'none', fontWeight: 600 }}>
+            <Link to="/register" style={{ color: '#2563EB', textDecoration: 'none', fontWeight: 600 }}>
               Create Account
             </Link>
           </Typography>

@@ -1,0 +1,52 @@
+
+> todo-frontend@1.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 172 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.1.6:5173/
+6:48:23 PM [vite] hmr update /src/components/Sidebar.jsx
+6:49:42 PM [vite] hmr update /src/pages/Dashboard.jsx
+6:50:29 PM [vite] hmr update /src/pages/Visions.jsx
+6:50:56 PM [vite] hmr update /src/pages/Habits.jsx
+6:51:29 PM [vite] hmr update /src/pages/Journal.jsx
+6:52:18 PM [vite] hmr update /src/pages/Focus.jsx
+6:56:03 PM [vite] hmr update /src/pages/Focus.jsx
+7:04:33 PM [vite] hmr update /src/pages/Goals.jsx
+9:20:41 PM [vite] hmr update /src/components/Sidebar.jsx
+9:38:52 PM [vite] hmr update /src/app/App.jsx
+9:39:16 PM [vite] hmr update /src/components/Sidebar.jsx
+9:41:59 PM [vite] hmr update /src/pages/Dashboard.jsx
+9:42:00 PM [vite] ✨ new dependencies optimized: framer-motion, @mui/icons-material/MoreVert
+9:42:00 PM [vite] ✨ optimized dependencies changed. reloading
+9:43:25 PM [vite] hmr update /src/pages/Focus.jsx
+9:43:25 PM [vite] ✨ new dependencies optimized: @mui/icons-material/PlayArrow, @mui/icons-material/Pause
+9:43:25 PM [vite] ✨ optimized dependencies changed. reloading
+9:43:34 PM [vite] hmr update /src/routes/AppRoutes.jsx
+9:43:43 PM [vite] hmr update /src/routes/AppRoutes.jsx
+9:44:25 PM [vite] hmr update /src/pages/Vault.jsx
+9:51:04 PM [vite] hmr update /src/app/App.jsx
+9:51:04 PM [vite] hmr update /src/components/Sidebar.jsx
+9:51:04 PM [vite] hmr update /src/pages/Dashboard.jsx
+9:51:04 PM [vite] hmr update /src/routes/AppRoutes.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/FocusTaskCard.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/HealthScoreCard.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/ProgressCard.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/SectionHeader.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/ActivityCard.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/EmptyState.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/GlassCard.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/GoalCard.jsx
+9:51:13 PM [vite] hmr update /src/components/ui/VisionCard.jsx
+9:51:13 PM [vite] hmr update /src/pages/Plans.jsx
+9:51:13 PM [vite] hmr update /src/pages/Insights.jsx
+9:51:13 PM [vite] hmr update /src/pages/Vault.jsx
+9:53:06 PM [vite] hmr update /src/components/Sidebar.jsx
+9:53:17 PM [vite] hmr update /src/routes/AppRoutes.jsx
+9:53:17 PM [vite] Pre-transform error: Failed to load url /src/components/ui/SectionHeader.jsx (resolved id: /Users/asiff/Documents/varma_project/code/frontend/src/components/ui/SectionHeader.jsx) in /Users/asiff/Documents/varma_project/code/frontend/src/pages/Focus.jsx. Does the file exist?
+9:53:17 PM [vite] Pre-transform error: Failed to load url /src/components/ui/GlassCard.jsx (resolved id: /Users/asiff/Documents/varma_project/code/frontend/src/components/ui/GlassCard.jsx) in /Users/asiff/Documents/varma_project/code/frontend/src/pages/Focus.jsx. Does the file exist?
+9:53:17 PM [vite] Pre-transform error: Failed to load url /src/components/ui/FocusTaskCard.jsx (resolved id: /Users/asiff/Documents/varma_project/code/frontend/src/components/ui/FocusTaskCard.jsx) in /Users/asiff/Documents/varma_project/code/frontend/src/pages/Focus.jsx. Does the file exist?
+9:53:50 PM [vite] hmr update /src/pages/Dashboard.jsx
+9:54:14 PM [vite] hmr update /src/pages/Focus.jsx

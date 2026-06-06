@@ -122,6 +122,7 @@ public class AuthServiceImpl implements AuthService {
     private RefreshToken createRefreshToken(User user) {
         // Delete existing token if any
         refreshTokenRepository.deleteByUser(user);
+        refreshTokenRepository.flush();
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(user);

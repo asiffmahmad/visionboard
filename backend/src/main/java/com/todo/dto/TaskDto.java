@@ -13,5 +13,8 @@ public record TaskDto(
     Priority priority,
     LocalDate dueDate,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
+    LocalDateTime updatedAt,
+    Long goalId,
+    String tags,
+    double progress
 ) {}

@@ -107,7 +107,7 @@ const Tasks = () => {
       {/* Header section */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 2, mb: 4 }}>
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 800, fontFamily: 'Outfit', mb: 0.5 }}>
+          <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>
             My Task Workspace
           </Typography>
           <Typography variant="body2" color="text.secondary">

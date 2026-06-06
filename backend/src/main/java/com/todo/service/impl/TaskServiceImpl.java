@@ -23,11 +23,13 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final com.todo.repository.GoalRepository goalRepository;
     private final TaskMapper taskMapper;
 
-    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository, TaskMapper taskMapper) {
+    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository, com.todo.repository.GoalRepository goalRepository, TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.goalRepository = goalRepository;
         this.taskMapper = taskMapper;
     }
 
@@ -51,12 +53,21 @@ public class TaskServiceImpl implements TaskService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
 
+        com.todo.entity.Goal goal = null;
+        if (request.goalId() != null) {
+            goal = goalRepository.findByIdAndUserUsername(request.goalId(), user.getUsername())
+                    .orElseThrow(() -> new ResourceNotFoundException("Goal not found"));
+        }
+
         Task task = new Task();
         task.setTitle(request.title());
         task.setDescription(request.description());
         task.setStatus(request.status());
         task.setPriority(request.priority());
         task.setDueDate(request.dueDate());
+        task.setTags(request.tags());
+        task.setProgress(request.progress() != null ? request.progress() : 0.0);
+        task.setGoal(goal);
         task.setUser(user);
 
         Task savedTask = taskRepository.save(task);
@@ -67,12 +78,21 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public TaskDto updateTask(Long userId, Long taskId, TaskCreateRequest request) {
         Task task = getTaskAndVerifyOwnership(userId, taskId);
+        
+        com.todo.entity.Goal goal = null;
+        if (request.goalId() != null) {
+            goal = goalRepository.findByIdAndUserUsername(request.goalId(), task.getUser().getUsername())
+                    .orElseThrow(() -> new ResourceNotFoundException("Goal not found"));
+        }
 
         task.setTitle(request.title());
         task.setDescription(request.description());
         task.setStatus(request.status());
         task.setPriority(request.priority());
         task.setDueDate(request.dueDate());
+        task.setTags(request.tags());
+        task.setProgress(request.progress() != null ? request.progress() : task.getProgress());
+        task.setGoal(goal);
 
         Task updatedTask = taskRepository.save(task);
         return taskMapper.toDto(updatedTask);
@@ -90,6 +110,9 @@ public class TaskServiceImpl implements TaskService {
     public TaskDto updateTaskStatus(Long userId, Long taskId, TaskStatus status) {
         Task task = getTaskAndVerifyOwnership(userId, taskId);
         task.setStatus(status);
+        if (status == TaskStatus.COMPLETED) {
+            task.setProgress(100.0);
+        }
         Task updatedTask = taskRepository.save(task);
         return taskMapper.toDto(updatedTask);
     }

@@ -1,0 +1,4 @@
+com/todo/controller/TaskControllerTest.class
+com/todo/controller/AuthControllerTest.class
+com/todo/service/TaskServiceTest.class
+com/todo/repository/TaskRepositoryTest.class

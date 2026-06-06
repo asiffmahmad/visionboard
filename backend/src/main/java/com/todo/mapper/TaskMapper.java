@@ -19,7 +19,10 @@ public class TaskMapper {
             task.getPriority(),
             task.getDueDate(),
             task.getCreatedAt(),
-            task.getUpdatedAt()
+            task.getUpdatedAt(),
+            task.getGoal() != null ? task.getGoal().getId() : null,
+            task.getTags(),
+            task.getProgress()
         );
     }
 }

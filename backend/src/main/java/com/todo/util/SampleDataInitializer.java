@@ -1,36 +1,45 @@
 package com.todo.util;
 
-import com.todo.entity.Task;
 import com.todo.entity.User;
-import com.todo.enums.Priority;
 import com.todo.enums.Role;
-import com.todo.enums.TaskStatus;
-import com.todo.repository.TaskRepository;
 import com.todo.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Component
 public class SampleDataInitializer implements CommandLineRunner {
 
-    private final UserRepository userRepository;
-    private final TaskRepository taskRepository;
-    private final PasswordEncoder passwordEncoder;
+    private static final Logger logger = LoggerFactory.getLogger(SampleDataInitializer.class);
 
-    public SampleDataInitializer(UserRepository userRepository,
-                                 TaskRepository taskRepository,
-                                 PasswordEncoder passwordEncoder) {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final com.todo.repository.VisionRepository visionRepository;
+    private final com.todo.repository.GoalRepository goalRepository;
+    private final com.todo.repository.TaskRepository taskRepository;
+    private final com.todo.repository.HabitRepository habitRepository;
+
+    public SampleDataInitializer(
+            UserRepository userRepository, 
+            PasswordEncoder passwordEncoder,
+            com.todo.repository.VisionRepository visionRepository,
+            com.todo.repository.GoalRepository goalRepository,
+            com.todo.repository.TaskRepository taskRepository,
+            com.todo.repository.HabitRepository habitRepository) {
         this.userRepository = userRepository;
-        this.taskRepository = taskRepository;
         this.passwordEncoder = passwordEncoder;
+        this.visionRepository = visionRepository;
+        this.goalRepository = goalRepository;
+        this.taskRepository = taskRepository;
+        this.habitRepository = habitRepository;
     }
 
     @Override
-    public void run(String... args) {
-        // Initialize Admin User
+    public void run(String... args) throws Exception {
+        logger.info("Initializing sample data...");
+
         if (!userRepository.existsByEmail("admin@example.com")) {
             User admin = new User();
             admin.setUsername("admin");
@@ -39,9 +48,9 @@ public class SampleDataInitializer implements CommandLineRunner {
             admin.setRole(Role.ADMIN);
             admin.setEnabled(true);
             userRepository.save(admin);
+            logger.info("Created default admin user: admin@example.com");
         }
 
-        // Initialize Regular User and Sample Tasks
         if (!userRepository.existsByEmail("user@example.com")) {
             User user = new User();
             user.setUsername("user");
@@ -49,53 +58,74 @@ public class SampleDataInitializer implements CommandLineRunner {
             user.setPassword(passwordEncoder.encode("User@123"));
             user.setRole(Role.USER);
             user.setEnabled(true);
-            User savedUser = userRepository.save(user);
-
-            // Create sample tasks
-            Task task1 = new Task();
-            task1.setTitle("Complete Spring Boot Architecture");
-            task1.setDescription("Define database schemas, DTOs, controllers, services, and security filters.");
-            task1.setStatus(TaskStatus.COMPLETED);
-            task1.setPriority(Priority.HIGH);
-            task1.setDueDate(LocalDate.now().minusDays(2));
-            task1.setUser(savedUser);
-            taskRepository.save(task1);
-
-            Task task2 = new Task();
-            task2.setTitle("Setup Redux Toolkit State Management");
-            task2.setDescription("Configure store, auth slices, task slices, theme switcher, and API Axios interceptors.");
-            task2.setStatus(TaskStatus.IN_PROGRESS);
-            task2.setPriority(Priority.HIGH);
-            task2.setDueDate(LocalDate.now());
-            task2.setUser(savedUser);
-            taskRepository.save(task2);
-
-            Task task3 = new Task();
-            task3.setTitle("Design Modern UI Layout with Material UI");
-            task3.setDescription("Build layouts with dark mode, sidebars, responsive grids, task cards, and interactive dashboards.");
-            task3.setStatus(TaskStatus.IN_PROGRESS);
-            task3.setPriority(Priority.MEDIUM);
-            task3.setDueDate(LocalDate.now().plusDays(1));
-            task3.setUser(savedUser);
-            taskRepository.save(task3);
-
-            Task task4 = new Task();
-            task4.setTitle("Write Unit Tests for Security and Controllers");
-            task4.setDescription("Add MockMvc testing for auth endpoints, task CRUD controllers, services, and mock security contexts.");
-            task4.setStatus(TaskStatus.PENDING);
-            task4.setPriority(Priority.MEDIUM);
-            task4.setDueDate(LocalDate.now().plusDays(3));
-            task4.setUser(savedUser);
-            taskRepository.save(task4);
-
-            Task task5 = new Task();
-            task5.setTitle("Deploy Full-Stack Application using Docker Compose");
-            task5.setDescription("Develop backend and frontend Dockerfiles, nginx configurations, and docker-compose deployment script.");
-            task5.setStatus(TaskStatus.PENDING);
-            task5.setPriority(Priority.LOW);
-            task5.setDueDate(LocalDate.now().plusDays(5));
-            task5.setUser(savedUser);
-            taskRepository.save(task5);
+            userRepository.save(user);
+            logger.info("Created default user: user@example.com");
         }
+        
+        // Seed Test Data for regular user
+        User regularUser = userRepository.findByEmail("user@example.com").orElse(null);
+        if (regularUser != null && visionRepository.count() == 0) {
+            seedDataForUser(regularUser);
+        }
+        
+        // Seed Test Data for Admin
+        User adminUser = userRepository.findByEmail("admin@example.com").orElse(null);
+        if (adminUser != null && goalRepository.count() == 1) { // assuming 1 was just seeded for regular user
+            seedDataForUser(adminUser);
+        }
+
+        logger.info("Sample data initialization completed.");
+    }
+    
+    private void seedDataForUser(User targetUser) {
+        logger.info("Seeding test data for user: " + targetUser.getEmail());
+        
+        com.todo.entity.Vision vision = new com.todo.entity.Vision();
+        vision.setUser(targetUser);
+        vision.setTitle("Become a Senior Engineer");
+        vision.setDescription("Master backend architectures and frontend design.");
+        vision.setVisionType(com.todo.enums.VisionType.CAREER);
+        vision.setTargetDate(java.time.LocalDate.now().plusMonths(6));
+        vision.setStatus(com.todo.enums.TaskStatus.IN_PROGRESS);
+        vision.setAchieved(false);
+        visionRepository.save(vision);
+
+        com.todo.entity.Goal goal = new com.todo.entity.Goal();
+        goal.setUser(targetUser);
+        goal.setVision(vision);
+        goal.setTitle("Learn Spring Boot deeply");
+        goal.setDescription("Read docs, build 5 projects.");
+        goal.setGoalType(com.todo.enums.GoalType.SHORT_TERM);
+        goal.setTargetDate(java.time.LocalDate.now().plusMonths(2));
+        goal.setStatus(com.todo.enums.TaskStatus.IN_PROGRESS);
+        goal.setProgress(35.0);
+        goal.setAchieved(false);
+        goalRepository.save(goal);
+
+        com.todo.entity.Task task1 = new com.todo.entity.Task();
+        task1.setUser(targetUser);
+        task1.setGoal(goal);
+        task1.setTitle("Complete Security Module");
+        task1.setDescription("Implement JWT auth");
+        task1.setStatus(com.todo.enums.TaskStatus.PENDING);
+        task1.setPriority(com.todo.enums.Priority.HIGH);
+        task1.setDueDate(java.time.LocalDate.now().plusDays(2));
+        taskRepository.save(task1);
+
+        com.todo.entity.Task task2 = new com.todo.entity.Task();
+        task2.setUser(targetUser);
+        task2.setGoal(goal);
+        task2.setTitle("Design the Dashboard UI");
+        task2.setDescription("Create a world-class OS interface.");
+        task2.setStatus(com.todo.enums.TaskStatus.COMPLETED);
+        task2.setPriority(com.todo.enums.Priority.HIGH);
+        task2.setDueDate(java.time.LocalDate.now().minusDays(1));
+        taskRepository.save(task2);
+
+        com.todo.entity.Habit habit = new com.todo.entity.Habit();
+        habit.setUser(targetUser);
+        habit.setTitle("Read Tech Blogs");
+        habit.setFrequency(com.todo.enums.HabitFrequency.DAILY);
+        habitRepository.save(habit);
     }
 }

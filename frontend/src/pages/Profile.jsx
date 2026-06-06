@@ -100,7 +100,7 @@ const Profile = () => {
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, fontFamily: 'Outfit', mb: 0.5 }}>
+        <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>
           Profile Settings
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -156,7 +156,7 @@ const Profile = () => {
         <Grid item xs={12} md={8}>
           <Card>
             <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, fontFamily: 'Outfit' }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>
                 Account Information
               </Typography>
 

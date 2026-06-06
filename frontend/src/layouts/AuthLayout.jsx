@@ -17,10 +17,7 @@ const AuthLayout = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: (theme) =>
-          theme.palette.mode === 'dark'
-            ? 'radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, rgba(0, 0, 0, 0.95) 90.2%)'
-            : 'radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, rgba(243, 244, 246, 1) 90.2%)',
+        backgroundColor: (theme) => theme.palette.background.default,
         py: 4,
         px: 2,
       }}

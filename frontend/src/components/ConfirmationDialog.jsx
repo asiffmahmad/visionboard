@@ -23,7 +23,7 @@ const ConfirmationDialog = ({ open, title, content, onConfirm, onCancel }) => {
         },
       }}
     >
-      <DialogTitle id="alert-dialog-title" sx={{ fontWeight: 700, fontFamily: 'Outfit' }}>
+      <DialogTitle id="alert-dialog-title" sx={{ fontWeight: 700 }}>
         {title}
       </DialogTitle>
       <DialogContent>

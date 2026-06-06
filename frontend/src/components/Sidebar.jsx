@@ -18,11 +18,20 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import PersonIcon from '@mui/icons-material/Person'
 import LogoutIcon from '@mui/icons-material/Logout'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import FlagIcon from '@mui/icons-material/Flag'
+import RepeatIcon from '@mui/icons-material/Repeat'
+import NotesIcon from '@mui/icons-material/Notes'
+import BookIcon from '@mui/icons-material/Book'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import StarIcon from '@mui/icons-material/Star'
+import { useSelector } from 'react-redux'
 import { logout } from '../services/authService'
 
 const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const { user } = useSelector((state) => state.auth)
 
   const handleLogout = async () => {
     await logout()
@@ -30,11 +39,20 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   }
 
   const menuItems = [
+    { text: 'Focus', icon: <StarIcon />, path: '/focus' },
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+    { text: 'Visions', icon: <VisibilityIcon />, path: '/visions' },
+    { text: 'Goals', icon: <FlagIcon />, path: '/goals' },
     { text: 'My Tasks', icon: <AssignmentIcon />, path: '/tasks' },
-    { text: 'Create Task', icon: <AddCircleIcon />, path: '/tasks/create' },
+    { text: 'Habits', icon: <RepeatIcon />, path: '/habits' },
+    { text: 'Notes', icon: <NotesIcon />, path: '/notes' },
+    { text: 'Journal', icon: <BookIcon />, path: '/journal' },
     { text: 'Profile', icon: <PersonIcon />, path: '/profile' },
   ]
+
+  if (user?.role === 'ADMIN') {
+    menuItems.push({ text: 'Admin', icon: <AdminPanelSettingsIcon />, path: '/admin' })
+  }
 
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
