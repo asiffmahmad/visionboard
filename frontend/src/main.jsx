@@ -7,12 +7,14 @@ import './index.css'
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <App />
+        <SpeedInsights />
       </LocalizationProvider>
     </Provider>
   </React.StrictMode>,
