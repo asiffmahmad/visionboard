@@ -53,21 +53,6 @@ const Login = () => {
     }
   }
 
-  const handleQuickLogin = async (role) => {
-    dispatch(clearError())
-    const credentials =
-      role === 'admin'
-        ? { email: 'admin@example.com', pass: 'Admin@123' }
-        : { email: 'user@example.com', pass: 'User@123' }
-
-    try {
-      await login(credentials.email, credentials.pass)
-      navigate('/dashboard')
-    } catch (err) {
-      // Error is stored in redux and rendered
-    }
-  }
-
   return (
     <Card sx={{ maxWidth: 450, mx: 'auto' }}>
       <Box sx={{ pt: 4, pb: 2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
@@ -138,26 +123,7 @@ const Login = () => {
           </Typography>
         </Box>
 
-        <Divider sx={{ my: 3 }}>Or Quick Demo Login</Divider>
 
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            fullWidth
-            onClick={() => handleQuickLogin('user')}
-          >
-            Regular User
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            fullWidth
-            onClick={() => handleQuickLogin('admin')}
-          >
-            Admin User
-          </Button>
-        </Box>
       </CardContent>
     </Card>
   )
