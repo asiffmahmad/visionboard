@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS habit_achievements (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    habit_id BIGINT NOT NULL,
+    achievement_type VARCHAR(255) NOT NULL,
+    earned_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_habit_achievement FOREIGN KEY (habit_id) REFERENCES habits(id) ON DELETE CASCADE
+);
