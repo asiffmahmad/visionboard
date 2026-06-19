@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component
+// @Component
 public class SampleDataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(SampleDataInitializer.class);
