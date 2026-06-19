@@ -38,16 +38,24 @@ echo "🚀 Starting backend in background (logging to backend.log)..."
 java -jar target/todo-backend-1.0.0.jar > "$SCRIPT_DIR/backend.log" 2>&1 &
 
 # 3. Build and Start Frontend
-echo "📦 Building frontend via NPM..."
+echo "📦 Installing frontend dependencies via NPM..."
 cd "$SCRIPT_DIR/frontend"
 npm install
-npm run build
 
 echo "⚡ Starting frontend dev server in background (logging to frontend.log)..."
-npm run dev > "$SCRIPT_DIR/frontend.log" 2>&1 &
+npm run dev > "$SCRIPT_DIR/frontend.log" 2>&1 < /dev/null &
 
-# 4. Open browser
-sleep 4
+# 4. Wait for services to be ready
+echo "⏳ Waiting for backend to start (port 8080)..."
+while ! nc -z localhost 8080; do
+  sleep 1
+done
+
+echo "⏳ Waiting for frontend to start (port 5173)..."
+while ! nc -z localhost 5173; do
+  sleep 1
+done
+
 FRONTEND_URL="http://localhost:5173"
 BACKEND_URL="http://localhost:8080/swagger-ui/index.html"
 

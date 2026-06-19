@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+.idea/
+.vscode/
+data/
+backend.log
+frontend.log
+frontend/out.html

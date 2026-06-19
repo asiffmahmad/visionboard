@@ -3,7 +3,7 @@ import store from '../store'
 import { updateTokens, logout } from '../features/authSlice'
 
 const api = axios.create({
-  baseURL: '', // Uses Vite proxy
+  baseURL: import.meta.env.VITE_API_BASE_URL || '', // Uses Vite proxy locally
   headers: {
     'Content-Type': 'application/json',
   },
