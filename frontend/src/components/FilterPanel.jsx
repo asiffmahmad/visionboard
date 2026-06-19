@@ -9,6 +9,8 @@ import {
 } from '@mui/material'
 import FilterListOffIcon from '@mui/icons-material/FilterListOff'
 import { setFilters, resetFilters } from '../features/tasksSlice'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
 
 const FilterPanel = ({ onFilterChange }) => {
   const dispatch = useDispatch()
@@ -60,16 +62,11 @@ const FilterPanel = ({ onFilterChange }) => {
         </Grid>
 
         <Grid item xs={12} sm={3}>
-          <TextField
-            label="Due Date"
-            type="date"
-            fullWidth
-            size="small"
-            value={filters.dueDate}
-            onChange={(e) => handleChange('dueDate', e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
+          <DatePicker 
+            label="Due Date" 
+            value={filters.dueDate ? dayjs(filters.dueDate) : null} 
+            onChange={(newValue) => handleChange('dueDate', newValue ? newValue.format('YYYY-MM-DD') : '')} 
+            slotProps={{ textField: { fullWidth: true, size: 'small' } }} 
           />
         </Grid>
 

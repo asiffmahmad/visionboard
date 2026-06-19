@@ -7,6 +7,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import { fetchGoals, addGoal, deleteGoal } from '../features/goalSlice'
 import { fetchVisions } from '../features/visionSlice'
 import FlagIcon from '@mui/icons-material/Flag'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
 
 const Goals = () => {
   const dispatch = useDispatch()
@@ -145,7 +147,12 @@ const Goals = () => {
                 ))}
               </Select>
             </FormControl>
-            <TextField label="Target Date" type="date" variant="outlined" fullWidth required slotProps={{ inputLabel: { shrink: true } }} value={targetDate} onChange={(e) => setTargetDate(e.target.value)} />
+            <DatePicker 
+              label="Target Date *" 
+              value={targetDate ? dayjs(targetDate) : null} 
+              onChange={(newValue) => setTargetDate(newValue ? newValue.format('YYYY-MM-DD') : '')} 
+              slotProps={{ textField: { fullWidth: true, required: true } }} 
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

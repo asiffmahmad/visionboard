@@ -12,6 +12,8 @@ import {
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { getAllGoals } from '../services/goalService'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
 
 const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
   const [title, setTitle] = useState('')
@@ -151,15 +153,11 @@ const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <TextField
-                label="Due Date"
-                type="date"
-                fullWidth
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+              <DatePicker 
+                label="Due Date" 
+                value={dueDate ? dayjs(dueDate) : null} 
+                onChange={(newValue) => setDueDate(newValue ? newValue.format('YYYY-MM-DD') : '')} 
+                slotProps={{ textField: { fullWidth: true } }} 
               />
             </Grid>
 
