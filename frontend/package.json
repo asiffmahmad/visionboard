@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
-    "@mui/x-date-pickers": "^9.6.0",
+    "@mui/x-date-pickers": "^7.29.4",
     "@reduxjs/toolkit": "^2.2.7",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
