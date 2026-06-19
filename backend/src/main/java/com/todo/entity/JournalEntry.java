@@ -20,7 +20,7 @@ public class JournalEntry {
     private String title;
 
     @Lob
-    @Column(columnDefinition = "CLOB")
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column
