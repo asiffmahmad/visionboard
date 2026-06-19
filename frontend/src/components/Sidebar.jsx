@@ -69,7 +69,7 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
             WebkitTextFillColor: 'transparent',
           }}
         >
-          TaskMaster
+          VisionBoard
         </Typography>
       </Toolbar>
       <Divider />
