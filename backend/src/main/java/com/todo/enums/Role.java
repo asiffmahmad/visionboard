@@ -2,5 +2,6 @@ package com.todo.enums;
 
 public enum Role {
     USER,
-    ADMIN
+    ADMIN,
+    SUPER_ADMIN
 }

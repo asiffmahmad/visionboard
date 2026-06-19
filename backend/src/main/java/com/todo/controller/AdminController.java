@@ -19,11 +19,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
 public class AdminController {
 
     private final AnnouncementService announcementService;
     private final FeatureFlagService featureFlagService;
+    private final com.todo.service.UserService userService;
+
+    // --- Users ---
+    
+    @GetMapping("/users")
+    public ResponseEntity<List<com.todo.dto.UserActivityDto>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsersWithActivities());
+    }
+
+    @PutMapping("/users/{id}/role")
+    public ResponseEntity<com.todo.dto.UserActivityDto> updateUserRole(
+            @PathVariable Long id,
+            @RequestParam com.todo.enums.Role role) {
+        return ResponseEntity.ok(userService.updateUserRole(id, role));
+    }
 
     // --- Announcements ---
 

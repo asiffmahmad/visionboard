@@ -66,4 +66,36 @@ public class UserServiceImpl implements UserService {
         User updatedUser = userRepository.save(user);
         return userMapper.toDto(updatedUser);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public java.util.List<com.todo.dto.UserActivityDto> getAllUsersWithActivities() {
+        return userRepository.findAllUsersWithActivityCounts();
+    }
+
+    @Override
+    @Transactional
+    public com.todo.dto.UserActivityDto updateUserRole(Long userId, com.todo.enums.Role newRole) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+
+        // Prevent assigning SUPER_ADMIN from the API
+        if (newRole == com.todo.enums.Role.SUPER_ADMIN) {
+            throw new BadRequestException("SUPER_ADMIN role can only be assigned via database.");
+        }
+
+        // Prevent revoking SUPER_ADMIN from the API
+        if (user.getRole() == com.todo.enums.Role.SUPER_ADMIN) {
+            throw new BadRequestException("Cannot revoke SUPER_ADMIN role via application.");
+        }
+
+        user.setRole(newRole);
+        userRepository.save(user);
+        
+        return userRepository.findAllUsersWithActivityCounts()
+                .stream()
+                .filter(dto -> dto.getId().equals(userId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Failed to fetch updated user"));
+    }
 }

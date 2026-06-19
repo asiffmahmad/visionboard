@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
+import AdminRoute from './AdminRoute'
 import MainLayout from '../layouts/MainLayout'
 import AuthLayout from '../layouts/AuthLayout'
 
@@ -19,6 +20,7 @@ import Habits from '../pages/Habits'
 import Notes from '../pages/Notes'
 import Journal from '../pages/Journal'
 import Admin from '../pages/Admin'
+import AdminUsers from '../pages/AdminUsers'
 import NotFound from '../pages/NotFound'
 import HabitDetailPage from '../pages/HabitDetailPage'
 
@@ -47,7 +49,12 @@ const AppRoutes = () => {
           <Route path="/habits/:id" element={<HabitDetailPage />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/journal" element={<Journal />} />
-          <Route path="/admin" element={<Admin />} />
+          
+          {/* Admin Only Routes */}
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+          </Route>
         </Route>
       </Route>
 
@@ -58,3 +65,4 @@ const AppRoutes = () => {
 }
 
 export default AppRoutes
+

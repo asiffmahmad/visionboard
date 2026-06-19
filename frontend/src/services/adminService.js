@@ -41,3 +41,15 @@ export const removeUserOverride = async (userId, featureName) => {
   const response = await api.delete(`${API_URL}/feature-flags/override?userId=${userId}&featureName=${featureName}`);
   return response.data;
 };
+
+// User Management
+
+export const getAllUsersWithActivities = async () => {
+  const response = await api.get(`${API_URL}/users`);
+  return response.data;
+};
+
+export const updateUserRole = async (userId, role) => {
+  const response = await api.put(`${API_URL}/users/${userId}/role?role=${role}`);
+  return response.data;
+};

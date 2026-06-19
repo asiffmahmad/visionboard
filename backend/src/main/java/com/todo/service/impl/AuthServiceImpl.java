@@ -88,6 +88,9 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new BadRequestException("User not found"));
 
+        user.setLastSeen(java.time.LocalDateTime.now());
+        userRepository.save(user);
+
         String accessToken = tokenProvider.generateToken(authentication);
         RefreshToken refreshToken = createRefreshToken(user);
 

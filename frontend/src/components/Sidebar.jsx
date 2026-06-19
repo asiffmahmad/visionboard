@@ -50,8 +50,9 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
     { text: 'Profile', icon: <PersonIcon />, path: '/profile' },
   ]
 
-  if (user?.role === 'ADMIN') {
+  if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') {
     menuItems.push({ text: 'Admin', icon: <AdminPanelSettingsIcon />, path: '/admin' })
+    menuItems.push({ text: 'Manage Users', icon: <PersonIcon />, path: '/admin/users' })
   }
 
   const drawerContent = (
@@ -76,7 +77,9 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
       <Box sx={{ flexGrow: 1, px: 2, py: 3 }}>
         <List sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, p: 0 }}>
           {menuItems.map((item) => {
-            const active = pathname === item.path || (item.path !== '/dashboard' && pathname.startsWith(item.path))
+            const active = item.path === '/admin' 
+              ? pathname === '/admin' 
+              : (pathname === item.path || (item.path !== '/dashboard' && pathname.startsWith(item.path)));
             return (
               <ListItem key={item.text} disablePadding>
                 <ListItemButton
