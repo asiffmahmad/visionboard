@@ -110,8 +110,8 @@ const Journal = () => {
             <Grid item xs={12} key={entry.id}>
               <Card sx={{ position: 'relative' }}>
                 <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5, pr: 8 }}>
-                    <Typography variant="h6" fontWeight={700}>{entry.title}</Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
+                    <Typography variant="h6" fontWeight={700} sx={{ pr: 14, wordBreak: 'break-word' }}>{entry.title}</Typography>
                     <Box sx={{ display: 'flex', gap: 0.5, position: 'absolute', top: 16, right: 16 }}>
                       <IconButton size="small" color="primary" onClick={() => handleViewOpen(entry)}>
                         <VisibilityIcon fontSize="small" />
@@ -137,7 +137,7 @@ const Journal = () => {
                       {new Date(entry.createdAt).toLocaleDateString()}
                     </Typography>
                   </Box>
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 2, height: 48, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', whiteSpace: 'pre-wrap' }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 2, height: 48, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                     {entry.content}
                   </Typography>
                 </CardContent>
@@ -180,15 +180,15 @@ const Journal = () => {
           {selectedEntry && (
             <>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Box>
+                <Box sx={{ pr: 2 }}>
                   <Typography variant="subtitle2" color="text.secondary">Title</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedEntry.title}</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600, wordBreak: 'break-word' }}>{selectedEntry.title}</Typography>
                 </Box>
                 <Typography variant="caption" color="text.secondary">
                   {new Date(selectedEntry.createdAt).toLocaleString()}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', gap: { xs: 2, sm: 4 }, flexWrap: 'wrap', alignItems: 'center' }}>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">Entry Type</Typography>
                   <Typography variant="body2" sx={{ bgcolor: 'action.selected', color: 'text.secondary', px: 1.5, py: 0.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', display: 'inline-block', mt: 0.5, fontWeight: 600 }}>
@@ -206,7 +206,7 @@ const Journal = () => {
               </Box>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary">Content</Typography>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', bgcolor: 'action.hover', p: 2, borderRadius: 2, border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', bgcolor: 'action.hover', p: 2, borderRadius: 2, border: (theme) => `1px solid ${theme.palette.divider}` }}>
                   {selectedEntry.content}
                 </Typography>
               </Box>

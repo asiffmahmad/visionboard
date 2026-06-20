@@ -4,7 +4,8 @@ import { Box, Typography, Button, Grid, Card, CardContent, CircularProgress, Ico
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import { fetchHabits, addHabit, logHabit, deleteHabit } from '../features/habitSlice'
+import EditIcon from '@mui/icons-material/Edit'
+import { fetchHabits, addHabit, logHabit, deleteHabit, updateHabit } from '../features/habitSlice'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import HabitWeeklyTracker from '../components/habits/HabitWeeklyTracker'
 
@@ -15,6 +16,9 @@ const Habits = () => {
   const [open, setOpen] = useState(false)
   const [viewOpen, setViewOpen] = useState(false)
   const [selectedHabit, setSelectedHabit] = useState(null)
+  
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [editId, setEditId] = useState(null)
 
   const [title, setTitle] = useState('')
   const [frequency, setFrequency] = useState('DAILY')
@@ -23,11 +27,24 @@ const Habits = () => {
     dispatch(fetchHabits())
   }, [dispatch])
 
-  const handleOpen = () => setOpen(true)
+  const handleOpen = () => {
+    setIsEditMode(false)
+    setEditId(null)
+    setOpen(true)
+  }
+  const handleEditOpen = (habit) => {
+    setIsEditMode(true)
+    setEditId(habit.id)
+    setTitle(habit.title)
+    setFrequency(habit.frequency)
+    setOpen(true)
+  }
   const handleClose = () => {
     setOpen(false)
     setTitle('')
     setFrequency('DAILY')
+    setIsEditMode(false)
+    setEditId(null)
   }
 
   const handleViewOpen = (habit) => {
@@ -41,7 +58,11 @@ const Habits = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(addHabit({ title, frequency }))
+    if (isEditMode && editId) {
+      dispatch(updateHabit({ id: editId, data: { title, frequency } }))
+    } else {
+      dispatch(addHabit({ title, frequency }))
+    }
     handleClose()
   }
 
@@ -86,12 +107,15 @@ const Habits = () => {
               <Card sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                   <Box>
-                    <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2, mb: 0.5 }}>{habit.title}</Typography>
+                    <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2, mb: 0.5, wordBreak: 'break-word', pr: 2 }}>{habit.title}</Typography>
                     <Typography variant="caption" sx={{ bgcolor: 'action.selected', color: 'text.secondary', px: 1, py: 0.25, borderRadius: 1, fontWeight: 600 }}>{habit.frequency}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', gap: 0.5 }}>
                     <IconButton size="small" color="primary" onClick={() => handleViewOpen(habit)}>
                       <VisibilityIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton size="small" color="primary" onClick={() => handleEditOpen(habit)}>
+                      <EditIcon fontSize="small" />
                     </IconButton>
                     <IconButton color="error" size="small" onClick={() => handleDelete(habit.id)}>
                       <DeleteIcon fontSize="small" />
@@ -117,7 +141,7 @@ const Habits = () => {
 
       {/* Add Habit Dialog */}
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700 }}>Add New Habit</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700 }}>{isEditMode ? 'Edit Habit' : 'Add New Habit'}</DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField label="Title" variant="outlined" fullWidth required value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -131,7 +155,7 @@ const Habits = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit" variant="contained" color="primary">Add</Button>
+            <Button type="submit" variant="contained" color="primary">{isEditMode ? 'Update' : 'Add'}</Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -144,9 +168,9 @@ const Habits = () => {
             <>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary">Habit</Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedHabit.title}</Typography>
+                <Typography variant="body1" sx={{ fontWeight: 600, wordBreak: 'break-word' }}>{selectedHabit.title}</Typography>
               </Box>
-              <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', gap: { xs: 2, sm: 4 }, flexWrap: 'wrap', alignItems: 'center' }}>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">Frequency</Typography>
                   <Typography variant="body2" sx={{ bgcolor: 'action.selected', color: 'text.secondary', px: 1.5, py: 0.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', display: 'inline-block', mt: 0.5, fontWeight: 600 }}>

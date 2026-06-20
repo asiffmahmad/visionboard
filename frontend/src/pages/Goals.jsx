@@ -4,7 +4,8 @@ import { Box, Typography, Button, Grid, Card, CardContent, CircularProgress, Dia
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import { fetchGoals, addGoal, deleteGoal } from '../features/goalSlice'
+import EditIcon from '@mui/icons-material/Edit'
+import { fetchGoals, addGoal, deleteGoal, updateGoal } from '../features/goalSlice'
 import { fetchVisions } from '../features/visionSlice'
 import FlagIcon from '@mui/icons-material/Flag'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -18,19 +19,40 @@ const Goals = () => {
   const [open, setOpen] = useState(false)
   const [viewOpen, setViewOpen] = useState(false)
   const [selectedGoal, setSelectedGoal] = useState(null)
+  
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [editId, setEditId] = useState(null)
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [goalType, setGoalType] = useState('SHORT_TERM')
   const [targetDate, setTargetDate] = useState('')
   const [visionId, setVisionId] = useState('')
+  const [status, setStatus] = useState('PENDING')
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     dispatch(fetchGoals())
     dispatch(fetchVisions())
   }, [dispatch])
 
-  const handleOpen = () => setOpen(true)
+  const handleOpen = () => {
+    setIsEditMode(false)
+    setEditId(null)
+    setOpen(true)
+  }
+  const handleEditOpen = (goal) => {
+    setIsEditMode(true)
+    setEditId(goal.id)
+    setTitle(goal.title)
+    setDescription(goal.description)
+    setGoalType(goal.goalType)
+    setTargetDate(goal.targetDate)
+    setVisionId(goal.visionId ? String(goal.visionId) : '')
+    setStatus(goal.status)
+    setProgress(goal.progress)
+    setOpen(true)
+  }
   const handleClose = () => {
     setOpen(false)
     setTitle('')
@@ -38,6 +60,8 @@ const Goals = () => {
     setGoalType('SHORT_TERM')
     setTargetDate('')
     setVisionId('')
+    setIsEditMode(false)
+    setEditId(null)
   }
 
   const handleViewOpen = (goal) => {
@@ -51,7 +75,11 @@ const Goals = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(addGoal({ title, description, goalType, targetDate, visionId: Number(visionId), status: 'PENDING', progress: 0 }))
+    if (isEditMode && editId) {
+      dispatch(updateGoal({ id: editId, data: { title, description, goalType, targetDate, visionId: Number(visionId), status, progress } }))
+    } else {
+      dispatch(addGoal({ title, description, goalType, targetDate, visionId: Number(visionId), status: 'PENDING', progress: 0 }))
+    }
     handleClose()
   }
 
@@ -92,17 +120,20 @@ const Goals = () => {
               <Card sx={{ position: 'relative' }}>
                 <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <Typography variant="h6" fontWeight={700} sx={{ pr: 6, mb: 1.5 }}>{goal.title}</Typography>
+                    <Typography variant="h6" fontWeight={700} sx={{ pr: 14, mb: 1.5, wordBreak: 'break-word' }}>{goal.title}</Typography>
                     <Box sx={{ display: 'flex', gap: 0.5, position: 'absolute', top: 16, right: 16 }}>
                       <IconButton size="small" color="primary" onClick={() => handleViewOpen(goal)}>
                         <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" color="primary" onClick={() => handleEditOpen(goal)}>
+                        <EditIcon fontSize="small" />
                       </IconButton>
                       <IconButton size="small" color="error" onClick={() => handleDelete(goal.id)}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Box>
                   </Box>
-                  <Typography variant="body2" color="text.secondary" sx={{ height: 48, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', mb: 2.5 }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ height: 48, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', mb: 2.5, wordBreak: 'break-word' }}>
                     {goal.description}
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -122,7 +153,7 @@ const Goals = () => {
 
       {/* Create Goal Modal */}
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700 }}>Create New Goal</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700 }}>{isEditMode ? 'Edit Goal' : 'Create New Goal'}</DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField label="Title" variant="outlined" fullWidth required value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -156,7 +187,7 @@ const Goals = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit" variant="contained" color="primary">Create</Button>
+            <Button type="submit" variant="contained" color="primary">{isEditMode ? 'Update' : 'Create'}</Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -169,13 +200,13 @@ const Goals = () => {
             <>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary">Title</Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedGoal.title}</Typography>
+                <Typography variant="body1" sx={{ fontWeight: 600, wordBreak: 'break-word' }}>{selectedGoal.title}</Typography>
               </Box>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary">Description</Typography>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>{selectedGoal.description}</Typography>
+                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{selectedGoal.description}</Typography>
               </Box>
-              <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', gap: { xs: 2, sm: 4 }, flexWrap: 'wrap', alignItems: 'center' }}>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">Goal Type</Typography>
                   <Typography variant="body2" sx={{ bgcolor: 'action.selected', color: 'text.secondary', px: 1.5, py: 0.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', display: 'inline-block', mt: 0.5, fontWeight: 600 }}>

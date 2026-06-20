@@ -4,7 +4,8 @@ import { Box, Typography, Button, Grid, Card, CardContent, CircularProgress, Dia
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import { fetchVisions, addVision, deleteVision } from '../features/visionSlice'
+import EditIcon from '@mui/icons-material/Edit'
+import { fetchVisions, addVision, deleteVision, updateVision } from '../features/visionSlice'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 
@@ -16,22 +17,44 @@ const Visions = () => {
   const [viewOpen, setViewOpen] = useState(false)
   const [selectedVision, setSelectedVision] = useState(null)
   
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [editId, setEditId] = useState(null)
+
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [visionType, setVisionType] = useState('CAREER')
   const [targetDate, setTargetDate] = useState('')
+  const [status, setStatus] = useState('PENDING')
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     dispatch(fetchVisions())
   }, [dispatch])
 
-  const handleOpen = () => setOpen(true)
+  const handleOpen = () => {
+    setIsEditMode(false)
+    setEditId(null)
+    setOpen(true)
+  }
+  const handleEditOpen = (vision) => {
+    setIsEditMode(true)
+    setEditId(vision.id)
+    setTitle(vision.title)
+    setDescription(vision.description)
+    setVisionType(vision.visionType)
+    setTargetDate(vision.targetDate)
+    setStatus(vision.status)
+    setProgress(vision.progress)
+    setOpen(true)
+  }
   const handleClose = () => {
     setOpen(false)
     setTitle('')
     setDescription('')
     setVisionType('CAREER')
     setTargetDate('')
+    setIsEditMode(false)
+    setEditId(null)
   }
 
   const handleViewOpen = (vision) => {
@@ -45,7 +68,11 @@ const Visions = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(addVision({ title, description, visionType, targetDate, status: 'PENDING', progress: 0 }))
+    if (isEditMode && editId) {
+      dispatch(updateVision({ id: editId, data: { title, description, visionType, targetDate, status, progress } }))
+    } else {
+      dispatch(addVision({ title, description, visionType, targetDate, status: 'PENDING', progress: 0 }))
+    }
     handleClose()
   }
 
@@ -84,19 +111,22 @@ const Visions = () => {
           {visions.map((vision) => (
             <Grid item xs={12} sm={6} md={4} key={vision.id}>
               <Card sx={{ position: 'relative' }}>
-                <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
+                <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <Typography variant="h6" fontWeight={700} sx={{ pr: 6, mb: 1.5 }}>{vision.title}</Typography>
+                    <Typography variant="h6" fontWeight={700} sx={{ pr: 14, mb: 1.5, wordBreak: 'break-word' }}>{vision.title}</Typography>
                     <Box sx={{ display: 'flex', gap: 0.5, position: 'absolute', top: 16, right: 16 }}>
                       <IconButton size="small" color="primary" onClick={() => handleViewOpen(vision)}>
                         <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" color="primary" onClick={() => handleEditOpen(vision)}>
+                        <EditIcon fontSize="small" />
                       </IconButton>
                       <IconButton size="small" color="error" onClick={() => handleDelete(vision.id)}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Box>
                   </Box>
-                  <Typography variant="body2" color="text.secondary" sx={{ height: 48, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', mb: 2.5 }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ height: 48, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', mb: 2.5, wordBreak: 'break-word' }}>
                     {vision.description}
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -116,7 +146,7 @@ const Visions = () => {
 
       {/* Create Modal */}
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700 }}>Create New Vision</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700 }}>{isEditMode ? 'Edit Vision' : 'Create New Vision'}</DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField label="Title" variant="outlined" fullWidth required value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -142,7 +172,7 @@ const Visions = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit" variant="contained" color="primary">Create</Button>
+            <Button type="submit" variant="contained" color="primary">{isEditMode ? 'Update' : 'Create'}</Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -155,13 +185,13 @@ const Visions = () => {
             <>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary">Title</Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedVision.title}</Typography>
+                <Typography variant="body1" sx={{ fontWeight: 600, wordBreak: 'break-word' }}>{selectedVision.title}</Typography>
               </Box>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary">Description</Typography>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>{selectedVision.description}</Typography>
+                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{selectedVision.description}</Typography>
               </Box>
-              <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', gap: { xs: 2, sm: 4 }, flexWrap: 'wrap', alignItems: 'center' }}>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">Vision Type</Typography>
                   <Typography variant="body2" sx={{ bgcolor: 'action.selected', color: 'text.secondary', px: 1.5, py: 0.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', display: 'inline-block', mt: 0.5, fontWeight: 600 }}>
