@@ -31,10 +31,15 @@ const StatItem = ({ icon, label, value, color }) => (
 )
 
 const DashboardHero = ({ user, activeVision, activeGoal, topTask, streak }) => {
+  const hour = new Date().getHours()
+  let greeting = 'Good Evening'
+  if (hour >= 0 && hour < 12) greeting = 'Good Morning'
+  else if (hour >= 12 && hour < 17) greeting = 'Good Afternoon'
+
   return (
     <Box sx={{ mb: 4 }}>
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, letterSpacing: '-0.02em', color: 'text.primary' }}>
-        Good Morning, {user?.username || 'User'}
+        {greeting}, {user?.username || 'User'}
       </Typography>
       
       <Box sx={{ 

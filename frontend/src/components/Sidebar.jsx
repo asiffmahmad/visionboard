@@ -25,6 +25,7 @@ import NotesIcon from '@mui/icons-material/Notes'
 import BookIcon from '@mui/icons-material/Book'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import StarIcon from '@mui/icons-material/Star'
+import InfoIcon from '@mui/icons-material/Info'
 import { useSelector } from 'react-redux'
 import { logout } from '../services/authService'
 
@@ -48,11 +49,13 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
     { text: 'Notes', icon: <NotesIcon />, path: '/notes' },
     { text: 'Journal', icon: <BookIcon />, path: '/journal' },
     { text: 'Profile', icon: <PersonIcon />, path: '/profile' },
+    { text: 'About', icon: <InfoIcon />, path: '/about' },
   ]
 
   if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') {
     menuItems.push({ text: 'Admin', icon: <AdminPanelSettingsIcon />, path: '/admin' })
     menuItems.push({ text: 'Manage Users', icon: <PersonIcon />, path: '/admin/users' })
+    menuItems.push({ text: 'User Feedback', icon: <StarIcon />, path: '/admin/reviews' })
   }
 
   const drawerContent = (

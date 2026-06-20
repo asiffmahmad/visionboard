@@ -23,6 +23,8 @@ import Admin from '../pages/Admin'
 import AdminUsers from '../pages/AdminUsers'
 import NotFound from '../pages/NotFound'
 import HabitDetailPage from '../pages/HabitDetailPage'
+import About from '../pages/About'
+import AdminReviews from '../pages/AdminReviews'
 
 const AppRoutes = () => {
   return (
@@ -43,6 +45,7 @@ const AppRoutes = () => {
           <Route path="/tasks/create" element={<CreateTask />} />
           <Route path="/tasks/:id/edit" element={<EditTask />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/about" element={<About />} />
           <Route path="/visions" element={<Visions />} />
           <Route path="/goals" element={<Goals />} />
           <Route path="/habits" element={<Habits />} />
@@ -54,6 +57,7 @@ const AppRoutes = () => {
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/reviews" element={<AdminReviews />} />
           </Route>
         </Route>
       </Route>
@@ -65,4 +69,3 @@ const AppRoutes = () => {
 }
 
 export default AppRoutes
-

@@ -80,7 +80,7 @@ const Dashboard = () => {
   const topTask = safeTasks.filter(t => t.status !== 'COMPLETED')[0]
 
   return (
-    <Box sx={{ pb: 6, bgcolor: '#fafafa', minHeight: '100vh', mt: -3, pt: 3, px: { xs: 0, sm: 2 } }}>
+    <Box sx={{ pb: 6, bgcolor: 'background.default', minHeight: '100vh', mt: -3, pt: 3, px: { xs: 0, sm: 2 } }}>
       {/* Announcements Banner */}
       {activeAnnouncements && activeAnnouncements.map(announcement => (
         <Alert severity="info" sx={{ mb: 3 }} key={announcement.id}>
@@ -97,29 +97,55 @@ const Dashboard = () => {
         streak={stats.bestStreak} 
       />
 
-      {/* 3-Column Grid Layout */}
-      <Grid container spacing={3}>
+      {/* 3-Column Layout (Carousel on Mobile) */}
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'row', md: 'row' },
+        overflowX: { xs: 'auto', md: 'visible' }, 
+        scrollSnapType: { xs: 'x mandatory', md: 'none' },
+        gap: 3,
+        pb: { xs: 2, md: 0 },
+        mx: { xs: -2, sm: 0 },
+        px: { xs: 2, sm: 0 },
+        '&::-webkit-scrollbar': { display: 'none' },
+        scrollbarWidth: 'none'
+      }}>
         {/* Column 1 */}
-        <Grid item xs={12} md={6} lg={4} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Box sx={{ 
+          minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
+          flex: { md: 1 }, 
+          scrollSnapAlign: 'center',
+          display: 'flex', flexDirection: 'column', gap: 3 
+        }}>
           <VisionProgressCard vision={activeVision} />
           <FocusTasksCard tasks={safeTasks} onComplete={handleTaskComplete} />
           <QuickActionsCard />
-        </Grid>
+        </Box>
 
         {/* Column 2 */}
-        <Grid item xs={12} md={6} lg={4} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Box sx={{ 
+          minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
+          flex: { md: 1 }, 
+          scrollSnapAlign: 'center',
+          display: 'flex', flexDirection: 'column', gap: 3 
+        }}>
           <GoalRadarCard goals={safeGoals} />
           <WeeklyProgressCard tasks={safeTasks} />
           <FocusInsightsCard tasks={safeTasks} goals={safeGoals} stats={stats} />
-        </Grid>
+        </Box>
 
         {/* Column 3 */}
-        <Grid item xs={12} md={12} lg={4} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Box sx={{ 
+          minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
+          flex: { md: 1 }, 
+          scrollSnapAlign: 'center',
+          display: 'flex', flexDirection: 'column', gap: 3 
+        }}>
           <HabitHeatmapCard stats={stats} habits={safeHabits} />
           <UpcomingDeadlinesCard tasks={safeTasks} goals={safeGoals} />
           <RecentWinsCard tasks={safeTasks} goals={safeGoals} habits={safeHabits} />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       <ToastNotification
         open={toastOpen}

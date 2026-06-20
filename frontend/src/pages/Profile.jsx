@@ -150,6 +150,70 @@ const Profile = () => {
               </Box>
             </CardContent>
           </Card>
+          
+          {/* Data Export / Import */}
+          <Card sx={{ mt: 4, textAlign: 'center', p: 3 }}>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                Data Management
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Export all your tasks, goals, habits, visions, and journal entries, or import a backup.
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, mt: 1, width: '100%', flexDirection: 'column' }}>
+                <Button 
+                  variant="outlined" 
+                  fullWidth
+                  onClick={async () => {
+                    try {
+                      const res = await import('../services/api').then(m => m.default.get('/api/v1/sync/export'))
+                      const blob = new Blob([JSON.stringify(res.data, null, 2)], { type: 'application/json' })
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = `visionboard-backup-${new Date().toISOString().split('T')[0]}.json`
+                      document.body.appendChild(a)
+                      a.click()
+                      document.body.removeChild(a)
+                      showToast('Data exported successfully!', 'success')
+                    } catch (e) {
+                      showToast('Failed to export data', 'error')
+                    }
+                  }}
+                >
+                  Export Data
+                </Button>
+                
+                <input 
+                  type="file" 
+                  accept=".json" 
+                  style={{ display: 'none' }} 
+                  id="import-file"
+                  onChange={async (e) => {
+                    const file = e.target.files[0]
+                    if (!file) return
+                    try {
+                      const text = await file.text()
+                      const data = JSON.parse(text)
+                      await import('../services/api').then(m => m.default.post('/api/v1/sync/import', data))
+                      showToast('Data imported successfully!', 'success')
+                      setTimeout(() => window.location.reload(), 1500)
+                    } catch (err) {
+                      showToast('Invalid backup file or import failed', 'error')
+                    }
+                  }}
+                />
+                <Button 
+                  variant="contained" 
+                  color="secondary"
+                  fullWidth
+                  onClick={() => document.getElementById('import-file').click()}
+                >
+                  Import Data
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
         </Grid>
 
         {/* Edit Form */}
