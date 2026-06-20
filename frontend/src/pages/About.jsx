@@ -75,7 +75,7 @@ const About = () => {
             <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8 }}>
               <b>Version:</b> 1.1.0<br/>
               <b>Last Updated:</b> {new Date().toLocaleDateString()}<br/>
-              <b>Support:</b> For any technical issues or feature requests, please submit a review on this page or contact our support team at <a href="mailto:support@visionboard.com" style={{ color: '#2563eb' }}>support@visionboard.com</a>.
+              <b>Support:</b> For any technical issues or feature requests, please submit a review on this page.
             </Typography>
           </Paper>
         </Grid>

@@ -16,6 +16,7 @@ public class HabitLog {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "habit_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Habit habit;
 
     @Column(name = "date", nullable = false)

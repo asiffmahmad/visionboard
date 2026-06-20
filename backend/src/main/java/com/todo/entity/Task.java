@@ -39,10 +39,12 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goal_id")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Goal goal;
 
     @Column(name = "tags", length = 1000)
