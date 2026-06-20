@@ -91,7 +91,37 @@ const AdminReviews = () => {
         </TextField>
       </Box>
 
-      <TableContainer component={Paper} sx={{ borderRadius: 3, border: (theme) => `1px solid ${theme.palette.divider}`, overflowX: 'auto' }}>
+      {/* Mobile View (Cards) */}
+      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+        {filteredReviews.length === 0 ? (
+          <Typography color="text.secondary" align="center" sx={{ py: 4 }}>No reviews match your filters.</Typography>
+        ) : (
+          filteredReviews.map((review) => (
+            <Paper key={review.id} elevation={2} sx={{ mb: 2, p: 2, borderRadius: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                <Box>
+                  <Typography variant="subtitle2" fontWeight="bold">{review.username}</Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </Typography>
+                </Box>
+                <Tooltip title="Delete Review">
+                  <IconButton color="error" size="small" onClick={() => handleDelete(review.id)}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Rating value={review.rating} readOnly size="small" sx={{ mb: 1 }} />
+              <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', bgcolor: 'action.hover', p: 1.5, borderRadius: 1 }}>
+                {review.content}
+              </Typography>
+            </Paper>
+          ))
+        )}
+      </Box>
+
+      {/* Desktop View (Table) */}
+      <TableContainer component={Paper} sx={{ display: { xs: 'none', md: 'block' }, borderRadius: 3, border: (theme) => `1px solid ${theme.palette.divider}`, overflowX: 'auto' }}>
         <Table sx={{ minWidth: 600 }}>
           <TableHead sx={{ bgcolor: 'action.hover' }}>
             <TableRow>

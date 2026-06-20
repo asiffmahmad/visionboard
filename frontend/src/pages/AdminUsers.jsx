@@ -54,14 +54,78 @@ const AdminUsers = () => {
   if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}><CircularProgress /></Box>;
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
       <Typography variant="h4" gutterBottom fontWeight="bold" color="primary">
         Manage Users
       </Typography>
       
       {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
 
-      <TableContainer component={Paper} elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
+      {/* Mobile View (Cards) */}
+      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+        {users.length === 0 ? (
+          <Typography color="text.secondary" align="center" sx={{ py: 4 }}>No users found.</Typography>
+        ) : (
+          users.map((user) => (
+            <Paper key={user.id} elevation={2} sx={{ mb: 2, p: 2, borderRadius: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  {user.username}
+                </Typography>
+                <Chip 
+                  icon={(user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') ? <AdminPanelSettings /> : <Person />}
+                  label={user.role === 'SUPER_ADMIN' ? 'SUPER ADMIN' : user.role} 
+                  color={user.role === 'SUPER_ADMIN' ? 'warning' : user.role === 'ADMIN' ? 'secondary' : 'default'}
+                  size="small"
+                />
+              </Box>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                {user.email}
+              </Typography>
+              
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Tasks</Typography>
+                  <Typography variant="body2" fontWeight="bold">{user.tasksCount}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Goals</Typography>
+                  <Typography variant="body2" fontWeight="bold">{user.goalsCount}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Habits</Typography>
+                  <Typography variant="body2" fontWeight="bold">{user.habitsCount}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Visions</Typography>
+                  <Typography variant="body2" fontWeight="bold">{user.visionsCount}</Typography>
+                </Box>
+              </Box>
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  Last Login: {user.lastSeen ? new Date(user.lastSeen).toLocaleDateString() : 'Never'}
+                </Typography>
+                {user.role === 'SUPER_ADMIN' ? (
+                  <Typography variant="caption" color="text.secondary" fontWeight="bold">Protected</Typography>
+                ) : (
+                  <Button 
+                    variant={user.role === 'ADMIN' ? 'outlined' : 'contained'}
+                    color={user.role === 'ADMIN' ? 'error' : 'secondary'}
+                    size="small"
+                    onClick={() => handleToggleRole(user.id, user.role)}
+                  >
+                    {user.role === 'ADMIN' ? 'Revoke Admin' : 'Make Admin'}
+                  </Button>
+                )}
+              </Box>
+            </Paper>
+          ))
+        )}
+      </Box>
+
+      {/* Desktop View (Table) */}
+      <TableContainer component={Paper} elevation={3} sx={{ borderRadius: 2, overflowX: 'auto', display: { xs: 'none', md: 'block' } }}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead sx={{ bgcolor: 'primary.main' }}>
             <TableRow>
