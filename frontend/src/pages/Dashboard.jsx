@@ -98,18 +98,22 @@ const Dashboard = () => {
       />
 
       {/* 3-Column Layout (Carousel on Mobile) */}
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: { xs: 'row', md: 'row' },
-        overflowX: { xs: 'auto', md: 'visible' }, 
-        scrollSnapType: { xs: 'x mandatory', md: 'none' },
-        gap: 3,
-        pb: { xs: 2, md: 0 },
-        mx: { xs: -2, sm: 0 },
-        px: { xs: 2, sm: 0 },
-        '&::-webkit-scrollbar': { display: 'none' },
-        scrollbarWidth: 'none'
-      }}>
+      <Box 
+        role="region" 
+        aria-label="Dashboard widgets carousel"
+        sx={{ 
+          display: 'flex', 
+          flexDirection: { xs: 'row', md: 'row' },
+          overflowX: { xs: 'auto', md: 'visible' }, 
+          scrollSnapType: { xs: 'x mandatory', md: 'none' },
+          gap: 3,
+          pb: { xs: 2, md: 0 },
+          mx: { xs: -2, sm: 0 },
+          px: { xs: 2, sm: 0 },
+          '&::-webkit-scrollbar': { display: 'none' },
+          scrollbarWidth: 'none'
+        }}
+      >
         {/* Column 1 */}
         <Box sx={{ 
           minWidth: { xs: '85vw', sm: '320px', md: '0' }, 

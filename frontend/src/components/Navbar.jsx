@@ -90,7 +90,7 @@ const Navbar = ({ onDrawerToggle, drawerWidth }) => {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {/* Theme Toggle Button */}
-          <IconButton color="inherit" onClick={() => dispatch(toggleTheme())}>
+          <IconButton color="inherit" onClick={() => dispatch(toggleTheme())} aria-label="Toggle dark mode">
             {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
 
@@ -98,6 +98,10 @@ const Navbar = ({ onDrawerToggle, drawerWidth }) => {
           {user && (
             <Box
               onClick={handleMenuOpen}
+              role="button"
+              tabIndex={0}
+              aria-label="Open user menu"
+              onKeyPress={(e) => e.key === 'Enter' && handleMenuOpen(e)}
               sx={{
                 display: 'flex',
                 alignItems: 'center',

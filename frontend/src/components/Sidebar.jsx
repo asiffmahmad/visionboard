@@ -88,6 +88,8 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
                 <ListItemButton
                   component={Link}
                   to={item.path}
+                  onClick={() => { if (mobileOpen) onDrawerToggle() }}
+                  aria-label={`Navigate to ${item.text}`}
                   sx={{
                     borderRadius: 2,
                     py: 1.2,
@@ -129,7 +131,11 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
       <Box sx={{ p: 2 }}>
         <Divider sx={{ mb: 2 }} />
         <ListItemButton
-          onClick={handleLogout}
+          onClick={() => {
+            if (mobileOpen) onDrawerToggle();
+            handleLogout();
+          }}
+          aria-label="Logout"
           sx={{
             borderRadius: 2,
             py: 1.2,

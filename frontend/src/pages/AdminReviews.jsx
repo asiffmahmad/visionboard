@@ -64,13 +64,14 @@ const AdminReviews = () => {
         Review, search, filter, and moderate user feedback to improve the platform.
       </Typography>
 
-      <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 3 }}>
         <TextField
           size="small"
           placeholder="Search reviews or users..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ width: 300 }}
+          sx={{ width: { xs: '100%', sm: 300 } }}
+          inputProps={{ 'aria-label': 'Search reviews' }}
           InputProps={{
             startAdornment: <SearchIcon color="action" sx={{ mr: 1 }} />
           }}
@@ -80,7 +81,8 @@ const AdminReviews = () => {
           size="small"
           value={ratingFilter}
           onChange={(e) => setRatingFilter(e.target.value)}
-          sx={{ width: 150 }}
+          sx={{ width: { xs: '100%', sm: 150 } }}
+          inputProps={{ 'aria-label': 'Filter by rating' }}
         >
           <MenuItem value="ALL">All Ratings</MenuItem>
           {[5, 4, 3, 2, 1].map(r => (
@@ -89,8 +91,8 @@ const AdminReviews = () => {
         </TextField>
       </Box>
 
-      <TableContainer component={Paper} sx={{ borderRadius: 3, border: (theme) => `1px solid ${theme.palette.divider}` }}>
-        <Table>
+      <TableContainer component={Paper} sx={{ borderRadius: 3, border: (theme) => `1px solid ${theme.palette.divider}`, overflowX: 'auto' }}>
+        <Table sx={{ minWidth: 600 }}>
           <TableHead sx={{ bgcolor: 'action.hover' }}>
             <TableRow>
               <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
