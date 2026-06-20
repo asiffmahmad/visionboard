@@ -22,6 +22,9 @@ public class HabitLog {
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
+    @Column(name = "completed_date")
+    private LocalDate completedDate;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private com.todo.enums.HabitLogStatus status = com.todo.enums.HabitLogStatus.NONE;
@@ -72,6 +75,14 @@ public class HabitLog {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public LocalDate getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(LocalDate completedDate) {
+        this.completedDate = completedDate;
     }
 
     public com.todo.enums.HabitLogStatus getStatus() {

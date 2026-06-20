@@ -34,9 +34,9 @@ export const deleteHabit = createAsyncThunk('habits/delete', async (id, thunkAPI
   }
 });
 
-export const logHabit = createAsyncThunk('habits/log', async ({ id, date, completed }, thunkAPI) => {
+export const logHabit = createAsyncThunk('habits/log', async ({ id, date, status }, thunkAPI) => {
   try {
-    return await habitService.logHabit(id, date, completed);
+    return await habitService.logHabit(id, date, status);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to log habit');
   }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Box, Typography, Button, Grid, Card, CardContent, CircularProgress, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material'
+import { Box, Typography, Button, Grid, Card, CardContent, CircularProgress, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, InputLabel, FormControl, Divider } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { fetchHabits, addHabit, logHabit, deleteHabit } from '../features/habitSlice'
 import RepeatIcon from '@mui/icons-material/Repeat'
+import HabitWeeklyTracker from '../components/habits/HabitWeeklyTracker'
 
 const Habits = () => {
   const dispatch = useDispatch()
@@ -45,9 +45,8 @@ const Habits = () => {
     handleClose()
   }
 
-  const handleLogHabit = (id) => {
-    const today = new Date().toISOString().split('T')[0]
-    dispatch(logHabit({ id, date: today, completed: true }))
+  const handleLogStatus = (id, date, status) => {
+    dispatch(logHabit({ id, date, status }))
   }
 
   const handleDelete = (id) => {
@@ -84,18 +83,12 @@ const Habits = () => {
         <Grid container spacing={3}>
           {habits.map((habit) => (
             <Grid item xs={12} sm={6} md={4} key={habit.id}>
-              <Card sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
+              <Card sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid', borderColor: 'divider', boxShadow: 'none', borderRadius: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                   <Box>
                     <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2, mb: 0.5 }}>{habit.title}</Typography>
                     <Typography variant="caption" sx={{ bgcolor: 'action.selected', color: 'text.secondary', px: 1, py: 0.25, borderRadius: 1, fontWeight: 600 }}>{habit.frequency}</Typography>
                   </Box>
-                  <IconButton color="success" size="small" onClick={() => handleLogHabit(habit.id)}>
-                    <CheckCircleIcon />
-                  </IconButton>
-                </Box>
-                <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>🔥 {habit.streak} Day Streak</Typography>
                   <Box sx={{ display: 'flex', gap: 0.5 }}>
                     <IconButton size="small" color="primary" onClick={() => handleViewOpen(habit)}>
                       <VisibilityIcon fontSize="small" />
@@ -104,6 +97,17 @@ const Habits = () => {
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </Box>
+                </Box>
+                
+                <Box sx={{ my: 2 }}>
+                  <HabitWeeklyTracker habit={habit} onLogStatus={handleLogStatus} />
+                </Box>
+
+                <Divider sx={{ mb: 2 }} />
+
+                <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>🔥 {habit.streak} Day Streak</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>{habit.completionRate.toFixed(1)}%</Typography>
                 </Box>
               </Card>
             </Grid>
@@ -155,8 +159,19 @@ const Habits = () => {
                 </Box>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">Completion Rate</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedHabit.completionRate}%</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedHabit.completionRate.toFixed(1)}%</Typography>
                 </Box>
+              </Box>
+
+              <Divider sx={{ my: 2 }} />
+              
+              <Typography variant="subtitle1" fontWeight="bold">History Tracker</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Click on any day below to manually set its completion status. This helps you maintain accurate logs for past days.
+              </Typography>
+              
+              <Box sx={{ bgcolor: 'background.default', p: 2, borderRadius: 2 }}>
+                <HabitWeeklyTracker habit={selectedHabit} onLogStatus={handleLogStatus} />
               </Box>
             </>
           )}

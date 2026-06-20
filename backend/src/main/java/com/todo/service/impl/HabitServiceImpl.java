@@ -94,22 +94,29 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     @Transactional
-    public HabitDto logHabit(Long id, LocalDate date, boolean completed, String username) {
+    public HabitDto logHabit(Long id, LocalDate date, String status, String username) {
         Habit habit = habitRepository.findByIdAndUserUsername(id, username)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found"));
 
         Optional<HabitLog> existingLog = habitLogRepository.findByHabitIdAndDate(id, date);
 
-        com.todo.enums.HabitLogStatus newStatus = completed ? com.todo.enums.HabitLogStatus.COMPLETED : com.todo.enums.HabitLogStatus.NONE;
+        com.todo.enums.HabitLogStatus newStatus;
+        try {
+            newStatus = com.todo.enums.HabitLogStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            newStatus = com.todo.enums.HabitLogStatus.NONE;
+        }
 
         if (existingLog.isPresent()) {
             HabitLog log = existingLog.get();
             log.setStatus(newStatus);
+            log.setCompletedDate(date);
             habitLogRepository.save(log);
         } else {
             HabitLog log = new HabitLog();
             log.setHabit(habit);
             log.setDate(date);
+            log.setCompletedDate(date);
             log.setStatus(newStatus);
             habitLogRepository.save(log);
         }
@@ -119,7 +126,13 @@ public class HabitServiceImpl implements HabitService {
         long completedLogs = habitLogRepository.findByHabitIdOrderByDateDesc(id).stream().filter(l -> l.getStatus() == com.todo.enums.HabitLogStatus.COMPLETED).count();
         habit.setCompletionRate(totalLogs > 0 ? (double) completedLogs / totalLogs * 100 : 0.0);
         
-        habit.setStreak(completed ? habit.getStreak() + 1 : 0);
+        // Recalculate streak
+        if (newStatus == com.todo.enums.HabitLogStatus.COMPLETED) {
+            habit.setStreak(habit.getStreak() + 1);
+        } else if (newStatus == com.todo.enums.HabitLogStatus.FAILED) {
+            habit.setStreak(0);
+        } // SKIPPED maintains the streak
+        
         if (habit.getStreak() > habit.getBestStreak()) {
             habit.setBestStreak(habit.getStreak());
         }
@@ -147,10 +160,12 @@ public class HabitServiceImpl implements HabitService {
             log = new HabitLog();
             log.setHabit(habit);
             log.setDate(date);
+            log.setCompletedDate(date);
         }
 
         log.setStatus(com.todo.enums.HabitLogStatus.SKIPPED);
         log.setSkipReason(skipReason);
+        log.setCompletedDate(date);
         log.setNotes(notes);
         habitLogRepository.save(log);
 

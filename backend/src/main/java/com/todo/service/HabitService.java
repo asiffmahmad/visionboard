@@ -12,6 +12,6 @@ public interface HabitService {
     void deleteHabit(Long id, String username);
     HabitDto getHabit(Long id, String username);
     List<HabitDto> getAllHabits(String username);
-    HabitDto logHabit(Long id, LocalDate date, boolean completed, String username);
+    HabitDto logHabit(Long id, LocalDate date, String status, String username);
     HabitDto skipHabit(Long id, LocalDate date, String skipReason, String notes, String username);
 }

@@ -17,11 +17,16 @@ public class HabitMapper {
             return null;
         }
 
-        List<LocalDate> completedDates = null;
+        List<com.todo.dto.HabitLogDto> logs = null;
         if (habit.getLogs() != null) {
-            completedDates = habit.getLogs().stream()
-                .filter(log -> log.getStatus() == com.todo.enums.HabitLogStatus.COMPLETED)
-                .map(HabitLog::getDate)
+            logs = habit.getLogs().stream()
+                .map(log -> new com.todo.dto.HabitLogDto(
+                    log.getId(),
+                    log.getDate(),
+                    log.getStatus(),
+                    log.getSkipReason(),
+                    log.getNotes()
+                ))
                 .collect(Collectors.toList());
         }
 
@@ -36,7 +41,7 @@ public class HabitMapper {
             habit.getCompletionRate(),
             habit.getHealthScore(),
             habit.getDaysActive(),
-            completedDates,
+            logs,
             habit.getCreatedAt(),
             habit.getUpdatedAt()
         );

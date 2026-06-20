@@ -60,7 +60,7 @@ const Admin = () => {
         <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
             <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                   <Typography variant="h6" fontWeight={700}>Feature Flags</Typography>
                 </Box>
@@ -84,7 +84,7 @@ const Admin = () => {
           
           <Grid item xs={12} md={6}>
             <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, alignItems: 'center' }}>
                   <Typography variant="h6" fontWeight={700}>Announcements</Typography>
                   <Button size="small" variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>New</Button>

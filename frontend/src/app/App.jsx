@@ -1,12 +1,21 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import AppRoutes from '../routes/AppRoutes'
+import { fetchProfile } from '../features/authSlice'
 
 const App = () => {
   const { darkMode } = useSelector((state) => state.theme)
+  const { isAuthenticated } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchProfile())
+    }
+  }, [isAuthenticated, dispatch])
 
   const theme = useMemo(
     () =>

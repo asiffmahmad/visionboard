@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
+import com.todo.security.UserPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +29,9 @@ public class ReviewController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
-    public ResponseEntity<ReviewDto> submitReview(Authentication authentication, @RequestBody ReviewDto dto) {
-        User user = userRepository.findByEmail(authentication.getName()).orElseThrow();
+    @Transactional
+    public ResponseEntity<ReviewDto> submitReview(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody ReviewDto dto) {
+        User user = userRepository.findById(userPrincipal.getId()).orElseThrow();
         Review review = new Review();
         review.setUser(user);
         review.setContent(dto.getContent());
@@ -39,6 +43,7 @@ public class ReviewController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<ReviewDto>> getAllReviews() {
         List<ReviewDto> reviews = reviewRepository.findAll().stream()
                 .map(this::mapToDto)

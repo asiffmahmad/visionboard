@@ -16,7 +16,7 @@ public record HabitDto(
     double completionRate,
     double healthScore,
     int daysActive,
-    List<LocalDate> completedDates,
+    List<HabitLogDto> logs,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {}

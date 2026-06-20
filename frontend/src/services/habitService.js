@@ -27,8 +27,8 @@ export const deleteHabit = async (id) => {
   return response.data;
 };
 
-export const logHabit = async (id, date, completed) => {
-  const response = await api.post(`${API_URL}/${id}/log?date=${date}&completed=${completed}`);
+export const logHabit = async (id, date, status) => {
+  const response = await api.post(`${API_URL}/${id}/log?date=${date}&status=${status}`);
   return response.data;
 };
 

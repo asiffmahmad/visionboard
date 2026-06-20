@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import api from '../services/api'
 
 const token = localStorage.getItem('token')
 const refreshToken = localStorage.getItem('refreshToken')
@@ -10,6 +11,15 @@ try {
 } catch (e) {
   localStorage.removeItem('user')
 }
+
+export const fetchProfile = createAsyncThunk('auth/fetchProfile', async (_, thunkAPI) => {
+  try {
+    const response = await api.get('/api/users/profile');
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch profile');
+  }
+});
 
 const initialState = {
   user: user,
@@ -66,6 +76,12 @@ const authSlice = createSlice({
       state.error = null;
     }
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchProfile.fulfilled, (state, action) => {
+      state.user = action.payload;
+      localStorage.setItem('user', JSON.stringify(action.payload));
+    });
+  }
 })
 
 export const { authStart, loginSuccess, authFailure, updateTokens, logout, clearError } = authSlice.actions

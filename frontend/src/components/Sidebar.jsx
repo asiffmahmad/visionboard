@@ -41,16 +41,28 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
 
   const menuItems = [
     { text: 'Focus', icon: <StarIcon />, path: '/focus' },
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-    { text: 'Visions', icon: <VisibilityIcon />, path: '/visions' },
-    { text: 'Goals', icon: <FlagIcon />, path: '/goals' },
-    { text: 'My Tasks', icon: <AssignmentIcon />, path: '/tasks' },
-    { text: 'Habits', icon: <RepeatIcon />, path: '/habits' },
-    { text: 'Notes', icon: <NotesIcon />, path: '/notes' },
-    { text: 'Journal', icon: <BookIcon />, path: '/journal' },
-    { text: 'Profile', icon: <PersonIcon />, path: '/profile' },
-    { text: 'About', icon: <InfoIcon />, path: '/about' },
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' }
   ]
+
+  // Toggleable Features
+  if (user?.features?.VISIONS_MODULE !== false) {
+    menuItems.push({ text: 'Visions', icon: <VisibilityIcon />, path: '/visions' })
+  }
+  if (user?.features?.GOALS_MODULE !== false) {
+    menuItems.push({ text: 'Goals', icon: <FlagIcon />, path: '/goals' })
+  }
+  if (user?.features?.TASKS_MODULE !== false) {
+    menuItems.push({ text: 'My Tasks', icon: <AssignmentIcon />, path: '/tasks' })
+  }
+  if (user?.features?.HABITS_MODULE !== false) {
+    menuItems.push({ text: 'Habits', icon: <RepeatIcon />, path: '/habits' })
+  }
+
+  // Notes and Journal are now default visible along with Profile and About
+  menuItems.push({ text: 'Notes', icon: <NotesIcon />, path: '/notes' })
+  menuItems.push({ text: 'Journal', icon: <BookIcon />, path: '/journal' })
+  menuItems.push({ text: 'Profile', icon: <PersonIcon />, path: '/profile' })
+  menuItems.push({ text: 'About', icon: <InfoIcon />, path: '/about' })
 
   if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') {
     menuItems.push({ text: 'Admin', icon: <AdminPanelSettingsIcon />, path: '/admin' })

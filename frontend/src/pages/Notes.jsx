@@ -79,7 +79,7 @@ const Notes = () => {
           {notes.map((note) => (
             <Grid item xs={12} sm={6} md={4} key={note.id}>
               <Card sx={{ height: '100%', position: 'relative' }}>
-                <CardContent sx={{ p: 3 }}>
+                <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <Typography variant="h6" fontWeight={700} noWrap sx={{ pr: 9, mb: 1.5 }}>{note.title}</Typography>
                     <Box sx={{ display: 'flex', gap: 0.5, position: 'absolute', top: 16, right: 16 }}>

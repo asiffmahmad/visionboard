@@ -7,6 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
+    private final com.todo.service.FeatureFlagService featureFlagService;
+
+    public UserMapper(com.todo.service.FeatureFlagService featureFlagService) {
+        this.featureFlagService = featureFlagService;
+    }
+
     public UserDto toDto(User user) {
         if (user == null) {
             return null;
@@ -15,7 +21,8 @@ public class UserMapper {
             user.getId(),
             user.getUsername(),
             user.getEmail(),
-            user.getRole().name()
+            user.getRole().name(),
+            featureFlagService.getEnabledFeaturesForUser(user.getId())
         );
     }
 }

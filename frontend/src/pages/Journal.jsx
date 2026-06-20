@@ -109,7 +109,7 @@ const Journal = () => {
           {entries.map((entry) => (
             <Grid item xs={12} key={entry.id}>
               <Card sx={{ position: 'relative' }}>
-                <CardContent sx={{ p: 3 }}>
+                <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5, pr: 8 }}>
                     <Typography variant="h6" fontWeight={700}>{entry.title}</Typography>
                     <Box sx={{ display: 'flex', gap: 0.5, position: 'absolute', top: 16, right: 16 }}>

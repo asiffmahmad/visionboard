@@ -87,7 +87,7 @@ const Focus = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           <Card sx={{ mb: 3 }}>
-            <CardContent sx={{ p: 3 }}>
+            <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
               <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
                 Today's Top Priorities
               </Typography>
@@ -112,7 +112,7 @@ const Focus = () => {
           </Card>
 
           <Card>
-            <CardContent sx={{ p: 3 }}>
+            <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
               <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
                 Daily Habits
               </Typography>
@@ -136,7 +136,7 @@ const Focus = () => {
 
         <Grid item xs={12} md={4}>
           <Card sx={{ mb: 3, background: 'linear-gradient(135deg, #1e1b4b 0%, #311042 100%)', color: 'white' }}>
-            <CardContent sx={{ p: 3 }}>
+            <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
               <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
                 Alignment
               </Typography>
@@ -162,7 +162,7 @@ const Focus = () => {
           </Card>
 
           <Card>
-            <CardContent sx={{ p: 3 }}>
+            <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
               <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
                 📝 Quick Scratchpad
               </Typography>

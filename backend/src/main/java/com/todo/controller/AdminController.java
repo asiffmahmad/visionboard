@@ -95,4 +95,9 @@ public class AdminController {
         featureFlagService.removeUserOverride(userId, featureName);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/feature-flags/user/{userId}")
+    public ResponseEntity<java.util.Map<String, Boolean>> getUserFeatures(@PathVariable Long userId) {
+        return ResponseEntity.ok(featureFlagService.getEnabledFeaturesForUser(userId));
+    }
 }

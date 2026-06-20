@@ -90,7 +90,7 @@ const Goals = () => {
           {goals.map((goal) => (
             <Grid item xs={12} sm={6} md={4} key={goal.id}>
               <Card sx={{ position: 'relative' }}>
-                <CardContent sx={{ p: 3 }}>
+                <CardContent sx={{ p: { xs: 1, sm: 2, md: 3 } }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <Typography variant="h6" fontWeight={700} sx={{ pr: 6, mb: 1.5 }}>{goal.title}</Typography>
                     <Box sx={{ display: 'flex', gap: 0.5, position: 'absolute', top: 16, right: 16 }}>

@@ -60,9 +60,9 @@ public class HabitController {
     public ResponseEntity<HabitDto> logHabit(
             @PathVariable Long id,
             @RequestParam LocalDate date,
-            @RequestParam boolean completed,
+            @RequestParam String status,
             Authentication authentication) {
-        return ResponseEntity.ok(habitService.logHabit(id, date, completed, authentication.getName()));
+        return ResponseEntity.ok(habitService.logHabit(id, date, status, authentication.getName()));
     }
 
     @GetMapping("/{id}/analytics")

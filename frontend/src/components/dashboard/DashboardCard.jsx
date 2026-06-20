@@ -19,7 +19,7 @@ const DashboardCard = ({ title, children, action, sx = {} }) => {
         ...sx,
       }}
     >
-      <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
         {title && (
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600, color: 'text.primary', letterSpacing: '-0.01em' }}>
@@ -28,7 +28,7 @@ const DashboardCard = ({ title, children, action, sx = {} }) => {
             {action && <Box>{action}</Box>}
           </Box>
         )}
-        <Box sx={{ flexGrow: 1 }}>{children}</Box>
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', minHeight: 0 }}>{children}</Box>
       </CardContent>
     </Card>
   )
