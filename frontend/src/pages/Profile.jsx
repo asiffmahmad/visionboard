@@ -167,7 +167,7 @@ const Profile = () => {
                   fullWidth
                   onClick={async () => {
                     try {
-                      const res = await import('../services/api').then(m => m.default.get('/api/v1/sync/export'))
+                      const res = await api.get('/api/v1/sync/export')
                       const blob = new Blob([JSON.stringify(res.data, null, 2)], { type: 'application/json' })
                       const url = URL.createObjectURL(blob)
                       const a = document.createElement('a')
@@ -196,7 +196,7 @@ const Profile = () => {
                     try {
                       const text = await file.text()
                       const jsonData = JSON.parse(text)
-                      const response = await api.post('/api/v1/data-sync/import', jsonData)
+                      const response = await api.post('/api/v1/sync/import', jsonData)
                       alert(`Data imported successfully! \n` +
                         `Visions: ${response.data.visionsImported}\n` +
                         `Goals: ${response.data.goalsImported}\n` +

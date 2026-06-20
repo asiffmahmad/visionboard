@@ -24,8 +24,7 @@ public class DataSyncService {
         DataSyncDto dto = new DataSyncDto();
         dto.setVisions(visionRepository.findByUserIdOrderByCreatedAtDesc(user.getId()));
         dto.setGoals(goalRepository.findByUserIdOrderByCreatedAtDesc(user.getId()));
-        // For Tasks we don't have findByUserIdOrderByCreatedAtDesc. Let's just use findByUserIdAndFilters but it requires pageable.
-        // Actually, TaskService has a method to get all tasks. Let's check TaskRepository.
+        dto.setTasks(taskRepository.findByUserIdOrderByCreatedAtDesc(user.getId()));
         dto.setHabits(habitRepository.findByUserIdOrderByCreatedAtDesc(user.getId()));
         dto.setNotes(noteRepository.findByUserUsernameOrderByCreatedAtDesc(user.getUsername()));
         dto.setJournalEntries(journalEntryRepository.findByUserIdOrderByCreatedAtDesc(user.getId()));

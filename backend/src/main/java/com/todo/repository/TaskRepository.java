@@ -35,4 +35,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Long countByUserIdAndStatus(Long userId, TaskStatus status);
 
     List<Task> findTop5ByUserIdOrderByCreatedAtDesc(Long userId);
+
+    List<Task> findByUserIdOrderByCreatedAtDesc(Long userId);
 }
