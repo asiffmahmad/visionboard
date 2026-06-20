@@ -97,29 +97,21 @@ const Dashboard = () => {
         streak={stats.bestStreak} 
       />
 
-      {/* 3-Column Layout (Carousel on Mobile) */}
+      {/* 3-Column Layout */}
       <Box 
         role="region" 
-        aria-label="Dashboard widgets carousel"
+        aria-label="Dashboard widgets"
         sx={{ 
           display: 'flex', 
-          flexDirection: { xs: 'row', md: 'row' },
-          overflowX: { xs: 'auto', md: 'visible' }, 
-          scrollSnapType: { xs: 'x mandatory', md: 'none' },
+          flexDirection: { xs: 'column', md: 'row' },
           gap: 3,
-          pb: { xs: 2, md: 0 },
-          mx: { xs: -2, sm: 0 },
-          px: { xs: 2, sm: 0 },
-          '&::-webkit-scrollbar': { display: 'none' },
-          scrollbarWidth: 'none'
+          pb: { xs: 2, md: 0 }
         }}
       >
         {/* Column 1 */}
         <Box sx={{ 
-          minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
-          flexShrink: { xs: 0, md: 1 },
+          width: { xs: '100%', md: '0' }, 
           flex: { md: 1 }, 
-          scrollSnapAlign: 'center',
           display: 'flex', flexDirection: 'column', gap: 3 
         }}>
           <VisionProgressCard vision={activeVision} />
@@ -129,10 +121,8 @@ const Dashboard = () => {
 
         {/* Column 2 */}
         <Box sx={{ 
-          minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
-          flexShrink: { xs: 0, md: 1 },
+          width: { xs: '100%', md: '0' }, 
           flex: { md: 1 }, 
-          scrollSnapAlign: 'center',
           display: 'flex', flexDirection: 'column', gap: 3 
         }}>
           <GoalRadarCard goals={safeGoals} />
@@ -142,10 +132,8 @@ const Dashboard = () => {
 
         {/* Column 3 */}
         <Box sx={{ 
-          minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
-          flexShrink: { xs: 0, md: 1 },
+          width: { xs: '100%', md: '0' }, 
           flex: { md: 1 }, 
-          scrollSnapAlign: 'center',
           display: 'flex', flexDirection: 'column', gap: 3 
         }}>
           <HabitHeatmapCard stats={stats} habits={safeHabits} />
