@@ -117,6 +117,7 @@ const Dashboard = () => {
         {/* Column 1 */}
         <Box sx={{ 
           minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
+          flexShrink: { xs: 0, md: 1 },
           flex: { md: 1 }, 
           scrollSnapAlign: 'center',
           display: 'flex', flexDirection: 'column', gap: 3 
@@ -129,6 +130,7 @@ const Dashboard = () => {
         {/* Column 2 */}
         <Box sx={{ 
           minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
+          flexShrink: { xs: 0, md: 1 },
           flex: { md: 1 }, 
           scrollSnapAlign: 'center',
           display: 'flex', flexDirection: 'column', gap: 3 
@@ -141,6 +143,7 @@ const Dashboard = () => {
         {/* Column 3 */}
         <Box sx={{ 
           minWidth: { xs: '85vw', sm: '320px', md: '0' }, 
+          flexShrink: { xs: 0, md: 1 },
           flex: { md: 1 }, 
           scrollSnapAlign: 'center',
           display: 'flex', flexDirection: 'column', gap: 3 
