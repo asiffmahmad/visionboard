@@ -1,6 +1,7 @@
 package com.todo.controller;
 
 import com.todo.dto.DataSyncDto;
+import com.todo.dto.ImportSummaryDto;
 import com.todo.entity.User;
 import com.todo.service.DataSyncService;
 import com.todo.service.UserService;
@@ -30,9 +31,9 @@ public class DataSyncController {
 
     @PostMapping("/import")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
-    public ResponseEntity<?> importData(Authentication authentication, @RequestBody DataSyncDto dto) {
+    public ResponseEntity<ImportSummaryDto> importData(Authentication authentication, @RequestBody DataSyncDto dto) {
         User user = userRepository.findByEmail(authentication.getName()).orElseThrow();
-        dataSyncService.importData(user, dto);
-        return ResponseEntity.ok().build();
+        ImportSummaryDto summary = dataSyncService.importData(user, dto);
+        return ResponseEntity.ok(summary);
     }
 }

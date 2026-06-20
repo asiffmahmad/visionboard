@@ -16,6 +16,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import { updateProfile } from '../services/profileService'
 import { resetProfileStatus } from '../features/profileSlice'
 import ToastNotification from '../components/ToastNotification'
+import api from '../services/api'
 
 const Profile = () => {
   const dispatch = useDispatch()
@@ -194,10 +195,17 @@ const Profile = () => {
                     if (!file) return
                     try {
                       const text = await file.text()
-                      const data = JSON.parse(text)
-                      await import('../services/api').then(m => m.default.post('/api/v1/sync/import', data))
-                      showToast('Data imported successfully!', 'success')
-                      setTimeout(() => window.location.reload(), 1500)
+                      const jsonData = JSON.parse(text)
+                      const response = await api.post('/api/v1/data-sync/import', jsonData)
+                      alert(`Data imported successfully! \n` +
+                        `Visions: ${response.data.visionsImported}\n` +
+                        `Goals: ${response.data.goalsImported}\n` +
+                        `Tasks: ${response.data.tasksImported}\n` +
+                        `Habits: ${response.data.habitsImported}\n` +
+                        `Notes: ${response.data.notesImported}\n` +
+                        `Journal Entries: ${response.data.journalEntriesImported}`
+                      )
+                      window.location.reload()
                     } catch (err) {
                       showToast('Invalid backup file or import failed', 'error')
                     }

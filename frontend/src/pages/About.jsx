@@ -66,6 +66,17 @@ const About = () => {
               2. <b>Goal Driven</b>: Break visions into achievable milestones.<br/>
               3. <b>Action Oriented</b>: Execute daily through habits and tasks.
             </Typography>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+              System Information
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+              <b>Version:</b> 1.1.0<br/>
+              <b>Last Updated:</b> {new Date().toLocaleDateString()}<br/>
+              <b>Support:</b> For any technical issues or feature requests, please submit a review on this page or contact our support team at <a href="mailto:support@visionboard.com" style={{ color: '#2563eb' }}>support@visionboard.com</a>.
+            </Typography>
           </Paper>
         </Grid>
 

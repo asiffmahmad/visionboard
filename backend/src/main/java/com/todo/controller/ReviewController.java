@@ -46,6 +46,16 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+        if (!reviewRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        reviewRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
     private ReviewDto mapToDto(Review review) {
         ReviewDto dto = new ReviewDto();
         dto.setId(review.getId());

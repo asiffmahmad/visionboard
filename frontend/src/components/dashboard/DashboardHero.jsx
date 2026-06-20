@@ -35,6 +35,8 @@ const DashboardHero = ({ user, activeVision, activeGoal, topTask, streak }) => {
   let greeting = 'Good Evening'
   if (hour >= 0 && hour < 12) greeting = 'Good Morning'
   else if (hour >= 12 && hour < 17) greeting = 'Good Afternoon'
+  else if (hour >= 17 && hour < 21) greeting = 'Good Evening'
+  else if (hour >= 21) greeting = 'Good Night'
 
   return (
     <Box sx={{ mb: 4 }}>
