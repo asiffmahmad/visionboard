@@ -46,7 +46,7 @@ public class User {
     private String avatarUrl;
 
     @Column(name = "is_google_synced")
-    private boolean isGoogleSynced = false;
+    private Boolean isGoogleSynced = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
@@ -182,10 +182,10 @@ public class User {
     }
 
     public boolean isGoogleSynced() {
-        return isGoogleSynced;
+        return isGoogleSynced != null && isGoogleSynced;
     }
 
-    public void setGoogleSynced(boolean googleSynced) {
-        isGoogleSynced = googleSynced;
+    public void setGoogleSynced(Boolean googleSynced) {
+        this.isGoogleSynced = googleSynced;
     }
 }
