@@ -6,6 +6,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.todo.dto.*;
 import com.todo.entity.User;
+import com.todo.exception.BadRequestException;
 import com.todo.exception.ResourceNotFoundException;
 import com.todo.exception.UnauthorizedException;
 import com.todo.repository.UserRepository;
@@ -47,7 +48,7 @@ public class GoogleDataServiceImpl implements GoogleDataService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!user.isGoogleSynced() || user.getGoogleRefreshToken() == null) {
-            throw new UnauthorizedException("User is not synced with Google or missing refresh token");
+            throw new BadRequestException("User is not synced with Google or missing refresh token");
         }
 
         String accessToken = getValidAccessToken(user);
@@ -79,7 +80,7 @@ public class GoogleDataServiceImpl implements GoogleDataService {
                 userRepository.save(user);
                 return response.getAccessToken();
             } catch (Exception ex) {
-                throw new UnauthorizedException("Failed to refresh Google token: " + ex.getMessage());
+                throw new BadRequestException("Failed to refresh Google token: " + ex.getMessage());
             }
         }
     }
