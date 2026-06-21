@@ -14,6 +14,10 @@ import {
 } from '@mui/material'
 import LoginIcon from '@mui/icons-material/Login'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton'
 import { login } from '../services/authService'
 import { clearError } from '../features/authSlice'
 
@@ -24,6 +28,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [formErrors, setFormErrors] = useState({})
 
   const validate = () => {
@@ -90,7 +95,7 @@ const Login = () => {
 
             <TextField
               label="Password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -98,6 +103,18 @@ const Login = () => {
               helperText={formErrors.password}
               placeholder="••••••••"
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <Button

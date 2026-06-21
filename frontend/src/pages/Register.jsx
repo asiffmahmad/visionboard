@@ -13,6 +13,10 @@ import {
 } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton'
 import { register } from '../services/authService'
 import { clearError } from '../features/authSlice'
 
@@ -25,6 +29,8 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formErrors, setFormErrors] = useState({})
 
   const validate = () => {
@@ -113,7 +119,7 @@ const Register = () => {
 
             <TextField
               label="Password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -121,11 +127,23 @@ const Register = () => {
               helperText={formErrors.password}
               placeholder="••••••••"
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <TextField
               label="Confirm Password"
-              type="password"
+              type={showConfirmPassword ? 'text' : 'password'}
               fullWidth
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -133,6 +151,18 @@ const Register = () => {
               helperText={formErrors.confirmPassword}
               placeholder="••••••••"
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <Button

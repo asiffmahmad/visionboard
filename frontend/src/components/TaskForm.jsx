@@ -155,6 +155,7 @@ const TaskForm = ({ initialData, onSubmit, onCancel, titleText }) => {
             <Grid item xs={12} sm={6}>
               <DatePicker 
                 label="Due Date" 
+                disablePast
                 value={dueDate ? dayjs(dueDate) : null} 
                 onChange={(newValue) => setDueDate(newValue ? newValue.format('YYYY-MM-DD') : '')} 
                 slotProps={{ textField: { fullWidth: true } }} 

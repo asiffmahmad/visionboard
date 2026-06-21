@@ -133,21 +133,6 @@ const Profile = () => {
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                   {user?.email}
                 </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    px: 1.5,
-                    py: 0.5,
-                    bgcolor: 'action.hover',
-                    borderRadius: 2,
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    color: 'primary.main',
-                    letterSpacing: '0.5px',
-                  }}
-                >
-                  Role: {user?.role}
-                </Typography>
               </Box>
             </CardContent>
           </Card>

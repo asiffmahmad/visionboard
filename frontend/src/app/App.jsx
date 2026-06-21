@@ -4,7 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import AppRoutes from '../routes/AppRoutes'
-import { fetchProfile } from '../features/authSlice'
+import { fetchProfile, logout } from '../features/authSlice'
+
+// 30 minutes idle timeout
+const IDLE_TIMEOUT_MS = 30 * 60 * 1000
 
 const App = () => {
   const { darkMode } = useSelector((state) => state.theme)
@@ -16,6 +19,28 @@ const App = () => {
       dispatch(fetchProfile())
     }
   }, [isAuthenticated, dispatch])
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    let timeoutId;
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        dispatch(logout());
+        alert("Session expired due to inactivity. Please log in again.");
+      }, IDLE_TIMEOUT_MS);
+    };
+
+    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+    events.forEach((evt) => document.addEventListener(evt, resetTimer));
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeoutId);
+      events.forEach((evt) => document.removeEventListener(evt, resetTimer));
+    };
+  }, [isAuthenticated, dispatch]);
 
   const theme = useMemo(
     () =>
