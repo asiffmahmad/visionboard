@@ -1,5 +1,7 @@
 package com.todo.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record UserDto(
     Long id,
     String username,
@@ -7,5 +9,5 @@ public record UserDto(
     String role,
     java.util.Map<String, Boolean> features,
     String avatarUrl,
-    boolean isGoogleSynced
+    @JsonProperty("isGoogleSynced") boolean isGoogleSynced
 ) {}

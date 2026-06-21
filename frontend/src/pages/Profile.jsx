@@ -101,16 +101,28 @@ const Profile = () => {
   }
 
   const loginWithGoogle = useGoogleLogin({
+    flow: 'auth-code',
+    scope: 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/gmail.readonly',
     onSuccess: async (tokenResponse) => {
       try {
-        await syncGoogleAccount(tokenResponse.access_token)
-        showToast('Successfully synced with Google!', 'success')
+        await syncGoogleAccount({ authCode: tokenResponse.code });
+        setToastMessage('Successfully synced with Google!');
+        setToastSeverity('success');
+        setToastOpen(true);
       } catch (err) {
-        showToast(err.message || 'Failed to sync with Google', 'error')
+        console.error('Google sync failed:', err);
+        setToastMessage('Failed to sync with Google.');
+        setToastSeverity('error');
+        setToastOpen(true);
       }
     },
-    onError: () => showToast('Google sync failed', 'error'),
-  })
+    onError: errorResponse => {
+      console.error('Google login error:', errorResponse);
+      setToastMessage('Google authentication failed.');
+      setToastSeverity('error');
+      setToastOpen(true);
+    }
+  });
 
   return (
     <Box>
@@ -151,9 +163,26 @@ const Profile = () => {
                 
                 <Box sx={{ mt: 2 }}>
                   {user?.isGoogleSynced ? (
-                    <Typography variant="body2" sx={{ color: 'success.main', fontWeight: 600 }}>
-                      ✅ Synced with Google
-                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="body2" sx={{ color: 'success.main', fontWeight: 600 }}>
+                        ✅ Synced with Google
+                      </Typography>
+                      <Button
+                        variant="text"
+                        size="small"
+                        onClick={() => loginWithGoogle()}
+                        startIcon={
+                          <img 
+                            src="https://developers.google.com/identity/images/g-logo.png" 
+                            alt="Google" 
+                            style={{ width: 14, height: 14 }}
+                          />
+                        }
+                        sx={{ textTransform: 'none', fontSize: '0.75rem' }}
+                      >
+                        Re-sync to update permissions
+                      </Button>
+                    </Box>
                   ) : (
                     <Button
                       variant="outlined"

@@ -25,6 +25,7 @@ import RecentWinsCard from '../components/dashboard/RecentWinsCard'
 import QuickActionsCard from '../components/dashboard/QuickActionsCard'
 import FocusInsightsCard from '../components/dashboard/FocusInsightsCard'
 import UpcomingDeadlinesCard from '../components/dashboard/UpcomingDeadlinesCard'
+import FloatingGoogleWidget from '../components/dashboard/FloatingGoogleWidget'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -148,6 +149,7 @@ const Dashboard = () => {
         severity={toastSeverity}
         onClose={() => setToastOpen(false)}
       />
+      {user && <FloatingGoogleWidget />}
     </Box>
   )
 }

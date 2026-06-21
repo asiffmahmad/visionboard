@@ -17,6 +17,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.todo.dto.GoogleLoginRequest;
 import com.todo.exception.UnauthorizedException;
 import org.springframework.http.HttpEntity;
@@ -35,12 +37,16 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final String googleClientId;
+    private final String googleClientSecret;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, @Value("${todo.google.client-id}") String googleClientId) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, 
+                           @Value("${todo.google.client-id}") String googleClientId,
+                           @Value("${todo.google.client-secret}") String googleClientSecret) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.googleClientId = googleClientId;
+        this.googleClientSecret = googleClientSecret;
     }
 
     @Override
@@ -95,10 +101,39 @@ public class UserServiceImpl implements UserService {
             String googleId = null;
             String picture = null;
 
-            if (request.credential() != null && !request.credential().isEmpty()) {
+            if (request.authCode() != null && !request.authCode().isEmpty()) {
+                GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
+                        new NetHttpTransport(), new GsonFactory(),
+                        "https://oauth2.googleapis.com/token",
+                        googleClientId,
+                        googleClientSecret,
+                        request.authCode(),
+                        "postmessage")  // "postmessage" is typically the redirect_uri for popup flow
+                        .execute();
+
+                String idTokenString = tokenResponse.getIdToken();
+                if (idTokenString == null) {
+                    throw new UnauthorizedException("Failed to obtain ID token");
+                }
                 GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                    .setAudience(Collections.singletonList(googleClientId))
-                    .build();
+                        .setAudience(Collections.singletonList(googleClientId))
+                        .build();
+
+                GoogleIdToken idToken = verifier.verify(idTokenString);
+                if (idToken != null) {
+                    GoogleIdToken.Payload payload = idToken.getPayload();
+                    googleId = payload.getSubject();
+                    picture = (String) payload.get("picture");
+                    
+                    user.setGoogleAccessToken(tokenResponse.getAccessToken());
+                    if (tokenResponse.getRefreshToken() != null) {
+                        user.setGoogleRefreshToken(tokenResponse.getRefreshToken());
+                    }
+                }
+            } else if (request.credential() != null && !request.credential().isEmpty()) {
+                GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                        .setAudience(Collections.singletonList(googleClientId))
+                        .build();
 
                 GoogleIdToken idToken = verifier.verify(request.credential());
                 if (idToken == null) {
@@ -120,7 +155,7 @@ public class UserServiceImpl implements UserService {
                 googleId = (String) payload.get("sub");
                 picture = (String) payload.get("picture");
             } else {
-                throw new BadRequestException("Must provide credential or accessToken");
+                throw new BadRequestException("Must provide credential, accessToken, or authCode");
             }
 
             user.setGoogleId(googleId);
