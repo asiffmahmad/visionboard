@@ -11,6 +11,16 @@ import com.todo.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import com.todo.dto.GoogleLoginRequest;
+import com.todo.exception.UnauthorizedException;
+
+import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,11 +28,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final String googleClientId;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, @Value("${todo.google.client-id}") String googleClientId) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.googleClientId = googleClientId;
     }
 
     @Override
@@ -65,6 +77,39 @@ public class UserServiceImpl implements UserService {
 
         User updatedUser = userRepository.save(user);
         return userMapper.toDto(updatedUser);
+    }
+
+    @Override
+    @Transactional
+    public UserDto syncWithGoogle(Long userId, GoogleLoginRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                .setAudience(Collections.singletonList(googleClientId))
+                .build();
+
+            GoogleIdToken idToken = verifier.verify(request.credential());
+            if (idToken == null) {
+                throw new UnauthorizedException("Invalid Google ID token");
+            }
+
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            String googleId = payload.getSubject();
+            String picture = (String) payload.get("picture");
+
+            user.setGoogleId(googleId);
+            if (picture != null) {
+                user.setAvatarUrl(picture);
+            }
+            user.setGoogleSynced(true);
+
+            User updatedUser = userRepository.save(user);
+            return userMapper.toDto(updatedUser);
+        } catch (Exception e) {
+            throw new BadRequestException("Google sync failed: " + e.getMessage());
+        }
     }
 
     @Override

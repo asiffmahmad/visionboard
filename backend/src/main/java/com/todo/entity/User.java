@@ -39,6 +39,15 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(name = "google_id", unique = true)
+    private String googleId;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column(name = "is_google_synced")
+    private boolean isGoogleSynced = false;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
@@ -154,5 +163,29 @@ public class User {
     public void removeTask(Task task) {
         tasks.remove(task);
         task.setUser(null);
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public boolean isGoogleSynced() {
+        return isGoogleSynced;
+    }
+
+    public void setGoogleSynced(boolean googleSynced) {
+        isGoogleSynced = googleSynced;
     }
 }

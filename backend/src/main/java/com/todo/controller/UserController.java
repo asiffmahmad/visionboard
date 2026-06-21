@@ -2,6 +2,7 @@ package com.todo.controller;
 
 import com.todo.dto.UserDto;
 import com.todo.dto.UserProfileUpdateRequest;
+import com.todo.dto.GoogleLoginRequest;
 import com.todo.security.UserPrincipal;
 import com.todo.service.UserService;
 import jakarta.validation.Valid;
@@ -29,5 +30,12 @@ public class UserController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody UserProfileUpdateRequest request) {
         return ResponseEntity.ok(userService.updateProfile(userPrincipal.getId(), request));
+    }
+
+    @PostMapping("/sync-google")
+    public ResponseEntity<UserDto> syncWithGoogle(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @Valid @RequestBody GoogleLoginRequest request) {
+        return ResponseEntity.ok(userService.syncWithGoogle(userPrincipal.getId(), request));
     }
 }

@@ -13,7 +13,9 @@ import {
 } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import LockIcon from '@mui/icons-material/Lock'
+import { GoogleLogin } from '@react-oauth/google'
 import { updateProfile } from '../services/profileService'
+import { syncGoogleAccount } from '../services/authService'
 import { resetProfileStatus } from '../features/profileSlice'
 import ToastNotification from '../components/ToastNotification'
 import api from '../services/api'
@@ -98,6 +100,15 @@ const Profile = () => {
     }
   }
 
+  const handleGoogleSync = async (credentialResponse) => {
+    try {
+      await syncGoogleAccount(credentialResponse.credential)
+      showToast('Successfully synced with Google!', 'success')
+    } catch (err) {
+      showToast(err.message || 'Failed to sync with Google', 'error')
+    }
+  }
+
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
@@ -115,6 +126,7 @@ const Profile = () => {
           <Card sx={{ textAlign: 'center', p: 3 }}>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
               <Avatar
+                src={user?.avatarUrl}
                 sx={{
                   width: 80,
                   height: 80,
@@ -124,7 +136,7 @@ const Profile = () => {
                   textTransform: 'uppercase',
                 }}
               >
-                {user?.username?.charAt(0)}
+                {!user?.avatarUrl && user?.username?.charAt(0)}
               </Avatar>
               <Box>
                 <Typography variant="h6" sx={{ fontWeight: 700 }}>
@@ -133,6 +145,22 @@ const Profile = () => {
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                   {user?.email}
                 </Typography>
+                
+                <Box sx={{ mt: 2 }}>
+                  {user?.isGoogleSynced ? (
+                    <Typography variant="body2" sx={{ color: 'success.main', fontWeight: 600 }}>
+                      ✅ Synced with Google
+                    </Typography>
+                  ) : (
+                    <GoogleLogin
+                      onSuccess={handleGoogleSync}
+                      onError={() => showToast('Google sync failed', 'error')}
+                      useOneTap={false}
+                      shape="pill"
+                      text="continue_with"
+                    />
+                  )}
+                </Box>
               </Box>
             </CardContent>
           </Card>

@@ -44,6 +44,35 @@ export const googleLogin = async (credential) => {
   }
 }
 
+export const syncGoogleAccount = async (credential) => {
+  try {
+    const state = store.getState();
+    const token = state.auth.token;
+    
+    const response = await api.post('/api/users/sync-google', 
+      { credential },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    
+    // Response should be the updated user DTO
+    const updatedUser = response.data;
+    
+    // We just want to update the user in the store without a full login loop
+    // But since loginSuccess expects { user, token, refreshToken }, we can
+    // dispatch an action or just reuse loginSuccess with the current tokens
+    store.dispatch(loginSuccess({ 
+      user: updatedUser, 
+      token: token, 
+      refreshToken: state.auth.refreshToken 
+    }));
+    
+    return updatedUser;
+  } catch (error) {
+    const message = error.response?.data?.message || 'Failed to sync with Google';
+    throw new Error(message);
+  }
+}
+
 export const register = async (username, email, password) => {
   store.dispatch(authStart());
   try {

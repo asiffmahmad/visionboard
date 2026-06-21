@@ -118,6 +118,7 @@ const Navbar = ({ onDrawerToggle, drawerWidth }) => {
               }}
             >
               <Avatar
+                src={user?.avatarUrl}
                 sx={{
                   width: 32,
                   height: 32,
@@ -127,7 +128,7 @@ const Navbar = ({ onDrawerToggle, drawerWidth }) => {
                   textTransform: 'uppercase',
                 }}
               >
-                {user.username.charAt(0)}
+                {!user?.avatarUrl && user.username.charAt(0)}
               </Avatar>
               <Box sx={{ display: { xs: 'none', md: 'block' }, textAlign: 'left' }}>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>

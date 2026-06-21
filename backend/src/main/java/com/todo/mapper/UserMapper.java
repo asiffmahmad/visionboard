@@ -22,7 +22,9 @@ public class UserMapper {
             user.getUsername(),
             user.getEmail(),
             user.getRole().name(),
-            featureFlagService.getEnabledFeaturesForUser(user.getId())
+            featureFlagService.getEnabledFeaturesForUser(user.getId()),
+            user.getAvatarUrl(),
+            user.isGoogleSynced()
         );
     }
 }

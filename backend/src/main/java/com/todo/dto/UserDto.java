@@ -5,5 +5,7 @@ public record UserDto(
     String username,
     String email,
     String role,
-    java.util.Map<String, Boolean> features
+    java.util.Map<String, Boolean> features,
+    String avatarUrl,
+    boolean isGoogleSynced
 ) {}
