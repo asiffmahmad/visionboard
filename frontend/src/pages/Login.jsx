@@ -18,7 +18,8 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
-import { login } from '../services/authService'
+import { GoogleLogin } from '@react-oauth/google'
+import { login, googleLogin } from '../services/authService'
 import { clearError } from '../features/authSlice'
 
 const Login = () => {
@@ -55,6 +56,16 @@ const Login = () => {
       navigate('/dashboard')
     } catch (err) {
       // Handled by authSlice and displayed via state
+    }
+  }
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    dispatch(clearError())
+    try {
+      await googleLogin(credentialResponse.credential)
+      navigate('/dashboard')
+    } catch (err) {
+      // Error handled by redux
     }
   }
 
@@ -140,6 +151,22 @@ const Login = () => {
           </Typography>
         </Box>
 
+        <Divider sx={{ my: 3 }}>
+          <Typography variant="body2" color="text.secondary">
+            OR
+          </Typography>
+        </Divider>
+
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              dispatch(clearError())
+              console.log('Login Failed')
+            }}
+            useOneTap
+          />
+        </Box>
 
       </CardContent>
     </Card>

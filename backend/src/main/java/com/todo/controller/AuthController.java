@@ -4,6 +4,7 @@ import com.todo.dto.AuthResponse;
 import com.todo.dto.LoginRequest;
 import com.todo.dto.RegisterRequest;
 import com.todo.dto.TokenRefreshRequest;
+import com.todo.dto.GoogleLoginRequest;
 import com.todo.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> googleLogin(@Valid @RequestBody GoogleLoginRequest request) {
+        return ResponseEntity.ok(authService.googleLogin(request));
     }
 
     @PostMapping("/refresh")

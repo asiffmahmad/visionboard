@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import AppRoutes from '../routes/AppRoutes'
 import { fetchProfile, logout } from '../features/authSlice'
 
@@ -128,12 +129,14 @@ const App = () => {
   )
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </ThemeProvider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID_HERE"}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   )
 }
 

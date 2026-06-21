@@ -23,6 +23,27 @@ export const login = async (email, password) => {
   }
 }
 
+export const googleLogin = async (credential) => {
+  store.dispatch(authStart());
+  try {
+    const response = await api.post('/api/auth/google', { credential });
+    const { accessToken, refreshToken } = response.data;
+    
+    // Fetch profile info right after login
+    const profileResponse = await api.get('/api/users/profile', {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    
+    const user = profileResponse.data;
+    store.dispatch(loginSuccess({ user, token: accessToken, refreshToken }));
+    return user;
+  } catch (error) {
+    const message = error.response?.data?.message || 'Google Login failed';
+    store.dispatch(authFailure(message));
+    throw new Error(message);
+  }
+}
+
 export const register = async (username, email, password) => {
   store.dispatch(authStart());
   try {

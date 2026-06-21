@@ -3,7 +3,9 @@ package com.todo.service.impl;
 import com.todo.dto.AuthResponse;
 import com.todo.dto.LoginRequest;
 import com.todo.dto.RegisterRequest;
+import com.todo.dto.RegisterRequest;
 import com.todo.dto.TokenRefreshRequest;
+import com.todo.dto.GoogleLoginRequest;
 import com.todo.entity.RefreshToken;
 import com.todo.entity.User;
 import com.todo.enums.Role;
@@ -19,10 +21,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+
 import java.time.Instant;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
     private final long refreshExpirationMs;
+    private final String googleClientId;
 
     public AuthServiceImpl(
             AuthenticationManager authenticationManager,
@@ -41,13 +52,15 @@ public class AuthServiceImpl implements AuthService {
             RefreshTokenRepository refreshTokenRepository,
             PasswordEncoder passwordEncoder,
             JwtTokenProvider tokenProvider,
-            @Value("${todo.jwt.refresh-expiration-ms}") long refreshExpirationMs) {
+            @Value("${todo.jwt.refresh-expiration-ms}") long refreshExpirationMs,
+            @Value("${todo.google.client-id}") String googleClientId) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
         this.refreshExpirationMs = refreshExpirationMs;
+        this.googleClientId = googleClientId;
     }
 
     @Override
@@ -95,6 +108,56 @@ public class AuthServiceImpl implements AuthService {
         RefreshToken refreshToken = createRefreshToken(user);
 
         return new AuthResponse(accessToken, refreshToken.getToken());
+    }
+
+    @Override
+    @Transactional
+    public AuthResponse googleLogin(GoogleLoginRequest request) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                .setAudience(Collections.singletonList(googleClientId))
+                .build();
+
+            GoogleIdToken idToken = verifier.verify(request.credential());
+            if (idToken == null) {
+                throw new UnauthorizedException("Invalid Google ID token");
+            }
+
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            String email = payload.getEmail();
+            String name = (String) payload.get("name");
+
+            Optional<User> existingUserOpt = userRepository.findByEmail(email);
+            User user;
+
+            if (existingUserOpt.isPresent()) {
+                user = existingUserOpt.get();
+                user.setLastSeen(java.time.LocalDateTime.now());
+                user = userRepository.save(user);
+            } else {
+                user = new User();
+                user.setUsername(name.replaceAll("\\s+", "").toLowerCase() + UUID.randomUUID().toString().substring(0, 4));
+                user.setEmail(email);
+                user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString())); // Random secure password
+                user.setRole(Role.USER);
+                user.setEnabled(true);
+                user.setLastSeen(java.time.LocalDateTime.now());
+                user = userRepository.save(user);
+            }
+
+            // Create Authentication object to generate JWT
+            UsernamePasswordAuthenticationToken authentication = 
+                new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String accessToken = tokenProvider.generateTokenFromUserId(user.getId());
+            RefreshToken refreshToken = createRefreshToken(user);
+
+            return new AuthResponse(accessToken, refreshToken.getToken());
+
+        } catch (Exception e) {
+            throw new UnauthorizedException("Google login failed: " + e.getMessage());
+        }
     }
 
     @Override
