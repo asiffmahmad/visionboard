@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import LockIcon from '@mui/icons-material/Lock'
-import { GoogleLogin } from '@react-oauth/google'
+import { useGoogleLogin } from '@react-oauth/google'
 import { updateProfile } from '../services/profileService'
 import { syncGoogleAccount } from '../services/authService'
 import { resetProfileStatus } from '../features/profileSlice'
@@ -100,14 +100,17 @@ const Profile = () => {
     }
   }
 
-  const handleGoogleSync = async (credentialResponse) => {
-    try {
-      await syncGoogleAccount(credentialResponse.credential)
-      showToast('Successfully synced with Google!', 'success')
-    } catch (err) {
-      showToast(err.message || 'Failed to sync with Google', 'error')
-    }
-  }
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        await syncGoogleAccount(tokenResponse.access_token)
+        showToast('Successfully synced with Google!', 'success')
+      } catch (err) {
+        showToast(err.message || 'Failed to sync with Google', 'error')
+      }
+    },
+    onError: () => showToast('Google sync failed', 'error'),
+  })
 
   return (
     <Box>
@@ -152,13 +155,20 @@ const Profile = () => {
                       ✅ Synced with Google
                     </Typography>
                   ) : (
-                    <GoogleLogin
-                      onSuccess={handleGoogleSync}
-                      onError={() => showToast('Google sync failed', 'error')}
-                      useOneTap={false}
-                      shape="pill"
-                      text="continue_with"
-                    />
+                    <Button
+                      variant="outlined"
+                      onClick={() => loginWithGoogle()}
+                      startIcon={
+                        <img 
+                          src="https://developers.google.com/identity/images/g-logo.png" 
+                          alt="Google" 
+                          style={{ width: 18, height: 18 }}
+                        />
+                      }
+                      sx={{ textTransform: 'none', fontWeight: 600 }}
+                    >
+                      Sync with Google
+                    </Button>
                   )}
                 </Box>
               </Box>

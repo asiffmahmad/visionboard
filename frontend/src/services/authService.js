@@ -44,13 +44,13 @@ export const googleLogin = async (credential) => {
   }
 }
 
-export const syncGoogleAccount = async (credential) => {
+export const syncGoogleAccount = async (accessToken) => {
   try {
     const state = store.getState();
     const token = state.auth.token;
     
     const response = await api.post('/api/users/sync-google', 
-      { credential },
+      { accessToken },
       { headers: { Authorization: `Bearer ${token}` } }
     );
     

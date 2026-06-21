@@ -19,8 +19,14 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.todo.dto.GoogleLoginRequest;
 import com.todo.exception.UnauthorizedException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -86,18 +92,36 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
 
         try {
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singletonList(googleClientId))
-                .build();
+            String googleId = null;
+            String picture = null;
 
-            GoogleIdToken idToken = verifier.verify(request.credential());
-            if (idToken == null) {
-                throw new UnauthorizedException("Invalid Google ID token");
+            if (request.credential() != null && !request.credential().isEmpty()) {
+                GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                    .setAudience(Collections.singletonList(googleClientId))
+                    .build();
+
+                GoogleIdToken idToken = verifier.verify(request.credential());
+                if (idToken == null) {
+                    throw new UnauthorizedException("Invalid Google ID token");
+                }
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                googleId = payload.getSubject();
+                picture = (String) payload.get("picture");
+            } else if (request.accessToken() != null && !request.accessToken().isEmpty()) {
+                RestTemplate restTemplate = new RestTemplate();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setBearerAuth(request.accessToken());
+                HttpEntity<String> entity = new HttpEntity<>(headers);
+                ResponseEntity<Map> response = restTemplate.exchange("https://www.googleapis.com/oauth2/v3/userinfo", HttpMethod.GET, entity, Map.class);
+                Map<String, Object> payload = response.getBody();
+                if (payload == null) {
+                    throw new UnauthorizedException("Failed to fetch Google profile");
+                }
+                googleId = (String) payload.get("sub");
+                picture = (String) payload.get("picture");
+            } else {
+                throw new BadRequestException("Must provide credential or accessToken");
             }
-
-            GoogleIdToken.Payload payload = idToken.getPayload();
-            String googleId = payload.getSubject();
-            String picture = (String) payload.get("picture");
 
             user.setGoogleId(googleId);
             if (picture != null) {
