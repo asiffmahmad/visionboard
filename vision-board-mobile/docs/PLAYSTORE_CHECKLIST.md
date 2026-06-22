@@ -69,7 +69,7 @@
 - [ ] Upload feature graphic (1024 × 500 px)
 - [ ] Upload high-res app icon (512 × 512 px, PNG, no alpha)
 - [ ] Select App category: **Productivity**
-- [ ] Add contact email address: **asiffmahmad9@gmail.com**
+- [ ] Add contact email address: **noreplydesk01@gmail.com**
 - [ ] Add Privacy Policy URL (host `PRIVACY_POLICY.md` content at a public URL)
 
 ### Content Rating
@@ -126,7 +126,7 @@
 - [ ] Monitor Android vitals dashboard for crashes / ANRs
 - [ ] Respond to user reviews within 24–48 hours
 - [ ] Plan app updates with version code increments
-- [ ] Set up email alias for support@yourdomain.com
+- [ ] Set up email alias for noreplydesk01@gmail.com
 
 ---
 

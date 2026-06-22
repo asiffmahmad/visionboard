@@ -89,5 +89,5 @@ These Terms shall be governed by and construed in accordance with the laws of th
 If you have any questions about these Terms, please contact us at:
 
 **Developer:** asiff  
-**Email:** asiffmahmad9@gmail.com  
+**Email:** noreplydesk01@gmail.com  
 **GitHub:** https://github.com/asiff

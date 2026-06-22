@@ -2,25 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6366f1" />
+
     <!-- Standard SEO -->
-    <title>Visionboard | Track Goals, Habits, and Tasks</title>
-    <meta name="description" content="The ultimate vision board application to track your goals, build habits, and manage daily tasks. Transform your life and stay focused on what matters most." />
-    <meta name="keywords" content="vision board, goal tracker, habit tracker, task manager, productivity, personal growth, daily routine, life planner" />
-    <meta name="author" content="Visionboard" />
-    <meta name="robots" content="index, follow" />
+    <title>VisionBoard | Free Habit Tracker, Goal Tracker &amp; Vision Board App</title>
+    <meta name="description" content="Free habit tracker and vision board app to build daily habits, track goals, monitor streaks, and plan your life. The all-in-one productivity app for personal growth and self-improvement." />
+    <meta name="keywords" content="habit tracker, daily habit tracker, free habit tracker, goal tracker, vision board app, productivity app, streak tracker, daily planner, personal growth app, routine tracker, self improvement app, goal setting app, motivation app, daily goals tracker, habit building app, success tracker, task tracker, life planner, productivity tracker, progress tracker" />
+    <meta name="author" content="VisionBoard" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://my-vision-board-app.vercel.app/" />
 
-    <!-- Open Graph / Social Media Sharing (Facebook, LinkedIn, iMessage) -->
+    <!-- Open Graph / Social Media Sharing -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Visionboard | Track Goals, Habits, and Tasks" />
-    <meta property="og:description" content="The ultimate vision board application to track your goals, build habits, and manage daily tasks." />
-    <meta property="og:site_name" content="Visionboard" />
+    <meta property="og:url" content="https://my-vision-board-app.vercel.app/" />
+    <meta property="og:title" content="VisionBoard | Free Habit Tracker, Goal Tracker &amp; Vision Board App" />
+    <meta property="og:description" content="Free habit tracker and vision board app to build daily habits, track goals, monitor streaks, and plan your life. The all-in-one productivity app for personal growth and self-improvement." />
+    <meta property="og:image" content="https://my-vision-board-app.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="VisionBoard — Free Habit Tracker, Goal Tracker &amp; Vision Board App" />
+    <meta property="og:site_name" content="VisionBoard" />
+    <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter Card for Twitter sharing -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Visionboard | Track Goals, Habits, and Tasks" />
-    <meta name="twitter:description" content="The ultimate vision board application to track your goals, build habits, and manage daily tasks." />
+    <meta name="twitter:title" content="VisionBoard | Free Habit Tracker, Goal Tracker &amp; Vision Board App" />
+    <meta name="twitter:description" content="Free habit tracker and vision board app to build daily habits, track goals, monitor streaks, and plan your life." />
+    <meta name="twitter:image" content="https://my-vision-board-app.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="VisionBoard — Free Habit Tracker, Goal Tracker &amp; Vision Board App" />
+
+    <!-- Structured Data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "VisionBoard",
+      "description": "Free all-in-one productivity app with daily habit tracker, goal tracker, vision board, streak tracker, daily planner, journal, and personal growth tools.",
+      "url": "https://my-vision-board-app.vercel.app/",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Daily Habit Tracker",
+        "Goal Tracker",
+        "Streak Tracker",
+        "Vision Board",
+        "Daily Planner",
+        "Progress Tracker",
+        "Journal",
+        "Task Manager"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "VisionBoard",
+      "url": "https://my-vision-board-app.vercel.app/",
+      "description": "Free habit tracker and vision board app to build daily habits, track goals, and achieve personal growth."
+    }
+    </script>
 
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="6rXM1EipWsgS2QKcS8Fi4vXQzrriraG-OYY62ToLuhw" />
@@ -29,6 +82,7 @@
     <!-- Google AdSense Script (loads ads once account is approved) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2199514170121947"
          crossorigin="anonymous"></script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,3 +93,4 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+

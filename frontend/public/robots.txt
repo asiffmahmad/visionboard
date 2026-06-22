@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow authenticated/private dashboard routes
+Disallow: /dashboard
+Disallow: /app
+
+Sitemap: https://my-vision-board-app.vercel.app/sitemap.xml

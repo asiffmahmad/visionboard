@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Divider, Paper, Container, Link } from '@mui/material';
 import GavelIcon from '@mui/icons-material/Gavel';
+import SEO from '../components/SEO';
 
 const Section = ({ title, children }) => (
   <Box sx={{ mb: 4 }}>
@@ -20,10 +21,16 @@ const Paragraph = ({ children }) => (
 const PrivacyPolicy = () => {
   const lastUpdated = 'June 22, 2025';
   const appName = 'VisionBoard';
-  const contactEmail = 'support@visionboard.app';
+  const contactEmail = 'noreplydesk01@gmail.com';
   const websiteUrl = 'https://visionboard.app';
 
   return (
+    <>
+      <SEO
+        title="Privacy Policy | VisionBoard"
+        description="Read the privacy policy for VisionBoard. We are committed to protecting your personal data and ensuring transparency in how we handle your information."
+        path="/privacy-policy"
+      />
     <Container maxWidth="md" sx={{ py: { xs: 4, md: 8 } }}>
       {/* Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
@@ -240,6 +247,7 @@ const PrivacyPolicy = () => {
         </Section>
       </Paper>
     </Container>
+    </>
   );
 };
 

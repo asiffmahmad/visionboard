@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -46,12 +47,12 @@ const Landing = () => {
   const isVisible = (id) => visibleSections.has(id);
 
   const features = [
-    { emoji: '🎯', title: 'Goals Tracker', desc: 'Set meaningful goals, break them into milestones, and track every step of your progress with beautiful visualisations.', color: '#6366f1' },
-    { emoji: '🔥', title: 'Habit Builder', desc: 'Build life-changing habits with daily streaks, heatmaps, and consistency scores that keep you motivated every day.', color: '#ec4899' },
-    { emoji: '📋', title: 'Task Manager', desc: 'Organise your daily tasks with priorities, deadlines, and smart filters — so nothing ever falls through the cracks.', color: '#10b981' },
-    { emoji: '🌟', title: 'Vision Board', desc: 'Create digital vision boards that keep your long-term aspirations front and centre, every single day.', color: '#f59e0b' },
-    { emoji: '📓', title: 'Journal', desc: 'Reflect, plan and grow with a private daily journal that helps you track your thoughts and mental clarity.', color: '#8b5cf6' },
-    { emoji: '📊', title: 'Smart Dashboard', desc: 'A powerful dashboard connecting Google, GitHub, Instagram and LinkedIn to show your real-world progress.', color: '#0ea5e9' },
+    { emoji: '🎯', title: 'Goal Tracker', desc: 'Set meaningful long-term and daily goals, break them into milestones, and track every step of your progress with beautiful visualisations. The best goal setting app for personal growth.', color: '#6366f1' },
+    { emoji: '🔥', title: 'Daily Habit Tracker', desc: 'Build life-changing habits with daily streaks, heatmaps, and consistency scores. Our free habit tracker keeps you motivated to maintain your routine every single day.', color: '#ec4899' },
+    { emoji: '📋', title: 'Task & Daily Planner', desc: 'Organise your daily tasks with priorities, deadlines, and smart filters. Your all-in-one task tracker and daily planner so nothing ever falls through the cracks.', color: '#10b981' },
+    { emoji: '🌟', title: 'Vision Board App', desc: 'Create stunning digital vision boards that keep your biggest aspirations front and centre. The #1 vision board app to fuel your motivation and personal growth.', color: '#f59e0b' },
+    { emoji: '📓', title: 'Journal & Reflection', desc: 'Reflect, plan and grow with a private daily journal. Track your thoughts, mental clarity, and self-improvement journey in one secure place.', color: '#8b5cf6' },
+    { emoji: '📊', title: 'Progress Dashboard', desc: 'A powerful productivity tracker dashboard connecting Google, GitHub, Instagram and LinkedIn to show your real-world progress live.', color: '#0ea5e9' },
   ];
 
   const integrations = [
@@ -76,6 +77,11 @@ const Landing = () => {
 
   return (
     <div style={{ background: '#0b0f19', color: '#f3f4f6', fontFamily: '"Inter", "Outfit", sans-serif', overflowX: 'hidden', minHeight: '100vh' }}>
+      <SEO
+        title="VisionBoard | Free Habit Tracker, Goal Tracker & Vision Board App"
+        description="Free all-in-one productivity app to track daily habits, set goals, build streaks, and create vision boards. Start your personal growth journey today — 100% free."
+        path="/"
+      />
 
 
       {/* ── NAVBAR ── */}
@@ -160,17 +166,17 @@ const Landing = () => {
             Your All-in-One Productivity Platform
           </div>
 
-          {/* H1 */}
+          {/* H1 — Primary keyword target */}
           <h1 style={{ fontFamily: 'Outfit,sans-serif', fontSize: isMobile ? 38 : isTablet ? 56 : 76, fontWeight: 900, lineHeight: 1.08, letterSpacing: isMobile ? '-1px' : '-2.5px', marginBottom: 24 }}>
-            Turn Your Dreams Into{' '}
+            The Free Habit Tracker &amp; Goal Tracker{' '}
             <span style={{ background: 'linear-gradient(135deg,#6366f1 0%,#ec4899 50%,#f59e0b 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block' }}>
-              Daily Reality
+              Built For Your Best Life
             </span>
           </h1>
 
           {/* Subheading */}
           <p style={{ fontSize: isMobile ? 16 : 19, color: '#9ca3af', lineHeight: 1.75, maxWidth: 600, margin: '0 auto 40px', fontWeight: 400, padding: isMobile ? '0 4px' : 0 }}>
-            VisionBoard combines goal tracking, habit building, task management, and smart integrations — so you can focus on what truly matters.
+            VisionBoard is your all-in-one productivity app — combining a daily habit tracker, goal tracker, vision board, streak tracker, and daily planner so you can build better habits and achieve personal growth.
           </p>
 
           {/* Buttons */}
@@ -215,11 +221,11 @@ const Landing = () => {
           <div id="feat-h" data-animate className={`landing-fade ${isVisible('feat-h') ? 'show' : ''}`} style={{ textAlign: 'center', marginBottom: isMobile ? 48 : 64 }}>
             <div style={{ display: 'inline-block', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 100, padding: '5px 16px', fontSize: 11, fontWeight: 700, color: '#a5b4fc', letterSpacing: 1.5, marginBottom: 16, textTransform: 'uppercase' }}>Everything You Need</div>
             <h2 style={{ fontFamily: 'Outfit', fontSize: isMobile ? 30 : 48, fontWeight: 800, letterSpacing: isMobile ? '-0.5px' : '-1.5px', marginBottom: 14, lineHeight: 1.15 }}>
-              All Your Tools,{' '}
+              Habit Tracker, Goal Tracker &amp; Vision Board —{' '}
               <span style={{ background: 'linear-gradient(135deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>One Beautiful Place</span>
             </h2>
             <p style={{ color: '#6b7280', fontSize: isMobile ? 15 : 17, maxWidth: 520, margin: '0 auto' }}>
-              Stop juggling 10 different apps. VisionBoard brings everything together.
+              Stop juggling 10 different apps. VisionBoard is the free productivity app that brings your habit tracker, goal tracker, streak tracker, and daily planner all together.
             </p>
           </div>
 
@@ -297,11 +303,11 @@ const Landing = () => {
           style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center', background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(236,72,153,0.08) 100%)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: isMobile ? 24 : 32, padding: isMobile ? '48px 28px' : '72px 64px' }}>
           <div style={{ fontSize: isMobile ? 48 : 60, marginBottom: 20 }}>🚀</div>
           <h2 style={{ fontFamily: 'Outfit', fontSize: isMobile ? 26 : 44, fontWeight: 900, letterSpacing: '-1px', marginBottom: 16, lineHeight: 1.15 }}>
-            Ready to Build Your{' '}
-            <span style={{ background: 'linear-gradient(135deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Best Life?</span>
+            Start Your Free Habit Tracker &amp;{' '}
+            <span style={{ background: 'linear-gradient(135deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Goal Tracker Today</span>
           </h2>
           <p style={{ color: '#9ca3af', fontSize: isMobile ? 15 : 17, lineHeight: 1.75, marginBottom: 36, maxWidth: 460, margin: '0 auto 36px' }}>
-            Hundreds of people use VisionBoard every day to stay focused, build habits, and achieve their biggest goals.
+            Hundreds of people use VisionBoard every day to build daily habits, track personal goals, maintain streaks, and achieve self-improvement — completely free.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/register" className="btn-cta" style={{ fontSize: isMobile ? 15 : 17, padding: isMobile ? '14px 28px' : '16px 44px' }}>✨ Create Free Account</Link>

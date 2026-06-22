@@ -145,7 +145,7 @@ mood tracker, goal setting, motivation, note taking
 
 | Field | Value |
 |---|---|
-| **Email** | asiffmahmad9@gmail.com |
+| **Email** | noreplydesk01@gmail.com |
 | **Website** | https://github.com/asiff |
 | **Privacy Policy URL** | *(host `PRIVACY_POLICY.md` at a public URL)* |
 

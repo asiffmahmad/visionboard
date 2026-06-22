@@ -1174,18 +1174,17 @@ const IntegrationCardsCarousel = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
             <Box sx={{ flex: 1, minWidth: '220px' }}>
               <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#FFB300' }}>
-                Hostinger Premium Web Hosting
+                Your Ad Could Be Here ✨
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                Get up to 75% off professional website hosting + free domain name & SSL certificate. 
+                Want to reach thousands of highly productive individuals? This prime spot is waiting for your creative showcase! 
               </Typography>
             </Box>
             <Button 
               variant="contained" 
               size="small"
               onClick={() => {
-                showActionToast('Opening Hostinger sponsored partner deal...');
-                window.open('https://www.hostinger.com/', '_blank');
+                showActionToast('Contacting advertising team...');
               }}
               sx={{ 
                 bgcolor: '#FFB300', 
@@ -1197,11 +1196,11 @@ const IntegrationCardsCarousel = () => {
                 '&:hover': { bgcolor: '#FFA000' }
               }}
             >
-              Claim 75% Off
+              Advertise With Us
             </Button>
           </Box>
           <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontStyle: 'italic' }}>
-            * Partner Placement: Earn payouts for purchases made using this referral.
+            * Creative ads will be displayed here in the future.
           </Typography>
         </Box>
       )

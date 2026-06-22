@@ -111,7 +111,7 @@ We may update this Privacy Policy from time to time. We will notify you of any c
 If you have any questions about this Privacy Policy, please contact us at:
 
 **Developer:** asiff  
-**Email:** asiffmahmad9@gmail.com  
+**Email:** noreplydesk01@gmail.com  
 **GitHub:** https://github.com/asiff
 
 ---

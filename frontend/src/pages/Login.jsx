@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import SEO from '../components/SEO'
 import {
   Card,
   CardContent,
@@ -70,7 +71,14 @@ const Login = () => {
   }
 
   return (
-    <Card sx={{ 
+    <>
+      <SEO
+        title="Log In to VisionBoard | Your Productivity Hub"
+        description="Log in to your VisionBoard account to track your daily habits, manage goals, and update your vision board."
+        path="/login"
+        noIndex={true}
+      />
+      <Card sx={{ 
       maxWidth: 450, 
       mx: 'auto', 
       background: 'rgba(255, 255, 255, 0.03)', 
@@ -213,6 +221,7 @@ const Login = () => {
 
       </CardContent>
     </Card>
+    </>
   )
 }
 

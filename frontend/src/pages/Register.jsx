@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import SEO from '../components/SEO'
 import {
   Card,
   CardContent,
@@ -83,6 +84,12 @@ const Register = () => {
   }
 
   return (
+    <>
+      <SEO
+        title="Create a VisionBoard Account | Join Free"
+        description="Sign up for VisionBoard today and start tracking your habits, goals, and daily tasks completely free."
+        path="/register"
+      />
     <Card sx={{ 
       maxWidth: 450, 
       mx: 'auto', 
@@ -281,6 +288,7 @@ const Register = () => {
 
       </CardContent>
     </Card>
+    </>
   )
 }
 
