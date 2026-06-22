@@ -18,7 +18,7 @@ const SeoClusterPage = () => {
     "@type": "WebPage",
     "name": cluster.title,
     "description": cluster.description,
-    "url": \`https://my-vision-board-app.vercel.app/use-case/\${cluster.slug}\`,
+    "url": `https://my-vision-board-app.vercel.app/use-case/${cluster.slug}`,
     "about": {
       "@type": "Thing",
       "name": cluster.keyword
@@ -30,7 +30,7 @@ const SeoClusterPage = () => {
       <SEO
         title={cluster.title}
         description={cluster.description}
-        path={\`/use-case/\${cluster.slug}\`}
+        path={`/use-case/${cluster.slug}`}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }} />
 
