@@ -40,6 +40,7 @@ public class DashboardStatsServiceImpl implements DashboardStatsService {
 
     @Override
     @Transactional(readOnly = true)
+    @org.springframework.cache.annotation.Cacheable(value = "dashboardStats", key = "#userId")
     public DashboardStatsDto getStats(Long userId) {
         long totalTasks = taskRepository.countByUserId(userId);
         long completedTasks = taskRepository.countByUserIdAndStatus(userId, TaskStatus.COMPLETED);

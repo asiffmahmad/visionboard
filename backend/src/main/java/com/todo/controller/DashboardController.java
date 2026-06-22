@@ -86,10 +86,9 @@ public class DashboardController {
     @GetMapping("/linkedin-followers")
     public ResponseEntity<?> getLinkedInFollowers(
             @AuthenticationPrincipal UserPrincipal userPrincipal, 
-            @RequestParam String username,
-            @RequestParam(required = false) String cookie) {
+            @RequestParam String username) {
         try {
-            String slug = username;
+            String slug = java.net.URLEncoder.encode(username, "UTF-8");
             if (slug.contains("linkedin.com/in/")) {
                 slug = slug.substring(slug.indexOf("linkedin.com/in/") + "linkedin.com/in/".length());
             }
@@ -111,7 +110,7 @@ public class DashboardController {
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
                 
-                String activeCookie = (cookie != null && !cookie.trim().isEmpty()) ? cookie.trim() : linkedinSessionCookie;
+                String activeCookie = linkedinSessionCookie;
                 if (activeCookie != null && !activeCookie.trim().isEmpty()) {
                     headers.set("Cookie", "li_at=" + activeCookie.trim());
                     System.out.println("Scraping LinkedIn profile with session cookie bypass for user: " + slug);
@@ -147,10 +146,9 @@ public class DashboardController {
     @GetMapping("/instagram-followers")
     public ResponseEntity<?> getInstagramFollowers(
             @AuthenticationPrincipal UserPrincipal userPrincipal, 
-            @RequestParam String username,
-            @RequestParam(required = false) String cookie) {
+            @RequestParam String username) {
         try {
-            String handle = username.replace("@", "").trim();
+            String handle = java.net.URLEncoder.encode(username.replace("@", "").trim(), "UTF-8");
             if (handle.isEmpty()) {
                 return ResponseEntity.badRequest().body("Invalid handle");
             }
@@ -162,7 +160,7 @@ public class DashboardController {
                 headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
                 headers.set("x-ig-app-id", "936619743392459");
                 
-                String activeCookie = (cookie != null && !cookie.trim().isEmpty()) ? cookie.trim() : instagramSessionCookie;
+                String activeCookie = instagramSessionCookie;
                 if (activeCookie != null && !activeCookie.trim().isEmpty()) {
                     headers.set("Cookie", "sessionid=" + activeCookie.trim());
                 }
@@ -190,7 +188,7 @@ public class DashboardController {
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
                 
-                String activeCookie = (cookie != null && !cookie.trim().isEmpty()) ? cookie.trim() : instagramSessionCookie;
+                String activeCookie = instagramSessionCookie;
                 if (activeCookie != null && !activeCookie.trim().isEmpty()) {
                     headers.set("Cookie", "sessionid=" + activeCookie.trim());
                     System.out.println("Scraping Instagram profile with session cookie bypass for user: " + handle);

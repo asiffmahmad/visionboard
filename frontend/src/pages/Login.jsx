@@ -70,22 +70,31 @@ const Login = () => {
   }
 
   return (
-    <Card sx={{ maxWidth: 450, mx: 'auto' }}>
+    <Card sx={{ 
+      maxWidth: 450, 
+      mx: 'auto', 
+      background: 'rgba(255, 255, 255, 0.03)', 
+      backdropFilter: 'blur(16px)', 
+      border: '1px solid rgba(255, 255, 255, 0.08)', 
+      borderRadius: 4, 
+      color: '#f3f4f6',
+      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+    }}>
       <Box sx={{ pt: 4, pb: 2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
-        <Box sx={{ bgcolor: 'rgba(37, 99, 235, 0.08)', p: 1.5, borderRadius: 2.5, display: 'inline-flex' }}>
-          <DoneAllIcon sx={{ fontSize: 32, color: 'primary.main' }} />
+        <Box sx={{ bgcolor: 'rgba(99, 102, 241, 0.1)', p: 1.5, borderRadius: 2.5, display: 'inline-flex', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+          <DoneAllIcon sx={{ fontSize: 32, color: '#818cf8' }} />
         </Box>
-        <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: '-0.025em' }}>
+        <Typography variant="h5" sx={{ fontFamily: '"Outfit", sans-serif', fontWeight: 800, letterSpacing: '-0.025em' }}>
           Sign In to VisionBoard
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: '#9ca3af' }}>
           Manage your personal operating system
         </Typography>
       </Box>
 
       <CardContent sx={{ p: 4, pt: 1 }}>
         {error && (
-          <Alert severity="error" sx={{ mb: 3, borderRadius: 1.5 }}>
+          <Alert severity="error" sx={{ mb: 3, borderRadius: 2, background: 'rgba(239, 68, 68, 0.1)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
             {error}
           </Alert>
         )}
@@ -102,6 +111,15 @@ const Login = () => {
               helperText={formErrors.email}
               placeholder="name@example.com"
               variant="outlined"
+              InputLabelProps={{ style: { color: '#9ca3af' } }}
+              InputProps={{ style: { color: '#f3f4f6' } }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': { borderColor: 'rgba(255,255,255,0.15)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                  '&.Mui-focused fieldset': { borderColor: '#818cf8' },
+                }
+              }}
             />
 
             <TextField
@@ -114,28 +132,51 @@ const Login = () => {
               helperText={formErrors.password}
               placeholder="••••••••"
               variant="outlined"
+              InputLabelProps={{ style: { color: '#9ca3af' } }}
               InputProps={{
+                style: { color: '#f3f4f6' },
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
+                      sx={{ color: '#9ca3af' }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': { borderColor: 'rgba(255,255,255,0.15)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                  '&.Mui-focused fieldset': { borderColor: '#818cf8' },
+                }
+              }}
             />
 
             <Button
               type="submit"
               variant="contained"
-              color="primary"
-              size="large"
+              fullWidth
               disabled={loading}
-              startIcon={loading ? <CircularProgress size={20} /> : <LoginIcon />}
-              sx={{ py: 1.2, mt: 1 }}
+              startIcon={loading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : <LoginIcon />}
+              sx={{ 
+                py: 1.5, 
+                mt: 1,
+                borderRadius: 2,
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 700,
+                fontSize: 16,
+                background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                textTransform: 'none',
+                boxShadow: '0 8px 20px rgba(99,102,241,0.3)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #4f46e5 0%, #db2777 100%)',
+                  boxShadow: '0 12px 25px rgba(99,102,241,0.4)',
+                }
+              }}
             >
               {loading ? 'Signing In...' : 'Sign In'}
             </Button>
@@ -143,16 +184,16 @@ const Login = () => {
         </form>
 
         <Box sx={{ mt: 3, textAlign: 'center' }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" sx={{ color: '#9ca3af' }}>
             Don't have an account?{' '}
-            <Link to="/register" style={{ color: '#2563EB', textDecoration: 'none', fontWeight: 600 }}>
+            <Link to="/register" style={{ color: '#818cf8', textDecoration: 'none', fontWeight: 600 }}>
               Create Account
             </Link>
           </Typography>
         </Box>
 
-        <Divider sx={{ my: 3 }}>
-          <Typography variant="body2" color="text.secondary">
+        <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.1)' }}>
+          <Typography variant="body2" sx={{ color: '#6b7280' }}>
             OR
           </Typography>
         </Divider>
@@ -165,6 +206,8 @@ const Login = () => {
               console.log('Login Failed')
             }}
             useOneTap
+            theme="filled_black"
+            shape="pill"
           />
         </Box>
 

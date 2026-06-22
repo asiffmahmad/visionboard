@@ -11,18 +11,7 @@ const AuthLayout = () => {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: '"Inter","Outfit",sans-serif', background: '#0b0f19', overflowX: 'hidden' }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap');
-        * { box-sizing: border-box; }
-        @keyframes auth-glow { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        .auth-glow { animation: auth-glow 5s ease-in-out infinite; }
-        .auth-float { animation: float 7s ease-in-out infinite; }
-        @media (max-width: 900px) {
-          .auth-left-panel { display: none !important; }
-          .auth-right-panel { width: 100% !important; }
-        }
-      `}</style>
+
 
       {/* ── LEFT PANEL: Brand showcase ── */}
       <div className="auth-left-panel" style={{
