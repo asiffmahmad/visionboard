@@ -29,6 +29,11 @@ import About from '../pages/About'
 import AdminReviews from '../pages/AdminReviews'
 import PrivacyPolicy from '../pages/PrivacyPolicy'
 
+// Public Pages
+import PublicAbout from '../pages/PublicAbout'
+import Features from '../pages/Features'
+import HowItWorks from '../pages/HowItWorks'
+
 // Smart home: logged-in users go to /focus, others see Landing
 const SmartHome = () => {
   const { isAuthenticated } = useSelector((state) => state.auth)
@@ -41,6 +46,9 @@ const AppRoutes = () => {
       {/* Public Routes — visible to everyone (Google can crawl these) */}
       <Route path="/" element={<SmartHome />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/about" element={<PublicAbout />} />
+      <Route path="/features" element={<Features />} />
+      <Route path="/how-it-works" element={<HowItWorks />} />
 
       {/* Public Auth Routes */}
       <Route element={<AuthLayout />}>

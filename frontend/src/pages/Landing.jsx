@@ -102,14 +102,9 @@ const Landing = () => {
         {/* Desktop nav links */}
         {!isMobile && (
           <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-            {['Features', 'Integrations', 'How It Works'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-                style={{ color: '#9ca3af', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }}
-                onMouseOver={e => e.target.style.color = '#f3f4f6'}
-                onMouseOut={e => e.target.style.color = '#9ca3af'}>
-                {item}
-              </a>
-            ))}
+            <Link to="/features" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#f3f4f6'} onMouseOut={e => e.target.style.color = '#9ca3af'}>Features</Link>
+            <Link to="/how-it-works" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#f3f4f6'} onMouseOut={e => e.target.style.color = '#9ca3af'}>How It Works</Link>
+            <Link to="/about" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#f3f4f6'} onMouseOut={e => e.target.style.color = '#9ca3af'}>About Us</Link>
           </div>
         )}
 
@@ -134,13 +129,9 @@ const Landing = () => {
       {/* Mobile Menu Drawer */}
       {isMobile && menuOpen && (
         <div className="mobile-menu">
-          {['Features', 'Integrations', 'How It Works'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-              className="mobile-nav-link"
-              onClick={() => setMenuOpen(false)}>
-              {item}
-            </a>
-          ))}
+          <Link to="/features" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Features</Link>
+          <Link to="/how-it-works" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>How It Works</Link>
+          <Link to="/about" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>About Us</Link>
           <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
           <Link to="/login" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Log In</Link>
           <Link to="/register" className="btn-cta" style={{ marginTop: 8, justifyContent: 'center', textAlign: 'center' }} onClick={() => setMenuOpen(false)}>
@@ -324,7 +315,7 @@ const Landing = () => {
             <span style={{ color: '#374151', fontSize: 13, marginLeft: 4 }}>© {new Date().getFullYear()}</span>
           </div>
           <div style={{ display: 'flex', gap: isMobile ? 20 : 28, flexWrap: 'wrap', justifyContent: 'center' }}>
-            {[{ label: 'Privacy Policy', to: '/privacy-policy' }, { label: 'Sign Up', to: '/register' }, { label: 'Log In', to: '/login' }].map((l) => (
+            {[{ label: 'Features', to: '/features' }, { label: 'How It Works', to: '/how-it-works' }, { label: 'About', to: '/about' }, { label: 'Privacy Policy', to: '/privacy-policy' }].map((l) => (
               <Link key={l.label} to={l.to}
                 style={{ color: '#6b7280', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }}
                 onMouseOver={e => e.target.style.color = '#f3f4f6'}
