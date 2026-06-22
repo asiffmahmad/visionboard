@@ -48,7 +48,7 @@ const Landing = () => {
   const features = [
     { emoji: '🎯', title: 'Goals Tracker', desc: 'Set meaningful goals, break them into milestones, and track every step of your progress with beautiful visualisations.', color: '#6366f1' },
     { emoji: '🔥', title: 'Habit Builder', desc: 'Build life-changing habits with daily streaks, heatmaps, and consistency scores that keep you motivated every day.', color: '#ec4899' },
-    { emoji: '✅', title: 'Task Manager', desc: 'Organise your daily tasks with priorities, deadlines, and smart filters — so nothing ever falls through the cracks.', color: '#10b981' },
+    { emoji: '📋', title: 'Task Manager', desc: 'Organise your daily tasks with priorities, deadlines, and smart filters — so nothing ever falls through the cracks.', color: '#10b981' },
     { emoji: '🌟', title: 'Vision Board', desc: 'Create digital vision boards that keep your long-term aspirations front and centre, every single day.', color: '#f59e0b' },
     { emoji: '📓', title: 'Journal', desc: 'Reflect, plan and grow with a private daily journal that helps you track your thoughts and mental clarity.', color: '#8b5cf6' },
     { emoji: '📊', title: 'Smart Dashboard', desc: 'A powerful dashboard connecting Google, GitHub, Instagram and LinkedIn to show your real-world progress.', color: '#0ea5e9' },
@@ -170,10 +170,7 @@ const Landing = () => {
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 22 }}>✅</span>
-          <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 20, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            VisionBoard
-          </span>
+          <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 900, fontSize: 20, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px' }}>VisionBoard</span>
         </div>
 
         {/* Desktop nav links */}
@@ -397,9 +394,8 @@ const Landing = () => {
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: isMobile ? '32px 24px' : '40px 6%' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 20 : 0, alignItems: isMobile ? 'center' : 'center', justifyContent: 'space-between', textAlign: isMobile ? 'center' : 'left' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 18 }}>✅</span>
             <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VisionBoard</span>
-            <span style={{ color: '#374151', fontSize: 13, marginLeft: 6 }}>© {new Date().getFullYear()}</span>
+            <span style={{ color: '#374151', fontSize: 13, marginLeft: 4 }}>© {new Date().getFullYear()}</span>
           </div>
           <div style={{ display: 'flex', gap: isMobile ? 20 : 28, flexWrap: 'wrap', justifyContent: 'center' }}>
             {[{ label: 'Privacy Policy', to: '/privacy-policy' }, { label: 'Sign Up', to: '/register' }, { label: 'Log In', to: '/login' }].map((l) => (
