@@ -142,6 +142,31 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
 
       <Box sx={{ p: 2 }}>
         <Divider sx={{ mb: 2 }} />
+        {/* Privacy Policy link — required for Google AdSense */}
+        <ListItem disablePadding sx={{ mb: 0.5 }}>
+          <ListItemButton
+            component={Link}
+            to="/privacy-policy"
+            onClick={() => { if (mobileOpen) onDrawerToggle() }}
+            aria-label="Privacy Policy"
+            sx={{
+              borderRadius: 2,
+              py: 0.8,
+              px: 2,
+              color: 'text.disabled',
+              '&:hover': {
+                color: 'text.secondary',
+                bgcolor: 'action.hover',
+              },
+              transition: 'all 0.15s ease-in-out',
+            }}
+          >
+            <ListItemText
+              primary="Privacy Policy"
+              primaryTypographyProps={{ fontSize: '0.78rem', fontWeight: 500 }}
+            />
+          </ListItemButton>
+        </ListItem>
         <ListItemButton
           onClick={() => {
             if (mobileOpen) onDrawerToggle();

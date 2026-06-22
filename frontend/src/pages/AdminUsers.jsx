@@ -39,7 +39,8 @@ const AdminUsers = () => {
     { key: 'VISIONS_MODULE', label: 'Visions' },
     { key: 'GOALS_MODULE', label: 'Goals' },
     { key: 'TASKS_MODULE', label: 'My Tasks' },
-    { key: 'HABITS_MODULE', label: 'Habits' }
+    { key: 'HABITS_MODULE', label: 'Habits' },
+    { key: 'ADS_MODULE', label: 'Automated Ads' }
   ];
 
   useEffect(() => {

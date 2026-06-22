@@ -9,6 +9,20 @@ const Admin = () => {
   const dispatch = useDispatch()
   const { announcements, featureFlags, loading } = useSelector((state) => state.admin)
 
+  // Human-readable labels for each feature flag key
+  const FEATURE_FLAG_LABELS = {
+    VISIONS_MODULE:       'Visions Board',
+    GOALS_MODULE:         'Goals Tracker',
+    TASKS_MODULE:         'My Tasks',
+    HABITS_MODULE:        'Habit Tracker',
+    NOTES_MODULE:         'Notes',
+    JOURNAL_MODULE:       'Journal',
+    DARK_MODE:            'Dark Mode Toggle',
+    AI_INSIGHTS:          'AI Insights',
+    CALENDAR_INTEGRATION: 'Calendar Integration',
+    ADS_MODULE:           'Automated Ads (Sponsored Cards)',
+  };
+
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
@@ -69,7 +83,14 @@ const Admin = () => {
                 ) : (
                   featureFlags.map((flag) => (
                     <Box key={flag.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
-                      <Typography variant="body1" sx={{ fontWeight: 500 }}>{flag.featureName}</Typography>
+                      <Box>
+                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                          {FEATURE_FLAG_LABELS[flag.featureName] || flag.featureName}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          {flag.featureName}
+                        </Typography>
+                      </Box>
                       <FormControlLabel
                         control={<Switch checked={flag.enabledGlobally} onChange={() => handleToggleFlag(flag.featureName, flag.enabledGlobally)} color="primary" />}
                         label={flag.enabledGlobally ? 'Enabled' : 'Disabled'}

@@ -25,6 +25,7 @@ import NotFound from '../pages/NotFound'
 import HabitDetailPage from '../pages/HabitDetailPage'
 import About from '../pages/About'
 import AdminReviews from '../pages/AdminReviews'
+import PrivacyPolicy from '../pages/PrivacyPolicy'
 
 const AppRoutes = () => {
   return (
@@ -52,6 +53,7 @@ const AppRoutes = () => {
           <Route path="/habits/:id" element={<HabitDetailPage />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/journal" element={<Journal />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           
           {/* Admin Only Routes */}
           <Route element={<AdminRoute />}>

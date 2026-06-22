@@ -33,6 +33,23 @@ public class FeatureFlagServiceImpl implements FeatureFlagService {
     private final FeatureFlagMapper featureFlagMapper;
     private final UserFeatureOverrideMapper overrideMapper;
 
+    @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
+    @org.springframework.transaction.annotation.Transactional
+    public void initFeatureFlags() {
+        for (FeatureName name : FeatureName.values()) {
+            if (!featureFlagRepository.findByFeatureName(name).isPresent()) {
+                FeatureFlag flag = new FeatureFlag();
+                flag.setFeatureName(name);
+                if (name == FeatureName.ADS_MODULE) {
+                    flag.setEnabledGlobally(false);
+                } else {
+                    flag.setEnabledGlobally(true);
+                }
+                featureFlagRepository.save(flag);
+            }
+        }
+    }
+
     @Override
     public List<FeatureFlagDto> getAllFeatureFlags() {
         return featureFlagRepository.findAll().stream()

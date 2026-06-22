@@ -9,5 +9,6 @@ public enum FeatureName {
     CALENDAR_INTEGRATION,
     VISIONS_MODULE,
     GOALS_MODULE,
-    TASKS_MODULE
+    TASKS_MODULE,
+    ADS_MODULE
 }

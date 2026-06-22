@@ -28,7 +28,7 @@ const MainLayout = () => {
         sx={{
           flexGrow: 1,
           p: { xs: 2, sm: 3, md: 4 },
-          width: { md: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` },
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',

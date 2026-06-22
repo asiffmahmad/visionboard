@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Typography, Button } from '@mui/material'
 import { Alert } from '@mui/material'
+import RefreshIcon from '@mui/icons-material/Refresh'
 
 import LoadingSpinner from '../components/LoadingSpinner'
 import ToastNotification from '../components/ToastNotification'
@@ -25,7 +26,7 @@ import RecentWinsCard from '../components/dashboard/RecentWinsCard'
 import QuickActionsCard from '../components/dashboard/QuickActionsCard'
 import FocusInsightsCard from '../components/dashboard/FocusInsightsCard'
 import UpcomingDeadlinesCard from '../components/dashboard/UpcomingDeadlinesCard'
-import FloatingGoogleWidget from '../components/dashboard/FloatingGoogleWidget'
+import IntegrationCardsCarousel from '../components/dashboard/IntegrationCardsCarousel'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -67,8 +68,16 @@ const Dashboard = () => {
   }
 
   if (loading) return <LoadingSpinner message="Loading dashboard..." />
-  if (error) return <Box sx={{ p: 3, color: 'error.main' }}>{error}</Box>
-  if (!stats) return null
+  if (error) return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 2 }}>
+      <Typography variant="h6" color="error">Failed to load dashboard</Typography>
+      <Typography variant="body2" color="text.secondary">{error}</Typography>
+      <Button variant="contained" startIcon={<RefreshIcon />} onClick={() => { fetchDashboardStats(); dispatch(fetchVisions()); dispatch(fetchGoals()); dispatch(fetchHabits()); }}>
+        Retry
+      </Button>
+    </Box>
+  )
+  if (!stats) return <LoadingSpinner message="Loading dashboard data..." />
 
   // Safe mappings
   const safeVisions = Array.isArray(visions) ? visions : []
@@ -98,6 +107,9 @@ const Dashboard = () => {
         streak={stats.bestStreak} 
       />
 
+      {/* Integration Cards Carousel */}
+      {user && <IntegrationCardsCarousel />}
+
       {/* 3-Column Layout */}
       <Box 
         role="region" 
@@ -113,6 +125,7 @@ const Dashboard = () => {
         <Box sx={{ 
           width: { xs: '100%', md: '0' }, 
           flex: { md: 1 }, 
+          minWidth: 0,
           display: 'flex', flexDirection: 'column', gap: 3 
         }}>
           <VisionProgressCard vision={activeVision} />
@@ -124,6 +137,7 @@ const Dashboard = () => {
         <Box sx={{ 
           width: { xs: '100%', md: '0' }, 
           flex: { md: 1 }, 
+          minWidth: 0,
           display: 'flex', flexDirection: 'column', gap: 3 
         }}>
           <GoalRadarCard goals={safeGoals} />
@@ -135,6 +149,7 @@ const Dashboard = () => {
         <Box sx={{ 
           width: { xs: '100%', md: '0' }, 
           flex: { md: 1 }, 
+          minWidth: 0,
           display: 'flex', flexDirection: 'column', gap: 3 
         }}>
           <HabitHeatmapCard stats={stats} habits={safeHabits} />
@@ -149,7 +164,6 @@ const Dashboard = () => {
         severity={toastSeverity}
         onClose={() => setToastOpen(false)}
       />
-      {user && <FloatingGoogleWidget />}
     </Box>
   )
 }
