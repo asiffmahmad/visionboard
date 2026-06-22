@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import AppRoutes from '../routes/AppRoutes'
 import { fetchProfile, logout } from '../features/authSlice'
+import CookieConsentBanner from '../components/CookieConsentBanner'
 
 // 30 minutes idle timeout
 const IDLE_TIMEOUT_MS = 30 * 60 * 1000
@@ -134,6 +135,7 @@ const App = () => {
         <CssBaseline />
         <BrowserRouter>
           <AppRoutes />
+          <CookieConsentBanner />
         </BrowserRouter>
       </ThemeProvider>
     </GoogleOAuthProvider>
