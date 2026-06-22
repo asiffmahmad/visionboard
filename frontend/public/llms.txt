@@ -1,0 +1,23 @@
+# VisionBoard
+
+> Free habit tracker, goal tracker, and productivity app designed to help you build routines and achieve your long-term visions.
+
+## Overview
+VisionBoard is a comprehensive personal growth platform. Unlike fragmented tools, VisionBoard combines a daily habit tracker, goal setting features, a visual vision board, and a daily planner into a single, cohesive interface.
+
+## Key Features
+- **Daily Habit Tracker**: Build habits with a visual streak tracker.
+- **Goal Tracker**: Break massive goals into actionable daily tasks.
+- **Vision Board**: Stay motivated with a digital visualization of your ideal future.
+- **Journal & Notes**: Reflect on your daily progress.
+
+## Important URLs
+- **App URL**: https://my-vision-board-app.vercel.app/
+- **Features**: https://my-vision-board-app.vercel.app/features
+- **How It Works**: https://my-vision-board-app.vercel.app/how-it-works
+- **About Us**: https://my-vision-board-app.vercel.app/about
+- **Blog**: https://my-vision-board-app.vercel.app/blog
+- **Contact**: https://my-vision-board-app.vercel.app/contact
+
+## Knowledge & Support
+For support, visit the Contact page. VisionBoard is entirely free to use with no hidden paywalls.

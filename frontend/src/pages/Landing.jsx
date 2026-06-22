@@ -75,6 +75,16 @@ const Landing = () => {
     { step: '03', title: 'Track, grow & celebrate', desc: 'Watch your progress on a beautiful dashboard. Stay consistent. Achieve more.', color: '#10b981' },
   ];
 
+  const faqs = [
+    { q: 'What is a habit tracker?', a: 'A habit tracker is a tool that helps you build and maintain daily routines by visually recording your consistency over time.' },
+    { q: 'How does streak tracking work?', a: 'Streak tracking records consecutive days you perform a habit. It uses psychology to motivate you not to "break the chain".' },
+    { q: 'Can I track goals?', a: 'Yes! VisionBoard includes a robust goal tracker that lets you break large life goals into actionable daily tasks.' },
+    { q: 'Is the app free?', a: 'Yes, VisionBoard is 100% free. We believe everyone should have access to high-quality personal growth tools.' },
+    { q: 'How do vision boards help?', a: 'Vision boards provide a visual representation of your ideal future, keeping your motivation high and your daily habits aligned with your life goals.' },
+    { q: 'Can I use the app on mobile?', a: 'Absolutely. VisionBoard is a fully responsive web application that works perfectly on any mobile device or tablet.' },
+  ];
+
+
   return (
     <div style={{ background: '#0b0f19', color: '#f3f4f6', fontFamily: '"Inter", "Outfit", sans-serif', overflowX: 'hidden', minHeight: '100vh' }}>
       <SEO
@@ -282,6 +292,25 @@ const Landing = () => {
                   <h3 style={{ fontWeight: 700, fontSize: isMobile ? 16 : 18, marginBottom: 8, color: '#f3f4f6' }}>{s.title}</h3>
                   <p style={{ color: '#6b7280', fontSize: isMobile ? 14 : 15, lineHeight: 1.65 }}>{s.desc}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQS ── */}
+      <section id="faq" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <div id="faq-h" data-animate className={`landing-fade ${isVisible('faq-h') ? 'show' : ''}`} style={{ textAlign: 'center', marginBottom: isMobile ? 40 : 56 }}>
+            <h2 style={{ fontFamily: 'Outfit', fontSize: isMobile ? 28 : 42, fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.15 }}>
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <div id="faq-list" data-animate className={`landing-fade ${isVisible('faq-list') ? 'show' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {faqs.map((faq, index) => (
+              <div key={index} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 24 }}>
+                <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 8, color: '#f3f4f6' }}>{faq.q}</h3>
+                <p style={{ color: '#9ca3af', fontSize: 15, lineHeight: 1.6 }}>{faq.a}</p>
               </div>
             ))}
           </div>

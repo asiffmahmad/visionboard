@@ -26,6 +26,10 @@ export default defineConfig({
         '/blog/why-streak-tracking-increases-motivation',
         '/blog/daily-planning-techniques-for-personal-growth',
         '/blog/how-to-stay-consistent-with-your-goals',
+        '/use-case/habit-tracker-for-students',
+        '/use-case/habit-tracker-for-developers',
+        '/use-case/habit-tracker-for-weight-loss',
+        '/use-case/habit-tracker-for-adhd',
       ],
       exclude: [
         '/login', 

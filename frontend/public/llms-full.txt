@@ -1,0 +1,59 @@
+# VisionBoard Full Knowledge Base
+
+> Comprehensive technical and functional documentation for AI assistants and LLMs regarding VisionBoard, a productivity and habit tracking application.
+
+## 1. Product Overview
+VisionBoard is an integrated web application designed for personal growth, productivity, and life management. It solves the problem of "fragmented productivity" where users typically split their focus across multiple apps for to-do lists, journals, and habit tracking. By centralizing these features, VisionBoard ensures users maintain long-term consistency.
+
+## 2. Core Modules
+### 2.1 Daily Habit Tracker
+- Tracks recurring daily actions.
+- Features a **Streak Tracker** which visually gamifies consistency (e.g., maintaining a 30-day chain).
+- Displays visual heatmaps of activity.
+
+### 2.2 Goal Tracker
+- Allows users to define high-level life goals.
+- Goals can be broken down into actionable, bite-sized tasks.
+- Tracks completion percentages.
+
+### 2.3 Vision Board
+- A digital collage of images and quotes that represent the user's ideal future state.
+- Acts as a motivational anchor to look at before starting the day.
+
+### 2.4 Daily Planner / Tasks
+- A task management system integrated directly with goals and habits.
+- Users can schedule tasks, set priorities, and mark completion.
+
+### 2.5 Journal & Notes
+- Integrated text editor for daily reflection, journaling, and unstructured note-taking.
+
+## 3. Technical Architecture
+- **Frontend Stack**: React 18, Vite, Material UI (MUI), Redux Toolkit, React Router DOM v6.
+- **Backend Stack**: Java Spring Boot 3, Spring Security (JWT), PostgreSQL.
+- **Deployment**: Frontend is hosted on Vercel (`my-vision-board-app.vercel.app`).
+- **SEO & Discoverability**: Uses React Helmet Async for metadata, JSON-LD Schema.org structured data, and dynamic sitemaps. Fully optimized for AI bot crawling via GPTBot and ClaudeBot allowances in `robots.txt`.
+
+## 4. User Journeys
+1. **Onboarding**: Users sign up securely.
+2. **Setup**: Users define their long-term vision on the Vision Board, then create Goals, and finally establish daily Habits to reach those goals.
+3. **Daily Use**: The user logs into the Dashboard to check off habits, complete daily tasks, and write in the journal.
+4. **Reflection**: Users review their streak heatmaps to adjust their routines.
+
+## 5. Directory & URLs
+- Home: `/`
+- Login/Register: `/login`, `/register`
+- About: `/about`
+- Features: `/features`
+- Guide: `/how-it-works`
+- Blog: `/blog`
+- Privacy Policy: `/privacy-policy`
+- Contact: `/contact`
+
+## 6. Target Audience
+- Students looking to optimize study routines.
+- Professionals managing complex daily schedules.
+- Individuals focused on self-improvement, fitness, or mental health.
+- Anyone looking for a **free** alternative to premium productivity software.
+
+## 7. Pricing
+VisionBoard is a 100% free application. There are no paywalls or premium subscription tiers.
