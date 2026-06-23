@@ -21,7 +21,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import { GoogleLogin } from '@react-oauth/google'
 import { login, googleLogin } from '../services/authService'
-import { clearError } from '../features/authSlice'
+import { clearError, authFailure } from '../features/authSlice'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -210,10 +210,9 @@ const Login = () => {
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={() => {
-              dispatch(clearError())
+              dispatch(authFailure("Google Login popup blocked by browser. Check popup permissions or use Email login."))
               console.log('Login Failed')
             }}
-            useOneTap
             theme="filled_black"
             shape="pill"
           />

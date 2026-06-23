@@ -20,7 +20,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import { GoogleLogin } from '@react-oauth/google'
 import { register, googleLogin } from '../services/authService'
-import { clearError } from '../features/authSlice'
+import { clearError, authFailure } from '../features/authSlice'
 import { Divider } from '@mui/material'
 
 const Register = () => {
@@ -277,10 +277,9 @@ const Register = () => {
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={() => {
-              dispatch(clearError())
-              console.log('Login Failed')
+              dispatch(authFailure("Google Signup popup blocked by browser. Check popup permissions or use Email signup."))
+              console.log('Registration Failed')
             }}
-            useOneTap
             theme="filled_black"
             shape="pill"
           />
