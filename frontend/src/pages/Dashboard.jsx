@@ -6,6 +6,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 
 import LoadingSpinner from '../components/LoadingSpinner'
 import ToastNotification from '../components/ToastNotification'
+import AdUnit from '../components/AdUnit'
 
 import { fetchDashboardStats } from '../services/dashboardService'
 import { updateTaskStatus } from '../services/taskService'
@@ -109,6 +110,11 @@ const Dashboard = () => {
 
       {/* Integration Cards Carousel */}
       {user && <IntegrationCardsCarousel />}
+
+      {/* Dashboard Ad Slot */}
+      <Box sx={{ my: 3, width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <AdUnit slot="2747407245" format="horizontal" />
+      </Box>
 
       {/* 3-Column Layout */}
       <Box 
