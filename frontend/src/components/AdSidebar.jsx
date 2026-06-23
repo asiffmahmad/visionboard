@@ -25,7 +25,7 @@ const AdSidebar = () => {
         <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', textAlign: 'center', mb: 1, textTransform: 'uppercase', letterSpacing: 1 }}>
           Advertisement
         </Typography>
-        <AdUnit slot="7483921045" />
+        <AdUnit slot="2747407245" />
       </Card>
 
       {/* Recommended Tools / Call to Action */}
@@ -62,7 +62,7 @@ const AdSidebar = () => {
         <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', textAlign: 'center', mb: 1, textTransform: 'uppercase', letterSpacing: 1 }}>
           Advertisement
         </Typography>
-        <AdUnit slot="4920183745" />
+        <AdUnit slot="2747407245" />
       </Box>
     </Box>
   );
