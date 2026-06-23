@@ -22,6 +22,8 @@ const Blog = lazy(() => import('../pages/Blog'))
 const BlogPost = lazy(() => import('../pages/BlogPost'))
 const SeoClusterPage = lazy(() => import('../pages/SeoClusterPage'))
 
+const PublicLayoutWithSidebar = lazy(() => import('../layouts/PublicLayoutWithSidebar'))
+
 // Lazy loaded protected pages
 const Focus = lazy(() => import('../pages/Focus'))
 const Dashboard = lazy(() => import('../pages/Dashboard'))
@@ -66,9 +68,12 @@ const AppRoutes = () => {
         <Route path="/features" element={<Features />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="/use-case/:slug" element={<SeoClusterPage />} />
+        {/* Public Content Routes with Sidebar (AdSense) */}
+        <Route element={<PublicLayoutWithSidebar />}>
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/use-case/:slug" element={<SeoClusterPage />} />
+        </Route>
 
         {/* Public Auth Routes */}
         <Route element={<AuthLayout />}>
