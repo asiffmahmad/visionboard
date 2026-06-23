@@ -6,9 +6,8 @@ const OG_IMAGE = `${BASE_URL}/og-image.png`;
 const SITE_NAME = 'VisionBoard';
 
 const DEFAULT_META = {
-  title: 'VisionBoard | Free Habit Tracker, Goal Tracker & Vision Board App',
-  description:
-    'Free habit tracker and vision board app to track daily habits, set goals, build streaks, and plan your life. Build better routines, stay motivated, and achieve personal growth — all in one place.',
+  title: 'VisionBoard | Track Goals, Habits, and Tasks',
+  description: 'Track goals, habits, tasks, and visualize your progress with VisionBoard.',
   keywords:
     'habit tracker, daily habit tracker, free habit tracker, goal tracker, vision board app, productivity app, streak tracker, daily planner, personal growth app, routine tracker, self improvement app, goal setting app, motivation app, daily goals tracker, habit building app, success tracker, task tracker, life planner, productivity tracker, progress tracker',
 };
@@ -69,6 +68,17 @@ const SEO = ({
     },
   };
 
+  const organizationStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: BASE_URL,
+    logo: `${BASE_URL}/logo.png`,
+    sameAs: [
+      'https://github.com/asiffmahmad/todo',
+    ]
+  };
+
   return (
     <Helmet>
       {/* Standard SEO */}
@@ -104,6 +114,9 @@ const SEO = ({
       </script>
       <script type="application/ld+json">
         {JSON.stringify(websiteStructuredData)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(organizationStructuredData)}
       </script>
     </Helmet>
   );
