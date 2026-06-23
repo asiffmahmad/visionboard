@@ -137,3 +137,8 @@ html, body {
   .auth-left-panel { display: none !important; }
   .auth-right-panel { width: 100% !important; }
 }
+
+/* Hide empty AdSense blocks */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+}
