@@ -5,6 +5,7 @@ import com.todo.enums.Priority;
 import com.todo.enums.TaskStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +17,7 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
+    @EntityGraph(attributePaths = {"goal"})
     @Query("SELECT t FROM Task t WHERE t.user.id = :userId AND " +
            "(:status IS NULL OR t.status = :status) AND " +
            "(:priority IS NULL OR t.priority = :priority) AND " +
@@ -34,7 +36,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Long countByUserIdAndStatus(Long userId, TaskStatus status);
 
+    @EntityGraph(attributePaths = {"goal"})
     List<Task> findTop5ByUserIdOrderByCreatedAtDesc(Long userId);
 
+    @EntityGraph(attributePaths = {"goal"})
     List<Task> findByUserIdOrderByCreatedAtDesc(Long userId);
 }
