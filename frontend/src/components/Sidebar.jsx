@@ -26,6 +26,7 @@ import BookIcon from '@mui/icons-material/Book'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import StarIcon from '@mui/icons-material/Star'
 import InfoIcon from '@mui/icons-material/Info'
+import RateReviewIcon from '@mui/icons-material/RateReview'
 import { useSelector } from 'react-redux'
 import { logout } from '../services/authService'
 
@@ -63,6 +64,7 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   menuItems.push({ text: 'Journal', icon: <BookIcon />, path: '/journal' })
   menuItems.push({ text: 'Profile', icon: <PersonIcon />, path: '/profile' })
   menuItems.push({ text: 'About', icon: <InfoIcon />, path: '/about' })
+  menuItems.push({ text: 'Send Feedback', icon: <RateReviewIcon />, path: '/feedback' })
 
   if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') {
     menuItems.push({ text: 'Admin', icon: <AdminPanelSettingsIcon />, path: '/admin' })

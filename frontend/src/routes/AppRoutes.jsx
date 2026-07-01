@@ -38,6 +38,7 @@ const HabitDetailPage = lazy(() => import('../pages/HabitDetailPage'))
 const Notes = lazy(() => import('../pages/Notes'))
 const Journal = lazy(() => import('../pages/Journal'))
 const About = lazy(() => import('../pages/About'))
+const Feedback = lazy(() => import('../pages/Feedback'))
 const NotFound = lazy(() => import('../pages/NotFound'))
 
 // Lazy loaded admin pages
@@ -97,6 +98,7 @@ const AppRoutes = () => {
             <Route path="/habits/:id" element={<HabitDetailPage />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/journal" element={<Journal />} />
+            <Route path="/feedback" element={<Feedback />} />
             
             {/* Admin Only Routes */}
             <Route element={<AdminRoute />}>
