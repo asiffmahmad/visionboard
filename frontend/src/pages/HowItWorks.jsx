@@ -1,8 +1,10 @@
 import React from 'react';
 import { Container, Typography, Box, Stepper, Step, StepLabel, StepContent } from '@mui/material';
 import SEO from '../components/SEO';
+import { useSelector } from 'react-redux';
 
 const HowItWorks = () => {
+  const { darkMode } = useSelector((state) => state.theme);
   const steps = [
     {
       label: 'Create an Account',
@@ -23,29 +25,29 @@ const HowItWorks = () => {
   ];
 
   return (
-    <div style={{ background: '#0b0f19', minHeight: '100vh', color: '#f3f4f6' }}>
+    <div>
       <SEO
         title="How VisionBoard Works | Guide to Goal & Habit Tracking"
         description="Learn how to use VisionBoard to track your habits, set goals, and improve your daily productivity. Follow our simple steps to personal growth."
         path="/how-it-works"
       />
-      <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
+      <Container maxWidth="md" sx={{ py: { xs: 4, md: 8 } }}>
         <Typography variant="h1" sx={{ fontFamily: 'Outfit, sans-serif', fontSize: { xs: '2.5rem', md: '4rem' }, fontWeight: 900, mb: 4, textAlign: 'center' }}>
           How It Works
         </Typography>
-        <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', color: '#9ca3af', mb: 8 }}>
+        <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', color: darkMode ? '#9ca3af' : '#4b5563', mb: 8 }}>
           Your journey to better habits and achieving your goals starts here.
         </Typography>
         
         <Box sx={{ maxWidth: 600, mx: 'auto' }}>
-          <Stepper orientation="vertical" sx={{ '& .MuiStepLabel-label': { color: '#a5b4fc', fontSize: '1.4rem', fontFamily: 'Outfit, sans-serif', fontWeight: 700 } }}>
+          <Stepper orientation="vertical" sx={{ '& .MuiStepLabel-label': { color: darkMode ? '#a5b4fc' : '#6366f1', fontSize: '1.4rem', fontFamily: 'Outfit, sans-serif', fontWeight: 700 } }}>
             {steps.map((step, index) => (
               <Step key={step.label} active={true}>
                 <StepLabel>
                   {step.label}
                 </StepLabel>
                 <StepContent>
-                  <Typography sx={{ color: '#9ca3af', fontSize: '1.1rem', mb: 4 }}>{step.description}</Typography>
+                  <Typography sx={{ color: darkMode ? '#9ca3af' : '#4b5563', fontSize: '1.1rem', mb: 4 }}>{step.description}</Typography>
                 </StepContent>
               </Step>
             ))}

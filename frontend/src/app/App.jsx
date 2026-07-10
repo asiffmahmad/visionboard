@@ -113,12 +113,19 @@ const App = () => {
             styleOverrides: {
               root: {
                 backgroundImage: 'none',
+                transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
                 boxShadow: darkMode
                   ? '0 4px 20px 0 rgba(0, 0, 0, 0.4)'
                   : '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
                 border: darkMode
                   ? '1px solid rgba(255, 255, 255, 0.05)'
                   : '1px solid rgba(0, 0, 0, 0.05)',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: darkMode
+                    ? '0 12px 28px 0 rgba(0, 0, 0, 0.6)'
+                    : '0 12px 28px 0 rgba(99, 102, 241, 0.15)',
+                },
               },
             },
           },

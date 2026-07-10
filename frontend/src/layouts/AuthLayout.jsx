@@ -1,10 +1,12 @@
 import React from 'react'
-import { Outlet, Navigate, Link } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { IconButton } from '@mui/material'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import { toggleTheme } from '../features/themeSlice'
+import AnimatedLogo from '../components/AnimatedLogo'
+import PageTransition from '../components/PageTransition'
 
 const AuthLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth)
@@ -34,7 +36,7 @@ const AuthLayout = () => {
         <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 380 }}>
           {/* Logo */}
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', marginBottom: 56 }}>
-            <img src="/logo192.png" alt="Logo" style={{ width: 36, height: 36 }} />
+            <AnimatedLogo width={36} height={36} />
             <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 22, whiteSpace: 'nowrap', background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>My Vision Board</span>
           </Link>
 
@@ -98,12 +100,12 @@ const AuthLayout = () => {
         {/* Mobile logo (only shown when left panel is hidden) */}
         <div style={{ position: 'absolute', top: 20, left: 24, display: 'none' }} className="mobile-logo">
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <img src="/logo192.png" alt="Logo" style={{ width: 28, height: 28 }} />
+            <AnimatedLogo width={28} height={28} />
             <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 18, whiteSpace: 'nowrap', background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>My Vision Board</span>
           </Link>
         </div>
         <div style={{ width: '100%', maxWidth: 440 }}>
-          <Outlet />
+          <PageTransition />
         </div>
       </div>
     </div>

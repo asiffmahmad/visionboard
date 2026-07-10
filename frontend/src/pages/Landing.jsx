@@ -6,6 +6,7 @@ import { IconButton } from '@mui/material';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { toggleTheme } from '../features/themeSlice';
+import AnimatedLogo from '../components/AnimatedLogo'
 
 const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -113,7 +114,7 @@ const Landing = () => {
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <img src="/logo192.png" alt="Logo" style={{ width: 40, height: 40 }} />
+          <AnimatedLogo width={40} height={40} />
           <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 900, fontSize: 20, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px' }}>My Vision Board</span>
         </div>
 

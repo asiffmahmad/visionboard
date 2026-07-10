@@ -32,6 +32,7 @@ import LightModeIcon from '@mui/icons-material/LightMode'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleTheme } from '../features/themeSlice'
 import { logout } from '../services/authService'
+import AnimatedLogo from './AnimatedLogo'
 
 const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   const { pathname } = useLocation()
@@ -78,7 +79,7 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
       <Toolbar sx={{ px: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        <Box component="img" src="/logo192.png" alt="Logo" sx={{ width: 40, height: 40 }} />
+        <AnimatedLogo width={40} height={40} />
         <Typography
           variant="h5"
           sx={{

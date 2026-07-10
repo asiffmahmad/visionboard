@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
 import { Box, useTheme, useMediaQuery } from '@mui/material'
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
+import PageTransition from '../components/PageTransition'
 
 const drawerWidth = 260
 
@@ -39,7 +39,7 @@ const MainLayout = () => {
           }),
         }}
       >
-        <Outlet />
+        <PageTransition />
       </Box>
     </Box>
   )

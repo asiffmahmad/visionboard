@@ -67,11 +67,10 @@ const AppRoutes = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/public-about" element={<PublicAbout />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/how-it-works" element={<HowItWorks />} />
-        <Route path="/contact" element={<Contact />} />
         {/* Public Content Routes with Sidebar (AdSense) */}
         <Route element={<PublicLayoutWithSidebar />}>
+          <Route path="/features" element={<Features />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/use-case/:slug" element={<SeoClusterPage />} />

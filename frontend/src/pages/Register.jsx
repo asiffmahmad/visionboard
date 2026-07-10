@@ -23,6 +23,7 @@ import { GoogleLogin } from '@react-oauth/google'
 import { register, googleLogin } from '../services/authService'
 import { clearError, authFailure } from '../features/authSlice'
 import { Divider } from '@mui/material'
+import AnimatedLogo from '../components/AnimatedLogo'
 
 const Register = () => {
   const theme = useTheme();
@@ -104,7 +105,7 @@ const Register = () => {
     }}>
       <Box sx={{ pt: 4, pb: 2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
         <Box sx={{ display: 'inline-flex', mb: 1 }}>
-          <img src="/logo192.png" alt="Logo" style={{ width: 96, height: 96 }} />
+          <AnimatedLogo width={96} height={96} />
         </Box>
         <Typography variant="h5" sx={{ fontFamily: '"Outfit", sans-serif', fontWeight: 800, letterSpacing: '-0.025em' }}>
           Create Account
