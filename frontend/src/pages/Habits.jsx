@@ -7,7 +7,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import EditIcon from '@mui/icons-material/Edit'
 import { fetchHabits, addHabit, logHabit, deleteHabit, updateHabit } from '../features/habitSlice'
 import RepeatIcon from '@mui/icons-material/Repeat'
-import HabitWeeklyTracker from '../components/habits/HabitWeeklyTracker'
+import HabitCalendarTracker from '../components/habits/HabitCalendarTracker'
 
 const Habits = () => {
   const dispatch = useDispatch()
@@ -22,6 +22,7 @@ const Habits = () => {
 
   const [title, setTitle] = useState('')
   const [frequency, setFrequency] = useState('DAILY')
+  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0])
 
   useEffect(() => {
     dispatch(fetchHabits())
@@ -37,12 +38,14 @@ const Habits = () => {
     setEditId(habit.id)
     setTitle(habit.title)
     setFrequency(habit.frequency)
+    setStartDate(habit.startDate || new Date().toISOString().split('T')[0])
     setOpen(true)
   }
   const handleClose = () => {
     setOpen(false)
     setTitle('')
     setFrequency('DAILY')
+    setStartDate(new Date().toISOString().split('T')[0])
     setIsEditMode(false)
     setEditId(null)
   }
@@ -59,9 +62,9 @@ const Habits = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (isEditMode && editId) {
-      dispatch(updateHabit({ id: editId, data: { title, frequency } }))
+      dispatch(updateHabit({ id: editId, data: { title, frequency, startDate } }))
     } else {
-      dispatch(addHabit({ title, frequency }))
+      dispatch(addHabit({ title, frequency, startDate }))
     }
     handleClose()
   }
@@ -124,7 +127,7 @@ const Habits = () => {
                 </Box>
                 
                 <Box sx={{ my: 2 }}>
-                  <HabitWeeklyTracker habit={habit} onLogStatus={handleLogStatus} />
+                  <HabitCalendarTracker habit={habit} onLogStatus={handleLogStatus} />
                 </Box>
 
                 <Divider sx={{ mb: 2 }} />
@@ -143,8 +146,18 @@ const Habits = () => {
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ fontWeight: 700 }}>{isEditMode ? 'Edit Habit' : 'Add New Habit'}</DialogTitle>
         <form onSubmit={handleSubmit}>
-          <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
             <TextField label="Title" variant="outlined" fullWidth required value={title} onChange={(e) => setTitle(e.target.value)} />
+            <TextField 
+              type="date" 
+              label="Start Date" 
+              fullWidth 
+              required 
+              value={startDate} 
+              onChange={(e) => setStartDate(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ min: new Date().toISOString().split('T')[0] }}
+            />
             <FormControl fullWidth required>
               <InputLabel>Frequency</InputLabel>
               <Select value={frequency} label="Frequency" onChange={(e) => setFrequency(e.target.value)}>
@@ -195,7 +208,7 @@ const Habits = () => {
               </Typography>
               
               <Box sx={{ bgcolor: 'background.default', p: 2, borderRadius: 2 }}>
-                <HabitWeeklyTracker habit={selectedHabit} onLogStatus={handleLogStatus} />
+                <HabitCalendarTracker habit={selectedHabit} onLogStatus={handleLogStatus} />
               </Box>
             </>
           )}

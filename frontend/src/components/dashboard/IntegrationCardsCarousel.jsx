@@ -25,6 +25,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SyncIcon from '@mui/icons-material/Sync';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import AdUnit from '../AdUnit';
 
 import { useGoogleLogin } from '@react-oauth/google';
 import { syncGoogleAccount } from '../../services/authService';
@@ -1170,38 +1171,13 @@ const IntegrationCardsCarousel = () => {
         />
       ),
       content: (
-        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1.5, mt: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
-            <Box sx={{ flex: 1, minWidth: '220px' }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#FFB300' }}>
-                Your Ad Could Be Here ✨
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                Want to reach thousands of highly productive individuals? This prime spot is waiting for your creative showcase! 
-              </Typography>
-            </Box>
-            <Button 
-              variant="contained" 
-              size="small"
-              onClick={() => {
-                showActionToast('Contacting advertising team...');
-              }}
-              sx={{ 
-                bgcolor: '#FFB300', 
-                color: '#000', 
-                fontWeight: 700,
-                textTransform: 'none',
-                px: 3,
-                borderRadius: 2,
-                '&:hover': { bgcolor: '#FFA000' }
-              }}
-            >
-              Advertise With Us
-            </Button>
-          </Box>
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontStyle: 'italic' }}>
-            * Creative ads will be displayed here in the future.
-          </Typography>
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', mt: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <AdUnit 
+            client="ca-pub-2199514170121947" 
+            slot="2747407245" 
+            format="fluid" 
+            style={{ display: 'block', width: '100%', height: '100px' }} 
+          />
         </Box>
       )
     }

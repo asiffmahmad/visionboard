@@ -64,7 +64,6 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   menuItems.push({ text: 'Journal', icon: <BookIcon />, path: '/journal' })
   menuItems.push({ text: 'Profile', icon: <PersonIcon />, path: '/profile' })
   menuItems.push({ text: 'About', icon: <InfoIcon />, path: '/about' })
-  menuItems.push({ text: 'Send Feedback', icon: <RateReviewIcon />, path: '/feedback' })
 
   if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') {
     menuItems.push({ text: 'Admin', icon: <AdminPanelSettingsIcon />, path: '/admin' })

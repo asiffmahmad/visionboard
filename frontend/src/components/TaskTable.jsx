@@ -16,12 +16,13 @@ import {
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import dayjs from 'dayjs'
 
-const TaskTable = ({ tasks, onStatusChange, onDelete }) => {
+const TaskTable = ({ tasks, onStatusChange, onDelete, onView }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'COMPLETED':
@@ -139,6 +140,15 @@ const TaskTable = ({ tasks, onStatusChange, onDelete }) => {
               </TableCell>
               <TableCell align="right">
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 0.5 }}>
+                  <Tooltip title="View Task">
+                    <IconButton
+                      size="small"
+                      onClick={() => onView(task)}
+                      sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+                    >
+                      <VisibilityIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
                   <Tooltip title="Edit Task">
                     <IconButton
                       size="small"

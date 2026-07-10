@@ -11,17 +11,30 @@ const AdUnit = ({
   const adRef = useRef(null);
 
   useEffect(() => {
-    // Only push if not in local dev AND the ad hasn't been initialized yet
-    if (import.meta.env.PROD && adRef.current && !adRef.current.hasAttribute('data-adsbygoogle-status')) {
-      try {
-        if (typeof window !== 'undefined') {
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
+    if (import.meta.env.PROD && typeof document !== 'undefined') {
+      // Dynamically inject the AdSense script if it doesn't exist
+      let script = document.getElementById('adsbygoogle-script');
+      if (!script) {
+        script = document.createElement('script');
+        script.id = 'adsbygoogle-script';
+        script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        document.head.appendChild(script);
+      }
+
+      // Initialize the ad
+      if (adRef.current && !adRef.current.hasAttribute('data-adsbygoogle-status')) {
+        try {
+          if (typeof window !== 'undefined') {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+          }
+        } catch (e) {
+          console.error('AdSense error:', e);
         }
-      } catch (e) {
-        console.error('AdSense error:', e);
       }
     }
-  }, []);
+  }, [client]);
 
   // Show a placeholder box in local development instead of failing with AdSense errors
   if (import.meta.env.DEV) {

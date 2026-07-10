@@ -1,84 +1,116 @@
-import React from 'react'
-import { Box, Typography, Divider } from '@mui/material'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Box, Typography, Divider, IconButton, Tooltip, Menu, MenuItem } from '@mui/material'
 import DashboardCard from './DashboardCard'
-import { CheckCircle2, TrendingDown, TrendingUp, AlertCircle } from 'lucide-react'
+import { logHabit } from '../../features/habitSlice'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
-const HabitWidget = ({ stats, habits }) => {
+const HabitWidget = ({ habits }) => {
+  const dispatch = useDispatch()
+  const today = new Date().toISOString().split('T')[0]
+  
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [selectedHabitId, setSelectedHabitId] = useState(null)
+
+  const handleOpenMenu = (event, id) => {
+    setSelectedHabitId(id)
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+    setSelectedHabitId(null)
+  }
+
+  const handleSelectStatus = (status) => {
+    if (selectedHabitId) {
+      dispatch(logHabit({ id: selectedHabitId, date: today, status }))
+    }
+    handleCloseMenu()
+  }
+
+  const getLogForToday = (habit) => {
+    if (!habit.logs) return null
+    return habit.logs.find(log => log.date === today)
+  }
+
+  const renderIcon = (status) => {
+    switch (status) {
+      case 'COMPLETED': return <CheckCircleIcon color="success" />
+      case 'FAILED': return <CancelIcon color="error" />
+      case 'SKIPPED': return <RemoveCircleIcon color="error" />
+      default: return <RadioButtonUncheckedIcon color="disabled" />
+    }
+  }
+
   if (!Array.isArray(habits) || habits.length === 0) {
     return (
-      <DashboardCard title="Habit Intelligence">
+      <DashboardCard title="Today's Habits">
         <Typography color="text.secondary" textAlign="center" py={4}>No habits created yet.</Typography>
       </DashboardCard>
     )
   }
 
-  // Calculate metrics
-  const strongestHabit = [...habits].sort((a, b) => (b.healthScore || 0) - (a.healthScore || 0))[0];
-  const weakestHabit = [...habits].sort((a, b) => (a.healthScore || 0) - (b.healthScore || 0))[0];
-  const habitAtRisk = habits.find(h => h.streak === 0 && h.daysActive > 3) || weakestHabit;
-  
-  const totalCompletionRate = habits.reduce((acc, h) => acc + (h.completionRate || 0), 0) / habits.length;
+  const habitsToDisplay = habits.filter(habit => {
+    const log = getLogForToday(habit)
+    return !log || log.status !== 'COMPLETED'
+  })
+
+  if (habitsToDisplay.length === 0) {
+    return (
+      <DashboardCard title="Today's Habits">
+        <Typography color="text.secondary" textAlign="center" py={4}>All habits completed for today! 🎉</Typography>
+      </DashboardCard>
+    )
+  }
 
   return (
-    <DashboardCard title="Habit Intelligence">
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-        
-        {/* Top Stats */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box>
-            <Typography variant="caption" color="text.secondary" fontWeight={600} textTransform="uppercase">Global Completion</Typography>
-            <Typography variant="h4" fontWeight={800} color="primary.main">{Math.round(totalCompletionRate)}%</Typography>
-          </Box>
-          <Box textAlign="right">
-            <Typography variant="caption" color="text.secondary" fontWeight={600} textTransform="uppercase">Best Global Streak</Typography>
-            <Typography variant="h4" fontWeight={800}>{stats?.bestStreak || 0}</Typography>
-          </Box>
-        </Box>
+    <DashboardCard title="Today's Habits">
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+        {habitsToDisplay.map((habit, index) => {
+          const log = getLogForToday(habit)
+          const status = log ? log.status : 'NONE'
 
-        <Divider sx={{ my: 1 }} />
-
-        {/* Strongest Habit */}
-        {strongestHabit && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Box sx={{ p: 1, borderRadius: 2, bgcolor: 'success.50', color: 'success.main' }}>
-              <TrendingUp size={20} />
+          return (
+            <Box key={habit.id}>
+              {index > 0 && <Divider sx={{ mb: 1.5 }} />}
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flex: 1 }}>
+                  <Tooltip title={`Status: ${status}`}>
+                    <IconButton size="small" onClick={(e) => handleOpenMenu(e, habit.id)}>
+                      {renderIcon(status)}
+                    </IconButton>
+                  </Tooltip>
+                  <Box>
+                    <Typography variant="body1" fontWeight={600}>{habit.title}</Typography>
+                    <Typography variant="caption" color="text.secondary">🔥 Streak: {habit.streak}</Typography>
+                  </Box>
+                </Box>
+              </Box>
             </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" fontWeight={700}>Strongest Habit</Typography>
-              <Typography variant="body2" color="text.secondary">{strongestHabit.title}</Typography>
-            </Box>
-            <Typography variant="subtitle2" fontWeight={700} color="success.main">{Math.round(strongestHabit.healthScore || 0)}/100</Typography>
-          </Box>
-        )}
-
-        {/* Habit at Risk */}
-        {habitAtRisk && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Box sx={{ p: 1, borderRadius: 2, bgcolor: 'error.50', color: 'error.main' }}>
-              <AlertCircle size={20} />
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" fontWeight={700}>At Risk</Typography>
-              <Typography variant="body2" color="text.secondary">{habitAtRisk.title}</Typography>
-            </Box>
-            <Typography variant="subtitle2" fontWeight={700} color="error.main">Streak Broken</Typography>
-          </Box>
-        )}
-
-        {/* Weakest Habit */}
-        {weakestHabit && weakestHabit.id !== habitAtRisk?.id && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Box sx={{ p: 1, borderRadius: 2, bgcolor: 'warning.50', color: 'warning.main' }}>
-              <TrendingDown size={20} />
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle2" fontWeight={700}>Needs Attention</Typography>
-              <Typography variant="body2" color="text.secondary">{weakestHabit.title}</Typography>
-            </Box>
-            <Typography variant="subtitle2" fontWeight={700} color="warning.main">{Math.round(weakestHabit.healthScore || 0)}/100</Typography>
-          </Box>
-        )}
+          )
+        })}
       </Box>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleCloseMenu}
+      >
+        <MenuItem onClick={() => handleSelectStatus('COMPLETED')}>
+          <CheckCircleIcon color="success" sx={{ mr: 1 }} fontSize="small" /> Mark Completed
+        </MenuItem>
+        <MenuItem onClick={() => handleSelectStatus('FAILED')}>
+          <CancelIcon color="error" sx={{ mr: 1 }} fontSize="small" /> Mark Missed
+        </MenuItem>
+        <MenuItem onClick={() => handleSelectStatus('NONE')}>
+          <RadioButtonUncheckedIcon color="disabled" sx={{ mr: 1 }} fontSize="small" /> Clear
+        </MenuItem>
+      </Menu>
     </DashboardCard>
   )
 }

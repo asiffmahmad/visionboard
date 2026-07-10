@@ -94,9 +94,6 @@ const HabitWeeklyTracker = ({ habit, onLogStatus }) => {
         <MenuItem onClick={() => handleSelectStatus('FAILED')}>
           <CancelIcon color="error" sx={{ mr: 1 }} fontSize="small" /> Mark Missed
         </MenuItem>
-        <MenuItem onClick={() => handleSelectStatus('SKIPPED')}>
-          <RemoveCircleIcon color="disabled" sx={{ mr: 1 }} fontSize="small" /> Mark Skipped
-        </MenuItem>
         <MenuItem onClick={() => handleSelectStatus('NONE')}>
           <RadioButtonUncheckedIcon color="disabled" sx={{ mr: 1 }} fontSize="small" /> Clear
         </MenuItem>

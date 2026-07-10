@@ -17,6 +17,13 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import GridViewIcon from '@mui/icons-material/GridView'
 import TableRowsIcon from '@mui/icons-material/TableRows'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
+} from '@mui/material'
 import SearchBar from '../components/SearchBar'
 import FilterPanel from '../components/FilterPanel'
 import TaskCard from '../components/TaskCard'
@@ -41,6 +48,9 @@ const Tasks = () => {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState(null)
+
+  const [viewDialogOpen, setViewDialogOpen] = useState(false)
+  const [taskToView, setTaskToView] = useState(null)
 
   useEffect(() => {
     loadTasksData()
@@ -87,6 +97,11 @@ const Tasks = () => {
   const handleDeleteClick = (taskId) => {
     setTaskToDelete(taskId)
     setDeleteDialogOpen(true)
+  }
+
+  const handleViewClick = (task) => {
+    setTaskToView(task)
+    setViewDialogOpen(true)
   }
 
   const handleDeleteConfirm = async () => {
@@ -218,6 +233,7 @@ const Tasks = () => {
                 task={task}
                 onStatusChange={handleStatusChange}
                 onDelete={handleDeleteClick}
+                onView={handleViewClick}
               />
             </Grid>
           ))}
@@ -227,6 +243,7 @@ const Tasks = () => {
           tasks={items}
           onStatusChange={handleStatusChange}
           onDelete={handleDeleteClick}
+          onView={handleViewClick}
         />
       )}
 
@@ -252,6 +269,46 @@ const Tasks = () => {
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteDialogOpen(false)}
       />
+
+      {/* View Task Dialog */}
+      <Dialog open={viewDialogOpen} onClose={() => setViewDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 800 }}>Task Details</DialogTitle>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
+          {taskToView && (
+            <>
+              <Box>
+                <Typography variant="subtitle2" color="text.secondary">Title</Typography>
+                <Typography variant="body1" sx={{ fontWeight: 600, wordBreak: 'break-word' }}>{taskToView.title}</Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2" color="text.secondary">Description</Typography>
+                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{taskToView.description || 'No description'}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: { xs: 2, sm: 4 }, flexWrap: 'wrap', alignItems: 'center' }}>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">Status</Typography>
+                  <Typography variant="body2" sx={{ bgcolor: 'action.selected', px: 1.5, py: 0.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', display: 'inline-block', mt: 0.5, fontWeight: 600 }}>
+                    {taskToView.status.replace('_', ' ')}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">Priority</Typography>
+                  <Typography variant="body2" sx={{ bgcolor: 'action.selected', px: 1.5, py: 0.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', display: 'inline-block', mt: 0.5, fontWeight: 600 }}>
+                    {taskToView.priority}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">Due Date</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600 }}>{taskToView.dueDate || 'None'}</Typography>
+                </Box>
+              </Box>
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setViewDialogOpen(false)} variant="contained">Close</Button>
+        </DialogActions>
+      </Dialog>
 
       <ToastNotification
         open={toastOpen}

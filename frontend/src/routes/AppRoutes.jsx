@@ -17,6 +17,7 @@ const PublicAbout = lazy(() => import('../pages/PublicAbout'))
 const Features = lazy(() => import('../pages/Features'))
 const HowItWorks = lazy(() => import('../pages/HowItWorks'))
 const PrivacyPolicy = lazy(() => import('../pages/PrivacyPolicy'))
+const TermsOfService = lazy(() => import('../pages/TermsOfService'))
 const Contact = lazy(() => import('../pages/Contact'))
 const Blog = lazy(() => import('../pages/Blog'))
 const BlogPost = lazy(() => import('../pages/BlogPost'))
@@ -53,7 +54,7 @@ const SmartHome = () => {
 }
 
 const LoadingFallback = () => (
-  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#0b0f19' }}>
+  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: 'background.default' }}>
     <CircularProgress color="primary" />
   </Box>
 )
@@ -65,7 +66,8 @@ const AppRoutes = () => {
         {/* Public Routes */}
         <Route path="/" element={<SmartHome />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/about" element={<PublicAbout />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/public-about" element={<PublicAbout />} />
         <Route path="/features" element={<Features />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/contact" element={<Contact />} />

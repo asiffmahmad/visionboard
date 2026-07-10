@@ -18,6 +18,7 @@ export default defineConfig({
         '/features',
         '/how-it-works',
         '/privacy-policy',
+        '/terms',
         '/contact',
         '/blog',
         '/blog/best-habit-tracker-for-daily-productivity',

@@ -298,6 +298,28 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* ── SEO CONTENT: WHY CHOOSE VISIONBOARD ── */}
+      <section id="why-choose" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: '#0b0f19' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <div id="seo-h" data-animate className={`landing-fade ${isVisible('seo-h') ? 'show' : ''}`} style={{ textAlign: 'center', marginBottom: 40 }}>
+            <h2 style={{ fontFamily: 'Outfit', fontSize: isMobile ? 28 : 42, fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.15 }}>
+              Why Choose <span style={{ color: '#6366f1' }}>VisionBoard</span> as Your Productivity App?
+            </h2>
+          </div>
+          <div id="seo-p" data-animate className={`landing-fade ${isVisible('seo-p') ? 'show' : ''}`} style={{ color: '#9ca3af', fontSize: 16, lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <p>
+              In today's fast-paced world, staying consistent with personal growth can be challenging. VisionBoard was created to solve this by combining a <strong>daily habit tracker, goal tracker, and digital vision board</strong> into a single, unified platform. Instead of bouncing between different apps for task management, habit streaks, and long-term planning, you can now manage your entire life from one beautiful dashboard.
+            </p>
+            <p>
+              Our <strong>habit tracker</strong> helps you build lasting routines through psychology-backed streak tracking. Whether you're trying to read more, exercise daily, or build a new skill, visualising your streaks provides the daily motivation needed to avoid breaking the chain. Coupled with our <strong>goal tracker</strong>, you can break down intimidating life goals into manageable, actionable daily tasks.
+            </p>
+            <p>
+              Beyond tracking, the integrated <strong>vision board app</strong> feature ensures that your daily tasks are always aligned with your biggest aspirations. By keeping your long-term vision front and center, you maintain clarity and motivation even on difficult days. VisionBoard is completely free, highly secure, and seamlessly integrates with your existing digital life (like Google and GitHub) to give you a holistic view of your productivity journey.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ── FAQS ── */}
       <section id="faq" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -344,7 +366,7 @@ const Landing = () => {
             <span style={{ color: '#374151', fontSize: 13, marginLeft: 4 }}>© {new Date().getFullYear()}</span>
           </div>
           <div style={{ display: 'flex', gap: isMobile ? 20 : 28, flexWrap: 'wrap', justifyContent: 'center' }}>
-            {[{ label: 'Features', to: '/features' }, { label: 'How It Works', to: '/how-it-works' }, { label: 'About', to: '/about' }, { label: 'Privacy Policy', to: '/privacy-policy' }].map((l) => (
+            {[{ label: 'Features', to: '/features' }, { label: 'How It Works', to: '/how-it-works' }, { label: 'About', to: '/about' }, { label: 'Privacy Policy', to: '/privacy-policy' }, { label: 'Terms', to: '/terms' }].map((l) => (
               <Link key={l.label} to={l.to}
                 style={{ color: '#6b7280', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }}
                 onMouseOver={e => e.target.style.color = '#f3f4f6'}

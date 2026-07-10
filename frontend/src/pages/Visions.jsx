@@ -6,12 +6,15 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import EditIcon from '@mui/icons-material/Edit'
 import { fetchVisions, addVision, deleteVision, updateVision } from '../features/visionSlice'
+import { fetchGoals } from '../features/goalSlice'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 
 const Visions = () => {
   const dispatch = useDispatch()
   const { visions, loading } = useSelector((state) => state.visions)
+  const { goals } = useSelector((state) => state.goals)
+  const { items: tasks } = useSelector((state) => state.tasks)
 
   const [open, setOpen] = useState(false)
   const [viewOpen, setViewOpen] = useState(false)
@@ -29,6 +32,7 @@ const Visions = () => {
 
   useEffect(() => {
     dispatch(fetchVisions())
+    dispatch(fetchGoals())
   }, [dispatch])
 
   const handleOpen = () => {
@@ -108,7 +112,10 @@ const Visions = () => {
         </Card>
       ) : (
         <Grid container spacing={3}>
-          {visions.map((vision) => (
+          {visions.map((vision) => {
+            const visionGoals = goals?.filter(g => g.visionId === vision.id) || []
+            const visionTasks = tasks?.filter(t => visionGoals.some(g => g.id === t.goalId)) || []
+            return (
             <Grid item xs={12} sm={6} md={4} key={vision.id}>
               <Card sx={{ position: 'relative' }}>
                 <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
@@ -134,13 +141,13 @@ const Visions = () => {
                       {vision.visionType}
                     </Typography>
                     <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
-                      {vision.progress}% Complete
+                      {visionGoals.length} Goals | {visionTasks.length} Tasks
                     </Typography>
                   </Box>
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+          )})}
         </Grid>
       )}
 
@@ -203,8 +210,10 @@ const Visions = () => {
                   <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedVision.targetDate}</Typography>
                 </Box>
                 <Box>
-                  <Typography variant="subtitle2" color="text.secondary">Progress</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedVision.progress}%</Typography>
+                  <Typography variant="subtitle2" color="text.secondary">Assigned</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                    {(goals?.filter(g => g.visionId === selectedVision.id) || []).length} Goals
+                  </Typography>
                 </Box>
               </Box>
             </>

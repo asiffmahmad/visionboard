@@ -129,9 +129,9 @@ public class HabitServiceImpl implements HabitService {
         // Recalculate streak
         if (newStatus == com.todo.enums.HabitLogStatus.COMPLETED) {
             habit.setStreak(habit.getStreak() + 1);
-        } else if (newStatus == com.todo.enums.HabitLogStatus.FAILED) {
+        } else if (newStatus == com.todo.enums.HabitLogStatus.FAILED || newStatus == com.todo.enums.HabitLogStatus.SKIPPED) {
             habit.setStreak(0);
-        } // SKIPPED maintains the streak
+        }
         
         if (habit.getStreak() > habit.getBestStreak()) {
             habit.setBestStreak(habit.getStreak());

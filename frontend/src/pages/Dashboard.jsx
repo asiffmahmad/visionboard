@@ -111,10 +111,7 @@ const Dashboard = () => {
       {/* Integration Cards Carousel */}
       {user && <IntegrationCardsCarousel />}
 
-      {/* Dashboard Ad Slot */}
-      <Box sx={{ my: 3, width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <AdUnit slot="2747407245" format="horizontal" />
-      </Box>
+
 
       {/* 3-Column Layout */}
       <Box 

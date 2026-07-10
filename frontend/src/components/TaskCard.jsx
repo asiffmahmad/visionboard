@@ -12,13 +12,14 @@ import {
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import dayjs from 'dayjs'
 
-const TaskCard = ({ task, onStatusChange, onDelete }) => {
+const TaskCard = ({ task, onStatusChange, onDelete, onView }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'COMPLETED':
@@ -148,6 +149,15 @@ const TaskCard = ({ task, onStatusChange, onDelete }) => {
         </Tooltip>
 
         <Box>
+          <Tooltip title="View Task">
+            <IconButton
+              size="small"
+              onClick={() => onView(task)}
+              sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+            >
+              <VisibilityIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Edit Task">
             <IconButton
               size="small"
