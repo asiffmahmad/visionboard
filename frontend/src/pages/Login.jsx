@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTheme } from '@mui/material/styles'
 import SEO from '../components/SEO'
 import {
   Card,
@@ -24,6 +25,7 @@ import { login, googleLogin } from '../services/authService'
 import { clearError, authFailure } from '../features/authSlice'
 
 const Login = () => {
+  const theme = useTheme();
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { loading, error } = useSelector((state) => state.auth)
@@ -85,24 +87,24 @@ const Login = () => {
       backdropFilter: 'blur(16px)', 
       border: '1px solid rgba(255, 255, 255, 0.08)', 
       borderRadius: 4, 
-      color: '#f3f4f6',
+      color: (theme.palette.mode === 'dark' ? '#f3f4f6' : '#111827'),
       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
     }}>
       <Box sx={{ pt: 4, pb: 2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
-        <Box sx={{ bgcolor: 'rgba(99, 102, 241, 0.1)', p: 1.5, borderRadius: 2.5, display: 'inline-flex', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
-          <DoneAllIcon sx={{ fontSize: 32, color: '#818cf8' }} />
+        <Box sx={{ display: 'inline-flex', mb: 1 }}>
+          <img src="/logo192.png" alt="Logo" style={{ width: 96, height: 96 }} />
         </Box>
         <Typography variant="h5" sx={{ fontFamily: '"Outfit", sans-serif', fontWeight: 800, letterSpacing: '-0.025em' }}>
-          Sign In to VisionBoard
+          Sign In to My Vision Board
         </Typography>
-        <Typography variant="body2" sx={{ color: '#9ca3af' }}>
+        <Typography variant="body2" sx={{ color: (theme.palette.mode === 'dark' ? '#9ca3af' : '#4b5563') }}>
           Manage your personal operating system
         </Typography>
       </Box>
 
       <CardContent sx={{ p: 4, pt: 1 }}>
         {error && (
-          <Alert severity="error" sx={{ mb: 3, borderRadius: 2, background: 'rgba(239, 68, 68, 0.1)', color: '#fca5a5', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
+          <Alert severity="error" sx={{ mb: 3, borderRadius: 2, background: (theme.palette.mode === 'dark' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(239, 68, 68, 0.05)'), color: (theme.palette.mode === 'dark' ? '#fca5a5' : '#ef4444'), border: '1px solid rgba(239, 68, 68, 0.2)' }}>
             {error}
           </Alert>
         )}
@@ -119,12 +121,12 @@ const Login = () => {
               helperText={formErrors.email}
               placeholder="name@example.com"
               variant="outlined"
-              InputLabelProps={{ style: { color: '#9ca3af' } }}
-              InputProps={{ style: { color: '#f3f4f6' } }}
+              InputLabelProps={{ style: { color: (theme.palette.mode === 'dark' ? '#9ca3af' : '#4b5563') } }}
+              InputProps={{ style: { color: (theme.palette.mode === 'dark' ? '#f3f4f6' : '#111827') } }}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: 'rgba(255,255,255,0.15)' },
-                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                  '& fieldset': { borderColor: (theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)') },
+                  '&:hover fieldset': { borderColor: (theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)') },
                   '&.Mui-focused fieldset': { borderColor: '#818cf8' },
                 }
               }}
@@ -140,15 +142,15 @@ const Login = () => {
               helperText={formErrors.password}
               placeholder="••••••••"
               variant="outlined"
-              InputLabelProps={{ style: { color: '#9ca3af' } }}
+              InputLabelProps={{ style: { color: (theme.palette.mode === 'dark' ? '#9ca3af' : '#4b5563') } }}
               InputProps={{
-                style: { color: '#f3f4f6' },
+                style: { color: (theme.palette.mode === 'dark' ? '#f3f4f6' : '#111827') },
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
-                      sx={{ color: '#9ca3af' }}
+                      sx={{ color: (theme.palette.mode === 'dark' ? '#9ca3af' : '#4b5563') }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -157,8 +159,8 @@ const Login = () => {
               }}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: 'rgba(255,255,255,0.15)' },
-                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                  '& fieldset': { borderColor: (theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)') },
+                  '&:hover fieldset': { borderColor: (theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)') },
                   '&.Mui-focused fieldset': { borderColor: '#818cf8' },
                 }
               }}
@@ -192,7 +194,7 @@ const Login = () => {
         </form>
 
         <Box sx={{ mt: 3, textAlign: 'center' }}>
-          <Typography variant="body2" sx={{ color: '#9ca3af' }}>
+          <Typography variant="body2" sx={{ color: (theme.palette.mode === 'dark' ? '#9ca3af' : '#4b5563') }}>
             Don't have an account?{' '}
             <Link to="/register" style={{ color: '#818cf8', textDecoration: 'none', fontWeight: 600 }}>
               Create Account
@@ -200,7 +202,7 @@ const Login = () => {
           </Typography>
         </Box>
 
-        <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.1)' }}>
+        <Divider sx={{ my: 3, borderColor: (theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)') }}>
           <Typography variant="body2" sx={{ color: '#6b7280' }}>
             OR
           </Typography>

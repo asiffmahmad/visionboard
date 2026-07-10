@@ -10,7 +10,7 @@ import { fetchTasks, updateTaskStatus } from '../services/taskService'
 import { fetchGoals } from '../features/goalSlice'
 import { fetchVisions } from '../features/visionSlice'
 import { fetchHabits, logHabit } from '../features/habitSlice'
-import { addNote } from '../features/noteSlice'
+import { addEntry } from '../features/journalSlice'
 import ToastNotification from '../components/ToastNotification'
 
 const Focus = () => {
@@ -54,7 +54,7 @@ const Focus = () => {
   const handleSaveNote = async () => {
     if (!quickNote.trim()) return
     try {
-      await dispatch(addNote({ title: 'Quick Note', content: quickNote }))
+      await dispatch(addEntry({ title: 'Quick Note', content: quickNote, entryType: 'GENERAL_NOTE', mood: 'Neutral' }))
       setQuickNote('')
       setToastMessage('Note saved to Vault!')
       setToastOpen(true)

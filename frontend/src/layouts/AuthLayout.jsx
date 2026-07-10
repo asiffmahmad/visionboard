@@ -1,23 +1,29 @@
 import React from 'react'
 import { Outlet, Navigate, Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { IconButton } from '@mui/material'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import { toggleTheme } from '../features/themeSlice'
 
 const AuthLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth)
+  const { darkMode } = useSelector((state) => state.theme)
+  const dispatch = useDispatch()
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', fontFamily: '"Inter","Outfit",sans-serif', background: '#0b0f19', overflowX: 'hidden' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', fontFamily: '"Inter","Outfit",sans-serif', backgroundColor: darkMode ? '#0b0f19' : '#f9fafb', overflowX: 'hidden' }}>
 
 
       {/* ── LEFT PANEL: Brand showcase ── */}
       <div className="auth-left-panel" style={{
         width: '45%', flexShrink: 0, position: 'relative', overflow: 'hidden',
-        background: 'linear-gradient(145deg, #0f0f23 0%, #0b0f19 50%, #0f1628 100%)',
-        borderRight: '1px solid rgba(255,255,255,0.06)',
+        background: darkMode ? 'linear-gradient(145deg, #0f0f23 0%, #0b0f19 50%, #0f1628 100%)' : 'linear-gradient(145deg, #f0f4ff 0%, #ffffff 50%, #eef2ff 100%)',
+        borderRight: darkMode ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.06)',
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         padding: '60px 48px',
       }}>
@@ -28,19 +34,19 @@ const AuthLayout = () => {
         <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 380 }}>
           {/* Logo */}
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', marginBottom: 56 }}>
-            <span style={{ fontSize: 28 }}>✅</span>
-            <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 22, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VisionBoard</span>
+            <img src="/logo192.png" alt="Logo" style={{ width: 36, height: 36 }} />
+            <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 22, whiteSpace: 'nowrap', background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>My Vision Board</span>
           </Link>
 
           {/* Headline */}
-          <h2 style={{ fontFamily: 'Outfit,sans-serif', fontSize: 38, fontWeight: 900, lineHeight: 1.15, letterSpacing: '-1.5px', color: '#f3f4f6', marginBottom: 16 }}>
+          <h2 style={{ fontFamily: 'Outfit,sans-serif', fontSize: 38, fontWeight: 900, lineHeight: 1.15, letterSpacing: '-1.5px', color: darkMode ? '#f3f4f6' : '#111827', marginBottom: 16 }}>
             Build your{' '}
             <span style={{ background: 'linear-gradient(135deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               best life
             </span>{' '}
             one habit at a time.
           </h2>
-          <p style={{ color: '#6b7280', fontSize: 16, lineHeight: 1.75, marginBottom: 48 }}>
+          <p style={{ color: darkMode ? '#9ca3af' : '#4b5563', fontSize: 16, lineHeight: 1.75, marginBottom: 48 }}>
             Track goals, build habits, manage tasks and connect all your digital tools in one beautiful dashboard.
           </p>
 
@@ -51,9 +57,9 @@ const AuthLayout = () => {
             { emoji: '✅', text: 'Smart Task Management' },
             { emoji: '📊', text: 'Live App Integrations' },
           ].map((f) => (
-            <div key={f.text} style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16, padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12 }}>
+            <div key={f.text} style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16, padding: '14px 18px', background: darkMode ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)', border: darkMode ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.07)', borderRadius: 12 }}>
               <span style={{ fontSize: 20, flexShrink: 0 }}>{f.emoji}</span>
-              <span style={{ color: '#d1d5db', fontSize: 15, fontWeight: 500 }}>{f.text}</span>
+              <span style={{ color: darkMode ? '#d1d5db' : '#374151', fontSize: 15, fontWeight: 500 }}>{f.text}</span>
               <span style={{ marginLeft: 'auto', color: '#6366f1', fontSize: 18 }}>✓</span>
             </div>
           ))}
@@ -80,14 +86,20 @@ const AuthLayout = () => {
 
       {/* ── RIGHT PANEL: Form ── */}
       <div className="auth-right-panel" style={{
-        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '40px 24px', overflowY: 'auto',
+        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative',
+        padding: '40px 24px', overflowY: 'auto', backgroundColor: darkMode ? '#111827' : '#ffffff'
       }}>
+        {/* Theme Toggle Button */}
+        <div style={{ position: 'absolute', top: 24, right: 24 }}>
+          <IconButton onClick={() => dispatch(toggleTheme())} color="inherit">
+            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+        </div>
         {/* Mobile logo (only shown when left panel is hidden) */}
         <div style={{ position: 'absolute', top: 20, left: 24, display: 'none' }} className="mobile-logo">
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-            <span style={{ fontSize: 22 }}>✅</span>
-            <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 18, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VisionBoard</span>
+            <img src="/logo192.png" alt="Logo" style={{ width: 28, height: 28 }} />
+            <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 18, whiteSpace: 'nowrap', background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>My Vision Board</span>
           </Link>
         </div>
         <div style={{ width: '100%', maxWidth: 440 }}>

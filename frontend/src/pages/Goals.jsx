@@ -141,7 +141,7 @@ const Goals = () => {
                       {goal.goalType}
                     </Typography>
                     <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
-                      {goal.progress}% Complete
+                      {goal.completedTasks} / {goal.totalTasks} Tasks Completed
                     </Typography>
                   </Box>
                 </CardContent>
@@ -219,7 +219,7 @@ const Goals = () => {
                 </Box>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">Progress</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedGoal.progress}%</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600 }}>{selectedGoal.completedTasks} / {selectedGoal.totalTasks} Tasks</Typography>
                 </Box>
               </Box>
             </>

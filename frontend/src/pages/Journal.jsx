@@ -162,6 +162,7 @@ const Journal = () => {
                 <MenuItem value="GRATITUDE">Gratitude</MenuItem>
                 <MenuItem value="IDEA">Idea</MenuItem>
                 <MenuItem value="LESSON_LEARNED">Lesson Learned</MenuItem>
+                <MenuItem value="GENERAL_NOTE">General Note</MenuItem>
               </Select>
             </FormControl>
             <TextField label="Mood" variant="outlined" fullWidth value={mood} onChange={(e) => setMood(e.target.value)} />

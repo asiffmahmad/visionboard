@@ -142,3 +142,21 @@ html, body {
 ins.adsbygoogle[data-ad-status="unfilled"] {
   display: none !important;
 }
+
+/* Light Mode Overrides for buttons and cards */
+.light-mode .btn-outline {
+  background: rgba(0, 0, 0, 0.05);
+  color: #111827;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.light-mode .btn-outline:hover {
+  background: rgba(0, 0, 0, 0.09);
+  border-color: rgba(0, 0, 0, 0.3);
+}
+.light-mode .feat-card {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.light-mode .feat-card:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

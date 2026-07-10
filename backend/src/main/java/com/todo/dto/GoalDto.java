@@ -15,6 +15,8 @@ public record GoalDto(
     TaskStatus status,
     boolean achieved,
     double progress,
+    int totalTasks,
+    int completedTasks,
     LocalDate targetDate,
     LocalDateTime createdAt,
     LocalDateTime updatedAt

@@ -36,7 +36,6 @@ const Visions = lazy(() => import('../pages/Visions'))
 const Goals = lazy(() => import('../pages/Goals'))
 const Habits = lazy(() => import('../pages/Habits'))
 const HabitDetailPage = lazy(() => import('../pages/HabitDetailPage'))
-const Notes = lazy(() => import('../pages/Notes'))
 const Journal = lazy(() => import('../pages/Journal'))
 const About = lazy(() => import('../pages/About'))
 const Feedback = lazy(() => import('../pages/Feedback'))
@@ -98,7 +97,6 @@ const AppRoutes = () => {
             <Route path="/goals" element={<Goals />} />
             <Route path="/habits" element={<Habits />} />
             <Route path="/habits/:id" element={<HabitDetailPage />} />
-            <Route path="/notes" element={<Notes />} />
             <Route path="/journal" element={<Journal />} />
             <Route path="/feedback" element={<Feedback />} />
             

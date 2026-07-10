@@ -5,5 +5,6 @@ public enum JournalType {
     REFLECTION,
     GRATITUDE,
     IDEA,
-    LESSON_LEARNED
+    LESSON_LEARNED,
+    GENERAL_NOTE
 }

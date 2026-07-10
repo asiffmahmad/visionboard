@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { useSelector, useDispatch } from 'react-redux';
+import { IconButton } from '@mui/material';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { toggleTheme } from '../features/themeSlice';
 
 const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -13,6 +18,8 @@ const useWindowWidth = () => {
 };
 
 const Landing = () => {
+  const { darkMode } = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState(new Set());
   const [menuOpen, setMenuOpen] = useState(false);
@@ -86,7 +93,7 @@ const Landing = () => {
 
 
   return (
-    <div style={{ background: '#0b0f19', color: '#f3f4f6', fontFamily: '"Inter", "Outfit", sans-serif', overflowX: 'hidden', minHeight: '100vh' }}>
+    <div style={{ background: (darkMode ? '#0b0f19' : '#ffffff'), color: (darkMode ? '#f3f4f6' : '#111827'), fontFamily: '"Inter", "Outfit", sans-serif', overflowX: 'hidden', minHeight: '100vh' }}>
       <SEO
         title="VisionBoard | Free Habit Tracker, Goal Tracker & Vision Board App"
         description="Free all-in-one productivity app to track daily habits, set goals, build streaks, and create vision boards. Start your personal growth journey today — 100% free."
@@ -99,28 +106,32 @@ const Landing = () => {
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: isMobile ? '0 20px' : '0 6%', height: 64,
-        background: scrollY > 40 || menuOpen ? 'rgba(11,15,25,0.97)' : 'transparent',
+        background: scrollY > 40 || menuOpen ? (darkMode ? 'rgba(11,15,25,0.97)' : 'rgba(255,255,255,0.97)') : 'transparent',
         backdropFilter: scrollY > 40 || menuOpen ? 'blur(20px)' : 'none',
         borderBottom: scrollY > 40 ? '1px solid rgba(255,255,255,0.08)' : 'none',
         transition: 'all 0.3s ease',
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 900, fontSize: 20, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px' }}>VisionBoard</span>
+          <img src="/logo192.png" alt="Logo" style={{ width: 40, height: 40 }} />
+          <span style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 900, fontSize: 20, background: 'linear-gradient(90deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px' }}>My Vision Board</span>
         </div>
 
         {/* Desktop nav links */}
         {!isMobile && (
           <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-            <Link to="/features" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#f3f4f6'} onMouseOut={e => e.target.style.color = '#9ca3af'}>Features</Link>
-            <Link to="/how-it-works" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#f3f4f6'} onMouseOut={e => e.target.style.color = '#9ca3af'}>How It Works</Link>
-            <Link to="/about" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#f3f4f6'} onMouseOut={e => e.target.style.color = '#9ca3af'}>About Us</Link>
+            <Link to="/features" style={{ color: (darkMode ? '#9ca3af' : '#4b5563'), textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = (darkMode ? '#f3f4f6' : '#111827')} onMouseOut={e => e.target.style.color = (darkMode ? '#9ca3af' : '#4b5563')}>Features</Link>
+            <Link to="/how-it-works" style={{ color: (darkMode ? '#9ca3af' : '#4b5563'), textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = (darkMode ? '#f3f4f6' : '#111827')} onMouseOut={e => e.target.style.color = (darkMode ? '#9ca3af' : '#4b5563')}>How It Works</Link>
+            <Link to="/about" style={{ color: (darkMode ? '#9ca3af' : '#4b5563'), textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = (darkMode ? '#f3f4f6' : '#111827')} onMouseOut={e => e.target.style.color = (darkMode ? '#9ca3af' : '#4b5563')}>About Us</Link>
           </div>
         )}
 
         {/* Desktop CTA buttons */}
         {!isMobile && (
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <IconButton color="inherit" onClick={() => dispatch(toggleTheme())} aria-label="Toggle dark mode" style={{ color: darkMode ? '#fff' : '#000' }}>
+              {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
             <Link to="/login" className="btn-outline" style={{ padding: '9px 20px', fontSize: 14 }}>Log In</Link>
             <Link to="/register" className="btn-cta" style={{ padding: '9px 20px', fontSize: 14 }}>Get Started Free</Link>
           </div>
@@ -128,11 +139,16 @@ const Landing = () => {
 
         {/* Hamburger */}
         {isMobile && (
-          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <IconButton color="inherit" onClick={() => dispatch(toggleTheme())} aria-label="Toggle dark mode" style={{ color: darkMode ? '#fff' : '#000' }}>
+              {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+            <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
             <span style={{ transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
             <span style={{ opacity: menuOpen ? 0 : 1 }} />
             <span style={{ transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
           </button>
+          </div>
         )}
       </nav>
 
@@ -142,7 +158,7 @@ const Landing = () => {
           <Link to="/features" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Features</Link>
           <Link to="/how-it-works" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>How It Works</Link>
           <Link to="/about" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>About Us</Link>
-          <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
+          <div style={{ height: 1, background: (darkMode ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'), margin: '8px 0' }} />
           <Link to="/login" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Log In</Link>
           <Link to="/register" className="btn-cta" style={{ marginTop: 8, justifyContent: 'center', textAlign: 'center' }} onClick={() => setMenuOpen(false)}>
             🚀 Get Started Free
@@ -176,7 +192,7 @@ const Landing = () => {
           </h1>
 
           {/* Subheading */}
-          <p style={{ fontSize: isMobile ? 16 : 19, color: '#9ca3af', lineHeight: 1.75, maxWidth: 600, margin: '0 auto 40px', fontWeight: 400, padding: isMobile ? '0 4px' : 0 }}>
+          <p style={{ fontSize: isMobile ? 16 : 19, color: (darkMode ? '#9ca3af' : '#4b5563'), lineHeight: 1.75, maxWidth: 600, margin: '0 auto 40px', fontWeight: 400, padding: isMobile ? '0 4px' : 0 }}>
             VisionBoard is your all-in-one productivity app — combining a daily habit tracker, goal tracker, vision board, streak tracker, and daily planner so you can build better habits and achieve personal growth.
           </p>
 
@@ -194,11 +210,11 @@ const Landing = () => {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex' }}>
               {['🧑', '👩', '🧔', '👱', '🧑‍💻'].map((e, i) => (
-                <div key={i} style={{ width: 34, height: 34, borderRadius: '50%', background: `hsl(${i * 55},60%,48%)`, border: '2px solid #0b0f19', marginLeft: i > 0 ? -9 : 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15 }}>{e}</div>
+                <div key={i} style={{ width: 34, height: 34, borderRadius: '50%', background: `hsl(${i * 55},60%,48%)`, border: `2px solid ${darkMode ? '#0b0f19' : '#ffffff'}`, marginLeft: i > 0 ? -9 : 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15 }}>{e}</div>
               ))}
             </div>
-            <p style={{ color: '#6b7280', fontSize: 14, fontWeight: 500 }}>
-              Join <span style={{ color: '#f3f4f6', fontWeight: 700 }}>500+</span> users building their best life
+            <p style={{ color: (darkMode ? '#6b7280' : '#4b5563'), fontSize: 14, fontWeight: 500 }}>
+              Join <span style={{ color: (darkMode ? '#f3f4f6' : '#111827'), fontWeight: 700 }}>500+</span> users building their best life
             </p>
           </div>
         </div>
@@ -210,7 +226,7 @@ const Landing = () => {
           {stats.map((s, i) => (
             <div key={i} className="stat-card">
               <div style={{ fontFamily: 'Outfit', fontSize: isMobile ? 36 : 44, fontWeight: 900, background: 'linear-gradient(135deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1.1, marginBottom: 8 }}>{s.value}</div>
-              <div style={{ color: '#9ca3af', fontSize: isMobile ? 13 : 14, fontWeight: 500 }}>{s.label}</div>
+              <div style={{ color: (darkMode ? '#9ca3af' : '#4b5563'), fontSize: isMobile ? 13 : 14, fontWeight: 500 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -225,7 +241,7 @@ const Landing = () => {
               Habit Tracker, Goal Tracker &amp; Vision Board —{' '}
               <span style={{ background: 'linear-gradient(135deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>One Beautiful Place</span>
             </h2>
-            <p style={{ color: '#6b7280', fontSize: isMobile ? 15 : 17, maxWidth: 520, margin: '0 auto' }}>
+            <p style={{ color: (darkMode ? '#6b7280' : '#4b5563'), fontSize: isMobile ? 15 : 17, maxWidth: 520, margin: '0 auto' }}>
               Stop juggling 10 different apps. VisionBoard is the free productivity app that brings your habit tracker, goal tracker, streak tracker, and daily planner all together.
             </p>
           </div>
@@ -235,8 +251,8 @@ const Landing = () => {
             {features.map((f, i) => (
               <div key={i} className="feat-card">
                 <div style={{ width: 50, height: 50, borderRadius: 13, background: `${f.color}18`, border: `1px solid ${f.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 16 }}>{f.emoji}</div>
-                <h3 style={{ fontWeight: 700, fontSize: 17, marginBottom: 10, color: '#f3f4f6' }}>{f.title}</h3>
-                <p style={{ color: '#6b7280', fontSize: 14, lineHeight: 1.7 }}>{f.desc}</p>
+                <h3 style={{ fontWeight: 700, fontSize: 17, marginBottom: 10, color: (darkMode ? '#f3f4f6' : '#111827') }}>{f.title}</h3>
+                <p style={{ color: (darkMode ? '#6b7280' : '#4b5563'), fontSize: 14, lineHeight: 1.7 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -244,7 +260,7 @@ const Landing = () => {
       </section>
 
       {/* ── INTEGRATIONS ── */}
-      <section id="integrations" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <section id="integrations" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: (darkMode ? 'rgba(255,255,255,0.01)' : 'rgba(0,0,0,0.01)'), borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile || isTablet ? '1fr' : '1fr 1fr', gap: isMobile ? 48 : 72, alignItems: 'center' }}>
           {/* Text */}
           <div id="int-t" data-animate className={`landing-fade ${isVisible('int-t') ? 'show' : ''}`}>
@@ -253,7 +269,7 @@ const Landing = () => {
               Your Digital Life,{' '}
               <span style={{ background: 'linear-gradient(135deg,#ec4899,#6366f1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>All Connected</span>
             </h2>
-            <p style={{ color: '#6b7280', fontSize: isMobile ? 15 : 16, lineHeight: 1.75, marginBottom: 28 }}>
+            <p style={{ color: (darkMode ? '#6b7280' : '#4b5563'), fontSize: isMobile ? 15 : 16, lineHeight: 1.75, marginBottom: 28 }}>
               Connect Google Workspace, GitHub, Instagram, and LinkedIn to see your real-world metrics live on your dashboard. Zero manual updates.
             </p>
             <Link to="/register" className="btn-cta" style={{ fontSize: 15, padding: '13px 28px' }}>Connect Your Accounts →</Link>
@@ -267,7 +283,7 @@ const Landing = () => {
                 <div style={{ fontSize: 28, flexShrink: 0 }}>{int.icon}</div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 15, color: int.color, marginBottom: 4 }}>{int.name}</div>
-                  <div style={{ color: '#6b7280', fontSize: 13, lineHeight: 1.5 }}>{int.desc}</div>
+                  <div style={{ color: (darkMode ? '#6b7280' : '#4b5563'), fontSize: 13, lineHeight: 1.5 }}>{int.desc}</div>
                 </div>
               </div>
             ))}
@@ -289,8 +305,8 @@ const Landing = () => {
               <div key={s.step} className="step-card">
                 <div style={{ fontFamily: 'Outfit', fontSize: isMobile ? 30 : 38, fontWeight: 900, color: s.color, opacity: 0.7, minWidth: isMobile ? 48 : 58, lineHeight: 1 }}>{s.step}</div>
                 <div>
-                  <h3 style={{ fontWeight: 700, fontSize: isMobile ? 16 : 18, marginBottom: 8, color: '#f3f4f6' }}>{s.title}</h3>
-                  <p style={{ color: '#6b7280', fontSize: isMobile ? 14 : 15, lineHeight: 1.65 }}>{s.desc}</p>
+                  <h3 style={{ fontWeight: 700, fontSize: isMobile ? 16 : 18, marginBottom: 8, color: (darkMode ? '#f3f4f6' : '#111827') }}>{s.title}</h3>
+                  <p style={{ color: (darkMode ? '#6b7280' : '#4b5563'), fontSize: isMobile ? 14 : 15, lineHeight: 1.65 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -299,14 +315,14 @@ const Landing = () => {
       </section>
 
       {/* ── SEO CONTENT: WHY CHOOSE VISIONBOARD ── */}
-      <section id="why-choose" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: '#0b0f19' }}>
+      <section id="why-choose" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: (darkMode ? '#0b0f19' : '#ffffff') }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <div id="seo-h" data-animate className={`landing-fade ${isVisible('seo-h') ? 'show' : ''}`} style={{ textAlign: 'center', marginBottom: 40 }}>
             <h2 style={{ fontFamily: 'Outfit', fontSize: isMobile ? 28 : 42, fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.15 }}>
               Why Choose <span style={{ color: '#6366f1' }}>VisionBoard</span> as Your Productivity App?
             </h2>
           </div>
-          <div id="seo-p" data-animate className={`landing-fade ${isVisible('seo-p') ? 'show' : ''}`} style={{ color: '#9ca3af', fontSize: 16, lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <div id="seo-p" data-animate className={`landing-fade ${isVisible('seo-p') ? 'show' : ''}`} style={{ color: (darkMode ? '#9ca3af' : '#4b5563'), fontSize: 16, lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: 24 }}>
             <p>
               In today's fast-paced world, staying consistent with personal growth can be challenging. VisionBoard was created to solve this by combining a <strong>daily habit tracker, goal tracker, and digital vision board</strong> into a single, unified platform. Instead of bouncing between different apps for task management, habit streaks, and long-term planning, you can now manage your entire life from one beautiful dashboard.
             </p>
@@ -321,7 +337,7 @@ const Landing = () => {
       </section>
 
       {/* ── FAQS ── */}
-      <section id="faq" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section id="faq" style={{ padding: isMobile ? '72px 24px' : '100px 6%', background: (darkMode ? 'rgba(255,255,255,0.01)' : 'rgba(0,0,0,0.01)'), borderTop: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <div id="faq-h" data-animate className={`landing-fade ${isVisible('faq-h') ? 'show' : ''}`} style={{ textAlign: 'center', marginBottom: isMobile ? 40 : 56 }}>
             <h2 style={{ fontFamily: 'Outfit', fontSize: isMobile ? 28 : 42, fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.15 }}>
@@ -331,8 +347,8 @@ const Landing = () => {
           <div id="faq-list" data-animate className={`landing-fade ${isVisible('faq-list') ? 'show' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {faqs.map((faq, index) => (
               <div key={index} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 24 }}>
-                <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 8, color: '#f3f4f6' }}>{faq.q}</h3>
-                <p style={{ color: '#9ca3af', fontSize: 15, lineHeight: 1.6 }}>{faq.a}</p>
+                <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 8, color: (darkMode ? '#f3f4f6' : '#111827') }}>{faq.q}</h3>
+                <p style={{ color: (darkMode ? '#9ca3af' : '#4b5563'), fontSize: 15, lineHeight: 1.6 }}>{faq.a}</p>
               </div>
             ))}
           </div>
@@ -348,7 +364,7 @@ const Landing = () => {
             Start Your Free Habit Tracker &amp;{' '}
             <span style={{ background: 'linear-gradient(135deg,#6366f1,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Goal Tracker Today</span>
           </h2>
-          <p style={{ color: '#9ca3af', fontSize: isMobile ? 15 : 17, lineHeight: 1.75, marginBottom: 36, maxWidth: 460, margin: '0 auto 36px' }}>
+          <p style={{ color: (darkMode ? '#9ca3af' : '#4b5563'), fontSize: isMobile ? 15 : 17, lineHeight: 1.75, marginBottom: 36, maxWidth: 460, margin: '0 auto 36px' }}>
             Hundreds of people use VisionBoard every day to build daily habits, track personal goals, maintain streaks, and achieve self-improvement — completely free.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -368,9 +384,9 @@ const Landing = () => {
           <div style={{ display: 'flex', gap: isMobile ? 20 : 28, flexWrap: 'wrap', justifyContent: 'center' }}>
             {[{ label: 'Features', to: '/features' }, { label: 'How It Works', to: '/how-it-works' }, { label: 'About', to: '/about' }, { label: 'Privacy Policy', to: '/privacy-policy' }, { label: 'Terms', to: '/terms' }].map((l) => (
               <Link key={l.label} to={l.to}
-                style={{ color: '#6b7280', textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }}
-                onMouseOver={e => e.target.style.color = '#f3f4f6'}
-                onMouseOut={e => e.target.style.color = '#6b7280'}>
+                style={{ color: (darkMode ? '#6b7280' : '#4b5563'), textDecoration: 'none', fontSize: 14, fontWeight: 500, transition: 'color 0.2s' }}
+                onMouseOver={e => e.target.style.color = (darkMode ? '#f3f4f6' : '#111827')}
+                onMouseOut={e => e.target.style.color = (darkMode ? '#6b7280' : '#4b5563')}>
                 {l.label}
               </Link>
             ))}

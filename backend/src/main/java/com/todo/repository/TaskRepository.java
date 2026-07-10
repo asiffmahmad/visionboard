@@ -36,6 +36,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Long countByUserIdAndStatus(Long userId, TaskStatus status);
 
+    Long countByGoalId(Long goalId);
+
+    Long countByGoalIdAndStatus(Long goalId, TaskStatus status);
+
     @EntityGraph(attributePaths = {"goal"})
     List<Task> findTop5ByUserIdOrderByCreatedAtDesc(Long userId);
 

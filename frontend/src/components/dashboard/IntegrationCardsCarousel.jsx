@@ -26,6 +26,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import AdUnit from '../AdUnit';
+import dayjs from 'dayjs';
 
 import { useGoogleLogin } from '@react-oauth/google';
 import { syncGoogleAccount } from '../../services/authService';
@@ -37,6 +38,8 @@ const IntegrationCardsCarousel = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { habits } = useSelector((state) => state.habits || { habits: [] });
+  const { items: tasks } = useSelector((state) => state.tasks || { items: [] });
 
   useEffect(() => {
     dispatch(fetchProfile());
@@ -450,7 +453,60 @@ const IntegrationCardsCarousel = () => {
 
 
   // Live verified data definitions
+  const todayDateStr = dayjs().format('YYYY-MM-DD');
+  
+  const habitsToLog = habits?.filter(habit => {
+    if (habit.status !== 'ACTIVE') return false;
+    const isScheduled = habit.frequency?.[dayjs().format('dddd').toUpperCase()] || habit.frequency?.DAILY;
+    const isLogged = habit.logs?.some(l => l.date === todayDateStr);
+    return isScheduled && !isLogged;
+  }) || [];
+
+  const tasksDueToday = tasks?.filter(task => {
+    return task.status !== 'COMPLETED' && task.dueDate && dayjs(task.dueDate).format('YYYY-MM-DD') === todayDateStr;
+  }) || [];
+
+  const overdueTasks = tasks?.filter(task => {
+    return task.status !== 'COMPLETED' && task.dueDate && dayjs(task.dueDate).isBefore(dayjs(), 'day');
+  }) || [];
+
   const CARDS = [
+    {
+      id: 'today_focus',
+      name: "Today's Focus",
+      icon: <EventIcon sx={{ fontSize: 32, color: '#10b981' }} />,
+      color: '#10b981',
+      bgGradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.08) 50%, rgba(110, 231, 183, 0.05) 100%)',
+      glowColor: 'rgba(16, 185, 129, 0.4)',
+      statusChip: (
+        <Chip 
+          label={`${tasksDueToday.length + habitsToLog.length} pending`} 
+          size="small" 
+          sx={{ fontWeight: 800, height: 20, letterSpacing: 0.5, bgcolor: '#10b981', color: '#000' }} 
+        />
+      ),
+      content: (
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1.5, mt: 1 }}>
+          <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+            Here is your summary for {dayjs().format('dddd, MMMM D')}.
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
+            <Box sx={{ textAlign: 'center', p: 1.5, borderRadius: 2, bgcolor: 'rgba(16, 185, 129, 0.1)' }}>
+              <Typography variant="h5" sx={{ fontWeight: 800, color: '#10b981' }}>{habitsToLog.length}</Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>Habits to Log</Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', p: 1.5, borderRadius: 2, bgcolor: 'rgba(59, 130, 246, 0.1)' }}>
+              <Typography variant="h5" sx={{ fontWeight: 800, color: '#3b82f6' }}>{tasksDueToday.length}</Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>Due Today</Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', p: 1.5, borderRadius: 2, bgcolor: 'rgba(239, 68, 68, 0.1)' }}>
+              <Typography variant="h5" sx={{ fontWeight: 800, color: '#ef4444' }}>{overdueTasks.length}</Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>Overdue Tasks</Typography>
+            </Box>
+          </Box>
+        </Box>
+      )
+    },
     {
       id: 'google',
       name: 'Google Workspace',
@@ -471,8 +527,8 @@ const IntegrationCardsCarousel = () => {
               <Box sx={{ 
                 flex: 1, 
                 p: 1.5, 
-                bgcolor: 'rgba(255, 255, 255, 0.04)', 
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), 
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`,
                 borderRadius: 2,
                 display: 'flex',
                 alignItems: 'center',
@@ -492,8 +548,8 @@ const IntegrationCardsCarousel = () => {
               <Box sx={{ 
                 flex: 1, 
                 p: 1.5, 
-                bgcolor: 'rgba(255, 255, 255, 0.04)', 
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), 
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`,
                 borderRadius: 2,
                 display: 'flex',
                 alignItems: 'center',
@@ -515,8 +571,8 @@ const IntegrationCardsCarousel = () => {
               <Box sx={{ 
                 flex: 1, 
                 p: 1.5, 
-                bgcolor: 'rgba(255, 255, 255, 0.04)', 
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), 
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`,
                 borderRadius: 2,
                 display: 'flex',
                 alignItems: 'center',
@@ -605,23 +661,23 @@ const IntegrationCardsCarousel = () => {
         <Box sx={{ width: '100%' }}>
           {instagramHandle ? (
             <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mt: 1 }}>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: '#E1306C' }}>{instagramFollowers}</Typography>
                 <Typography variant="caption" color="text.secondary">Followers</Typography>
               </Box>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: '#E1306C' }}>{instagramEngagement}%</Typography>
                 <Typography variant="caption" color="text.secondary">Engagement Rate</Typography>
               </Box>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: '#E1306C' }}>{instagramReach}</Typography>
                 <Typography variant="caption" color="text.secondary">Reach (7 Days)</Typography>
               </Box>
               <Box sx={{ 
                 flex: { xs: '1 1 auto', sm: 2 }, 
                 p: 1.5, 
-                bgcolor: 'rgba(255, 255, 255, 0.04)', 
-                border: '1px solid rgba(255, 255, 255, 0.08)', 
+                bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), 
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, 
                 borderRadius: 2, 
                 display: 'flex', 
                 flexDirection: { xs: 'column', sm: 'row' },
@@ -729,7 +785,7 @@ const IntegrationCardsCarousel = () => {
               )}
 
               {showInstaManualForm && (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.02)', border: '1px dashed rgba(225,48,108,0.3)', borderRadius: 2 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'}` : 'rgba(0, 0, 0, 0.02)'), border: '1px dashed rgba(225,48,108,0.3)', borderRadius: 2 }}>
                   <TextField
                     size="small"
                     label="Followers (e.g. 10.5K)"
@@ -798,12 +854,12 @@ const IntegrationCardsCarousel = () => {
     {
       id: 'github',
       name: 'GitHub Activity',
-      icon: <GitHubIcon sx={{ fontSize: 32, color: theme.palette.mode === 'dark' ? '#fff' : '#24292e' }} />,
+      icon: <GitHubIcon sx={{ fontSize: 32, color: theme.palette.mode === 'dark' ? (theme.palette.mode === 'dark' ? '#fff' : '#000') : '#24292e' }} />,
       color: '#24292e',
       bgGradient: theme.palette.mode === 'dark' 
-        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(36, 41, 46, 0.1) 100%)' 
+        ? `linear-gradient(135deg, ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'} 0%, rgba(36, 41, 46, 0.1) 100%)` 
         : 'linear-gradient(135deg, rgba(36, 41, 46, 0.08) 0%, rgba(246, 248, 250, 0.2) 100%)',
-      glowColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(36, 41, 46, 0.2)',
+      glowColor: theme.palette.mode === 'dark' ? (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)'}` : 'rgba(0, 0, 0, 0.15)') : 'rgba(36, 41, 46, 0.2)',
       statusChip: (githubHandle && githubData && !githubError) ? (
         <Chip 
           label={`@${githubHandle}`} 
@@ -822,23 +878,23 @@ const IntegrationCardsCarousel = () => {
         <Box sx={{ width: '100%' }}>
           {githubHandle && githubData ? (
             <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mt: 1 }}>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: 'success.main' }}>{githubData.repos}</Typography>
                 <Typography variant="caption" color="text.secondary">Repositories</Typography>
               </Box>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>{githubData.followers}</Typography>
                 <Typography variant="caption" color="text.secondary">Followers</Typography>
               </Box>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: 'warning.main' }}>{githubHandle.length * 3 + 2}</Typography>
                 <Typography variant="caption" color="text.secondary">Gists Created</Typography>
               </Box>
               <Box sx={{ 
                 flex: { xs: '1 1 auto', sm: 2 }, 
                 p: 1.5, 
-                bgcolor: 'rgba(255, 255, 255, 0.04)', 
-                border: '1px solid rgba(255, 255, 255, 0.08)', 
+                bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), 
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, 
                 borderRadius: 2, 
                 display: 'flex', 
                 flexDirection: { xs: 'column', sm: 'row' },
@@ -870,7 +926,7 @@ const IntegrationCardsCarousel = () => {
             <Box sx={{ py: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5, width: '100%' }}>
               <SyncIcon sx={{ 
                 fontSize: 32, 
-                color: theme.palette.mode === 'dark' ? '#fff' : '#24292e',
+                color: theme.palette.mode === 'dark' ? (theme.palette.mode === 'dark' ? '#fff' : '#000') : '#24292e',
                 animation: 'spin 2s linear infinite',
                 '@keyframes spin': {
                   '0%': { transform: 'rotate(0deg)' },
@@ -951,7 +1007,7 @@ const IntegrationCardsCarousel = () => {
       name: 'LinkedIn Professional',
       icon: <LinkedInIcon sx={{ fontSize: 32, color: '#0077b5' }} />,
       color: '#0077b5',
-      bgGradient: 'linear-gradient(135deg, rgba(0, 119, 181, 0.15) 0%, rgba(0, 119, 181, 0.08) 60%, rgba(255, 255, 255, 0.02) 100%)',
+      bgGradient: `linear-gradient(135deg, rgba(0, 119, 181, 0.15) 0%, rgba(0, 119, 181, 0.08) 60%, ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'} 100%)`,
       glowColor: 'rgba(0, 119, 181, 0.4)',
       statusChip: linkedinHandle ? (
         <Chip 
@@ -971,23 +1027,23 @@ const IntegrationCardsCarousel = () => {
         <Box sx={{ width: '100%' }}>
           {linkedinHandle ? (
             <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mt: 1 }}>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: '#0077b5' }}>{linkedinFollowers}</Typography>
                 <Typography variant="caption" color="text.secondary">Followers</Typography>
               </Box>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: '#0077b5' }}>{linkedinViews}</Typography>
                 <Typography variant="caption" color="text.secondary">Profile Views (90D)</Typography>
               </Box>
-              <Box sx={{ flex: 1, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 2, textAlign: 'center' }}>
+              <Box sx={{ flex: 1, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, borderRadius: 2, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ fontWeight: 700, color: '#0077b5' }}>{linkedinImpressions}</Typography>
                 <Typography variant="caption" color="text.secondary">Post Impressions</Typography>
               </Box>
               <Box sx={{ 
                 flex: { xs: '1 1 auto', sm: 2 }, 
                 p: 1.5, 
-                bgcolor: 'rgba(255, 255, 255, 0.04)', 
-                border: '1px solid rgba(255, 255, 255, 0.08)', 
+                bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)'}` : 'rgba(0, 0, 0, 0.04)'), 
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`, 
                 borderRadius: 2, 
                 display: 'flex', 
                 flexDirection: { xs: 'column', sm: 'row' },
@@ -1089,7 +1145,7 @@ const IntegrationCardsCarousel = () => {
               )}
 
               {showLinkedInManualForm && (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, p: 1.5, bgcolor: 'rgba(255, 255, 255, 0.02)', border: '1px dashed rgba(0,119,181,0.3)', borderRadius: 2 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, p: 1.5, bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'}` : 'rgba(0, 0, 0, 0.02)'), border: '1px dashed rgba(0,119,181,0.3)', borderRadius: 2 }}>
                   <TextField
                     size="small"
                     label="Followers (e.g. 500)"
@@ -1275,7 +1331,7 @@ const IntegrationCardsCarousel = () => {
             left: 0, 
             right: 0, 
             height: 3,
-            bgcolor: 'rgba(255, 255, 255, 0.08)',
+            bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}` : 'rgba(0, 0, 0, 0.08)'),
             '& .MuiLinearProgress-bar': {
               bgcolor: visibleCards[activeIndex]?.color || 'primary.main',
               transition: 'none'
@@ -1338,14 +1394,14 @@ const IntegrationCardsCarousel = () => {
             <IconButton 
               size="small" 
               onClick={handlePrev} 
-              sx={{ color: 'text.secondary', bgcolor: 'rgba(255, 255, 255, 0.05)', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+              sx={{ color: 'text.secondary', bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}` : 'rgba(0, 0, 0, 0.05)'), '&:hover': { bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}` : 'rgba(0, 0, 0, 0.1)') } }}
             >
               <ChevronLeftIcon fontSize="small" />
             </IconButton>
             <IconButton 
               size="small" 
               onClick={handleNext} 
-              sx={{ color: 'text.secondary', bgcolor: 'rgba(255, 255, 255, 0.05)', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+              sx={{ color: 'text.secondary', bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}` : 'rgba(0, 0, 0, 0.05)'), '&:hover': { bgcolor: (theme.palette.mode === 'dark' ? `${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}` : 'rgba(0, 0, 0, 0.1)') } }}
             >
               <ChevronRightIcon fontSize="small" />
             </IconButton>

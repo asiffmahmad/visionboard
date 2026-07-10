@@ -27,13 +27,18 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import StarIcon from '@mui/icons-material/Star'
 import InfoIcon from '@mui/icons-material/Info'
 import RateReviewIcon from '@mui/icons-material/RateReview'
-import { useSelector } from 'react-redux'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import { useSelector, useDispatch } from 'react-redux'
+import { toggleTheme } from '../features/themeSlice'
 import { logout } from '../services/authService'
 
 const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const { user } = useSelector((state) => state.auth)
+  const { darkMode } = useSelector((state) => state.theme)
+  const dispatch = useDispatch()
 
   const handleLogout = async () => {
     await logout()
@@ -59,8 +64,7 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
     menuItems.push({ text: 'Habits', icon: <RepeatIcon />, path: '/habits' })
   }
 
-  // Notes and Journal are now default visible along with Profile and About
-  menuItems.push({ text: 'Notes', icon: <NotesIcon />, path: '/notes' })
+  // Journal is now default visible along with Profile and About
   menuItems.push({ text: 'Journal', icon: <BookIcon />, path: '/journal' })
   menuItems.push({ text: 'Profile', icon: <PersonIcon />, path: '/profile' })
   menuItems.push({ text: 'About', icon: <InfoIcon />, path: '/about' })
@@ -74,19 +78,20 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
       <Toolbar sx={{ px: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        <DoneAllIcon sx={{ color: 'primary.main', fontSize: 32 }} />
+        <Box component="img" src="/logo192.png" alt="Logo" sx={{ width: 40, height: 40 }} />
         <Typography
           variant="h5"
           sx={{
             fontWeight: 800,
             fontFamily: 'Outfit',
             letterSpacing: '-1px',
+            whiteSpace: 'nowrap',
             background: 'linear-gradient(45deg, #6366f1 30%, #ec4899 90%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}
         >
-          VisionBoard
+          My Vision Board
         </Typography>
       </Toolbar>
       <Divider />
@@ -168,6 +173,32 @@ const Sidebar = ({ mobileOpen, onDrawerToggle, drawerWidth }) => {
             />
           </ListItemButton>
         </ListItem>
+        <ListItemButton
+          onClick={() => dispatch(toggleTheme())}
+          aria-label="Toggle Theme"
+          sx={{
+            borderRadius: 2,
+            py: 1.2,
+            px: 2,
+            color: 'text.secondary',
+            '&:hover': {
+              color: 'text.primary',
+              bgcolor: 'action.hover',
+            },
+            mb: 1
+          }}
+        >
+          <ListItemIcon sx={{ minWidth: 40, color: 'inherit' }}>
+            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+          </ListItemIcon>
+          <ListItemText
+            primary={darkMode ? "Light Mode" : "Dark Mode"}
+            primaryTypographyProps={{
+              fontSize: '0.95rem',
+              fontWeight: 600,
+            }}
+          />
+        </ListItemButton>
         <ListItemButton
           onClick={() => {
             if (mobileOpen) onDrawerToggle();

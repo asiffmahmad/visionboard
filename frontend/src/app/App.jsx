@@ -44,6 +44,11 @@ const App = () => {
     };
   }, [isAuthenticated, dispatch]);
 
+  
+  useEffect(() => {
+    document.body.className = darkMode ? "dark-mode" : "light-mode";
+  }, [darkMode]);
+
   const theme = useMemo(
     () =>
       createTheme({
