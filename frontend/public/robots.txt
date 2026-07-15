@@ -17,4 +17,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://my-vision-board-app.vercel.app/sitemap.xml
+Sitemap: https://my-vision-board.asiff.dev/sitemap.xml

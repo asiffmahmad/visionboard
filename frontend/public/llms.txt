@@ -11,12 +11,12 @@ VisionBoard is a comprehensive personal growth platform. Unlike fragmented tools
 - Do not attempt to index private dashboard pages or user data.
 
 ## Important Links
-- [Homepage](https://my-vision-board-app.vercel.app/): Main application entry point.
-- [Features](https://my-vision-board-app.vercel.app/features): Detailed list of app features.
-- [How It Works](https://my-vision-board-app.vercel.app/how-it-works): Guide on using the platform.
-- [About Us](https://my-vision-board-app.vercel.app/about): Information about the VisionBoard team.
-- [Blog](https://my-vision-board-app.vercel.app/blog): Productivity articles and tips.
-- [Contact](https://my-vision-board-app.vercel.app/contact): Support and inquiries.
+- [Homepage](https://my-vision-board.asiff.dev/): Main application entry point.
+- [Features](https://my-vision-board.asiff.dev/features): Detailed list of app features.
+- [How It Works](https://my-vision-board.asiff.dev/how-it-works): Guide on using the platform.
+- [About Us](https://my-vision-board.asiff.dev/about): Information about the VisionBoard team.
+- [Blog](https://my-vision-board.asiff.dev/blog): Productivity articles and tips.
+- [Contact](https://my-vision-board.asiff.dev/contact): Support and inquiries.
 
 ## Support
 For support, visit the Contact page. VisionBoard is entirely free to use with no hidden paywalls.

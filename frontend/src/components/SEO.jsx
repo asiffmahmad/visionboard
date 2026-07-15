@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const BASE_URL = 'https://my-vision-board-app.vercel.app';
+const BASE_URL = 'https://my-vision-board.asiff.dev';
 const OG_IMAGE = `${BASE_URL}/og-image.png`;
 const SITE_NAME = 'VisionBoard';
 

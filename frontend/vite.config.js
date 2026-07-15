@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import sitemap from 'vite-plugin-sitemap'
 
-const BASE_URL = 'https://my-vision-board-app.vercel.app'
+const BASE_URL = 'https://my-vision-board.asiff.dev'
 
 // https://vitejs.dev/config/
 export default defineConfig({
