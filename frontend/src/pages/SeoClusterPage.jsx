@@ -18,7 +18,7 @@ const SeoClusterPage = () => {
     "@type": "WebPage",
     "name": cluster.title,
     "description": cluster.description,
-    "url": `https://my-vision-board.asiff.dev/use-case/${cluster.slug}`,
+    "url": `${import.meta.env.VITE_APP_URL}/use-case/${cluster.slug}`,
     "about": {
       "@type": "Thing",
       "name": cluster.keyword
